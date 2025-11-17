@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+function u(){return"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replace(/x/g,()=>((Math.random()*16)|0).toString(16))}
+let id=localStorage.id||(localStorage.id=u());
+let p=location.pathname.slice(1);
+if(p!==id)history.replaceState(0,0,"/"+id);
+  </script>
   <title>Hack3r Lab</title>
   <script type="application/ld+json">
 {
@@ -199,20 +205,5 @@
       alert('Next Front will be loaded: ' + selected);
     }
   </script>
-  <script>
-function uuid(){return"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replace(/x/g,()=>((Math.random()*16)|0).toString(16));}
-const r=indexedDB.open("db",1);let d;
-r.onupgradeneeded=e=>{d=e.target.result;d.createObjectStore("s");};
-r.onsuccess=e=>{
-d=e.target.result;
-let t=d.transaction("s","readonly").objectStore("s").get("id");
-t.onsuccess=()=>{
-let id=t.result||uuid();
-if(!t.result){let w=d.transaction("s","readwrite").objectStore("s");w.put(id,"id");}
-let p=location.pathname.split("/")[1];
-if(p!==id)history.replaceState({}, "", "/"+id);
-};
-};
-</script>
 </body>
 </html>
