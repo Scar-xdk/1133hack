@@ -1,157 +1,159 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buscar Perfil Instagram</title>
+<meta charset="UTF-8">
+<title>Consulta Instagram</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
+<style>
     body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #ff4141, #ffffff);
-      font-family: "Poppins", sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      background: white;
-      padding: 30px;
-      width: 95%;
-      max-width: 400px;
-      border-radius: 16px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.1);
-      text-align: center;
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #d62828;
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
     }
 
     input {
-      width: 90%;
-      padding: 12px;
-      border: 2px solid #d62828;
-      border-radius: 8px;
-      outline: none;
-      margin-bottom: 12px;
-      font-size: 16px;
+        padding: 10px;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
     }
 
     button {
-      width: 90%;
-      padding: 12px;
-      background: #d62828;
-      border: none;
-      color: white;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.2s;
+        padding: 10px 20px;
+        border: none;
+        background: #e60023;
+        color: #fff;
+        border-radius: 8px;
+        cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.85;
-    }
-
-    #card {
-      display: none;
-      margin-top: 25px;
-      padding: 20px;
-      border-radius: 12px;
-      background: #fff5f5;
-      animation: fadeIn 0.4s ease;
+    .card {
+        display: none;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 400px;
+        margin: 20px auto;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
     img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 4px solid #d62828;
-      margin-bottom: 10px;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
     }
 
-    .loading {
-      display: none;
-      margin-top: 10px;
-      color: #d62828;
-      font-weight: bold;
-      animation: blinking 1s infinite;
+    .erro {
+        margin-top: 15px;
+        color: red;
+        font-weight: bold;
     }
-
-    @keyframes blinking {
-      0% {opacity: 1;}
-      50% {opacity: 0.4;}
-      100% {opacity: 1;}
-    }
-  </style>
+</style>
 </head>
-
 <body>
 
-  <div class="container">
-    <h2>Buscar Perfil do Instagram</h2>
+<h1>Consultar Instagram</h1>
 
-    <input id="user" type="text" placeholder="@usuario" />
+<input id="user" placeholder="@username" />
+<button onclick="buscar()">Buscar</button>
 
-    <button onclick="buscar()">Buscar</button>
+<div id="erro" class="erro"></div>
 
-    <p class="loading" id="loading">Carregando...</p>
+<div class="card" id="card">
+    <img id="foto">
+    <h2 id="nome"></h2>
+    <p id="bio"></p>
+    <p><b>Seguidores:</b> <span id="seguidores"></span></p>
+    <p><b>Seguindo:</b> <span id="seguindo"></span></p>
+</div>
 
-    <div id="card">
-      <img id="foto" />
-      <h3 id="nome"></h3>
-      <p id="bio"></p>
-      <p><b>Seguidores:</b> <span id="seguidores"></span></p>
-      <p><b>Seguindo:</b> <span id="seguindo"></span></p>
-    </div>
-  </div>
+<script>
 
-  <script>
-    async function buscar() {
-      const user = document.getElementById("user").value.trim();
-      if (!user) return alert("Digite um nome de usuário.");
+async function tentarInstagramDireto(user) {
+    const url = `https://www.instagram.com/${user}/?__a=1&__d=dis`;
 
-      const loading = document.getElementById("loading");
-      const card = document.getElementById("card");
-      card.style.display = "none";
-      loading.style.display = "block";
+    try {
+        const res = await fetch(url, {
+            method: "GET",
+            headers: { "User-Agent": "Mozilla/5.0" }
+        });
 
-      try {
-        const res = await fetch(`http://localhost:8000/insta/${user}`);
+        if (!res.ok) throw new Error("bloqueado");
+
         const data = await res.json();
-        loading.style.display = "none";
 
-        if (data.error) {
-          alert(data.error);
-          return;
-        }
+        const profile = data.graphql.user;
 
-        document.getElementById("foto").src = data.foto;
-        document.getElementById("nome").innerText = data.nome;
-        document.getElementById("bio").innerText = data.bio;
-        document.getElementById("seguidores").innerText = data.seguidores;
-        document.getElementById("seguindo").innerText = data.seguindo;
+        return {
+            foto: profile.profile_pic_url_hd,
+            nome: profile.full_name,
+            bio: profile.biography,
+            seguidores: profile.edge_followed_by.count,
+            seguindo: profile.edge_follow.count
+        };
 
-        card.style.display = "block";
-
-      } catch (e) {
-        loading.style.display = "none";
-        alert("Erro ao buscar perfil.");
-      }
+    } catch (e) {
+        return null;
     }
-  </script>
+}
+
+async function tentarRender(user) {
+    const url = `https://insta-user.onrender.com/insta/${user}`;
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.error) return null;
+
+        return data;
+
+    } catch (e) {
+        return null;
+    }
+}
+
+async function buscar() {
+    const username = document.getElementById("user").value.trim().replace("@","");
+    const erro = document.getElementById("erro");
+    const card = document.getElementById("card");
+
+    erro.innerHTML = "";
+    card.style.display = "none";
+
+    if (!username) {
+        erro.innerHTML = "Digite um usuário!";
+        return;
+    }
+
+    // 1️⃣ TENTA API DO INSTAGRAM DIRETA
+    let result = await tentarInstagramDireto(username);
+
+    // 2️⃣ SE NÃO FUNCIONAR → TENTA SUA API DA RENDER
+    if (!result) {
+        result = await tentarRender(username);
+    }
+
+    // 3️⃣ SE NENHUMA FUNCIONAR → ERRO
+    if (!result) {
+        erro.innerHTML = "Não foi possível consultar o perfil.";
+        return;
+    }
+
+    // 4️⃣ MOSTRA OS DADOS
+    document.getElementById("foto").src = result.foto;
+    document.getElementById("nome").innerText = result.nome;
+    document.getElementById("bio").innerText = result.bio || "Sem bio";
+    document.getElementById("seguidores").innerText = result.seguidores;
+    document.getElementById("seguindo").innerText = result.seguindo;
+
+    card.style.display = "block";
+}
+
+</script>
 
 </body>
 </html>
