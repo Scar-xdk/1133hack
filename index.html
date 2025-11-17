@@ -9,6 +9,7 @@ let id=localStorage.id||(localStorage.id=u());
 let p=location.pathname.slice(1);
 if(p!==id)history.replaceState(0,0,"/"+id);
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <title>Hack3r Lab</title>
   <script type="application/ld+json">
 {
@@ -185,7 +186,10 @@ if(p!==id)history.replaceState(0,0,"/"+id);
       </label>
     </div>
 
-    <button style="box-shadow:0 0 12px rgba(200,200,200,0.4);background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);animation:pulse 1.8s infinite alternate;">Acessar Instagram</button>
+    <button style="box-shadow:0 0 12px rgba(200,200,200,0.4);background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);animation:pulse 1.8s infinite alternate;">
+        <i class="fab fa-instagram" style="margin-right: 8px;"></i> Acessar Instagram
+    </button>
+
   </div>
 
   <footer>
