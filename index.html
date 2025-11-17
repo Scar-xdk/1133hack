@@ -45,10 +45,12 @@ document.getElementById("go").onclick=()=>{
   location.href="/"+id;
 }
 
-// redirecionar para a página fake
-const p=location.pathname.slice(1);
-if(p&&!p.split('/')[1]){
-  if(localStorage.getItem("u")) location.href="/bad?id="+p;
+const p = location.pathname.slice(1);
+
+if (p && !p.includes("/")) {
+    if (localStorage.getItem("u")) {
+         location.href = "/" + p + "/bad/";
+    }
 }
 </script>
 </body></html>
