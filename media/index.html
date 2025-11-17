@@ -1,145 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oferta Especial – Kit Árvore de Natal</title>
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #333;
-}
-header {
-  background: #d40000;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  font-size: 24px;
-}
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-h1 {
-  font-size: 32px;
-  color: #d40000;
-}
-.price {
-  font-size: 34px;
-  font-weight: bold;
-  color: #d40000;
-  margin: 10px 0;
-}
-.offer {
-  background: #ffeaea;
-  padding: 15px;
-  border-radius: 8px;
-  margin: 20px 0;
-  font-size: 18px;
-}
-.button {
-  background: #d40000;
-  color: #fff;
-  border: none;
-  padding: 15px 30px;
-  font-size: 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.button:hover {
-  background: #b60000;
-}
-.img-box {
-  margin: 20px auto;
-}
-img {
-  width: 100%;
-  max-width: 380px;
-  border-radius: 10px;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oferta Especial – Kit Árvore de Natal</title>
+  <style>
+    :root {
+      --red: #d40000;
+      --red-dark: #b60000;
+      --bg-light: #fff7f7;
+      --radius: 14px;
+      --shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-/* Popup */
-.popup-bg {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(4px);
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-}
-.popup {
-  background: #fff;
-  padding: 25px;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 10px;
-  text-align: left;
-}
-.popup h2 {
-  text-align: center;
-  color: #d40000;
-}
-.popup input, .popup select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-.popup button {
-  width: 100%;
-  margin-top: 15px;
-  padding: 14px;
-  background: #d40000;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  cursor: pointer;
-}
-.close {
-  text-align: center;
-  margin-top: 10px;
-  cursor: pointer;
-  color: #555;
-}
-</style>
+    body {
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+
+    header {
+      background: var(--red);
+      color: #fff;
+      padding: 25px 15px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .img-box img {
+      width: 100%;
+      max-width: 420px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .subtext {
+      font-size: 19px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .offer {
+      background: var(--bg-light);
+      padding: 18px;
+      border-radius: var(--radius);
+      margin: 25px 0;
+      font-size: 20px;
+      font-weight: 500;
+      border: 1px solid #ffd5d5;
+      box-shadow: var(--shadow);
+    }
+
+    .price-box {
+      background: white;
+      padding: 20px;
+      border-radius: var(--radius);
+      display: inline-block;
+      box-shadow: var(--shadow);
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 42px;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .button {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 18px 40px;
+      font-size: 22px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      transition: .2s;
+    }
+
+    .button:hover {
+      background: var(--red-dark);
+      transform: scale(1.03);
+    }
+
+    /* POPUP */
+    .popup-bg {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .popup {
+      background: #fff;
+      width: 100%;
+      max-width: 430px;
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      animation: showPopup .25s ease-out;
+    }
+
+    @keyframes showPopup {
+      from { transform: scale(.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .popup h2 {
+      text-align: center;
+      color: var(--red);
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .popup input,
+    .popup select {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .popup button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .close {
+      text-align: center;
+      margin-top: 15px;
+      cursor: pointer;
+      color: #555;
+      font-size: 16px;
+    }
+  </style>
 </head>
+
 <body>
 
-<header>Super Oferta de Natal! Entrega para todo o Brasil 🎄</header>
+<header>🎄 Super Oferta Especial de Natal – Envio para todo o Brasil!</header>
 
 <div class="container">
-
   <h1>Kit Completo de Árvore de Natal</h1>
 
   <div class="img-box">
     <img src="https://i.imgur.com/QiCRc3H.jpeg" alt="Árvore de Natal">
   </div>
 
-  <p style="font-size:18px;">
-    Árvore de aproximadamente <strong>1,40m</strong> + pisca-pisca + bolinhas natalinas + estrela.
+  <p class="subtext">
+    Árvore de <strong>1,40m</strong> + pisca-pisca + bolinhas natalinas + estrela topo. Tudo incluso no kit!
   </p>
 
   <div class="offer">
-    Na compra de 1 árvore ganhe <strong>um kit extra de enfeites</strong> totalmente grátis!
+    🎁 Na compra de uma árvore, você ganha <strong>UM KIT EXTRA</strong> de enfeites!
   </div>
 
-  <div class="price">R$ 139,90</div>
-  <p>Entrega em até 7 dias úteis.</p>
+  <div class="price-box">
+    <div class="price">R$ 139,90</div>
+    <p>Entrega rápida em até <strong>7 dias úteis</strong>.</p>
+  </div>
 
   <button class="button" onclick="showPopup()">COMPRAR AGORA</button>
-
 </div>
 
+<!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup">
     <h2>Finalizar Pedido</h2>
@@ -147,29 +205,30 @@ img {
     <input type="text" placeholder="Nome completo" id="nome">
     <input type="text" placeholder="Rua e número" id="endereco">
     <select id="pagamento">
-      <option value="" disabled selected>Forma de pagamento</option>
+      <option selected disabled>Forma de pagamento</option>
       <option>Pix</option>
       <option>Cartão</option>
     </select>
     <input type="email" placeholder="Seu e-mail" id="email">
 
     <button onclick="enviar()">Confirmar Pedido</button>
-
     <div class="close" onclick="hidePopup()">Fechar</div>
   </div>
 </div>
 
 <script>
-function showPopup() {
-  document.getElementById("popup").style.display = "flex";
-}
-function hidePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-function enviar() {
-  alert("Pedido enviado! Você receberá o ID do pacote no seu e-mail.");
-  hidePopup();
-}
+  function showPopup() {
+    document.getElementById("popup").style.display = "flex";
+  }
+
+  function hidePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+
+  function enviar() {
+    alert("Pedido enviado! Você receberá o código de rastreio no e-mail informado.");
+    hidePopup();
+  }
 </script>
 
 </body>
