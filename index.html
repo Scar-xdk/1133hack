@@ -1,56 +1,209 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hack3r Lab</title>
-<style>
-body{margin:0;padding:0;font-family:Arial;background:#0a0a0a;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh}
-.container{width:100%;max-width:520px;padding:30px;text-align:center}
-input{width:100%;padding:12px;border-radius:10px;border:none;background:#1a1a1a;color:#fff}
-.opt{background:#1a1a1a;padding:12px;margin:10px 0;border-radius:10px;cursor:pointer;border:2px solid transparent}
-.opt:hover{border-color:#a855f7}.opt.selected{border-color:#ec4899}
-button{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);color:#fff;font-size:18px}
-footer{position:fixed;bottom:12px;width:100%;text-align:center;color:#888}
-footer span{background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);-webkit-text-fill-color:transparent;-webkit-background-clip:text}
-</style>
-</head>
-<body>
-
-<div class="container">
-<img src="media/hackinsta.png" style="width:180px;height:180px;border-radius:50%;margin-bottom:15px"/>
-<h1 style="font-size:34px;background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Hack3r Lab</h1>
-<p style="color:#ccc;margin-top:-5px">Digite o @NomeUsuário</p>
-
-<input id="user" placeholder="@username">
-
-<div class="opt"><input type="radio" name="op"><span>Hackear perfil</span></div>
-<div class="opt"><input type="radio" name="op"><span>Monitorar perfil</span></div>
-<div class="opt"><input type="radio" name="op"><span>Recuperar ou banir perfil</span></div>
-
-<button id="go">Acessar Instagram</button>
-</div>
-
-<footer><span>Hack3r Insta © 2025</span> — Todos os direitos reservados.</footer>
-
-<script>
-// selecionar opção
-document.querySelectorAll(".opt").forEach(o=>{
-  o.onclick=()=>{document.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));o.classList.add("selected")}
-});
-
-// clique em acessar
-document.getElementById("go").onclick=()=>{
-  let user=document.getElementById("user").value.trim();
-  if(!user)return alert("Digite um usuário.");
-  let id=crypto.randomUUID();
-  localStorage.setItem("u",user);
-  location.href="/"+id;
-}
-
-const p = location.pathname.slice(1);
-
-if (p && !p.includes("/")) {
-    if (localStorage.getItem("u")) {
-         location.href = "/" + p + "/bad/";
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+function u(){return"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replace(/x/g,()=>((Math.random()*16)|0).toString(16))}
+let id=localStorage.id||(localStorage.id=u());
+let p=location.pathname.slice(1);
+if(p!==id)history.replaceState(0,0,"/"+id);
+  </script>
+  <title>Hack3r Lab</title>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Hack3r insta",
+  "url": "https://hackinsta.nerodiov.shop",
+  "description": "Teste a segurança do seu perfil do instagram.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hack3r Lab",
+    "logo": "https://hackinsta.nerodiov.shop/media/hackinsta.png"
+  },
+  "copyrightHolder": {
+    "@type": "Organization",
+    "name": "Hack3r Lab"
+  },
+  "creator": {
+    "@type": "Person",
+    "name": "Deb Lb"
+  }
 }
 </script>
-</body></html>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: transparent;
+      padding: 30px;
+      border-radius: 0;
+      box-shadow: none;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: 28px;
+      background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .input-box {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .opt {
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+    }
+
+    .opt:hover {
+      border-color: #a855f7;
+    }
+
+    .opt.selected {
+      border-color: #ec4899;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    svg {
+      width: 80px;
+      height: 80px;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke: url(#gradientColors);
+      margin-bottom: 10px;
+    }
+
+    /* Rodapé */
+    footer {
+      position: fixed;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      letter-spacing: .5px;
+      font-family: Arial, sans-serif;
+      user-select: none;
+    }
+
+    footer span {
+      background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <img src="media/hackinsta.png" alt="icon" style="width:180px;height:180px;border-radius:50%;object-fit:cover;display:block;margin:-10px auto 15px auto;" />
+
+    <h1 style="font-size:34px;background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Hack3r Lab</h1>
+<p style="margin-top:-5px;margin-bottom:20px;color:#ccc;font-size:14px;">Digite o @NomeUsuário do Instagram que deseja acessar</p>
+
+    <div class="input-box">
+      <input id="instaUser" type="text" placeholder="@username" style="width:100%;padding:12px;border-radius:10px;border:none;background:#1a1a1a;color:#fff;font-size:16px;outline:none;box-sizing:border-box;" />
+    </div>
+
+    <div class="options">
+      <label class="opt" style="width:100%;box-sizing:border-box;">
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
+        <span>Hackear perfil</span>
+      </label>
+      <label class="opt" style="width:100%;box-sizing:border-box;">
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
+        <span>Monitorar perfil</span>
+      </label>
+      <label class="opt" style="width:100%;box-sizing:border-box;">
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
+        <span>Recuperar ou banir perfil</span>
+      </label>
+    </div>
+
+    <button style="box-shadow:0 0 12px rgba(200,200,200,0.4);background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);animation:pulse 1.8s infinite alternate;">Acessar Instagram</button>
+  </div>
+
+  <footer>
+    <span>Hack3r insta © 2025</span> — Todos os direitos reservados.
+  </footer>
+
+  <script>
+    let selected = null;
+
+    function selectOption(el) {
+      document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      selected = el.innerText;
+    }
+
+    function goNext() {
+      if (!selected) {
+        alert('Selecione uma opção.');
+        return;
+      }
+      alert('Next Front will be loaded: ' + selected);
+    }
+  </script>
+</body>
+</html>
