@@ -36,11 +36,12 @@
     }
 
     .input-box {
-      margin-top: 20px;
-      margin-bottom: 12px;
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-      
     input[type="text"] {
       width: 100%;
       padding: 12px;
@@ -56,7 +57,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
 
     .opt {
@@ -113,21 +114,21 @@
     <h1 style="font-size:34px;background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Hack3r Lab</h1>
 
     <div class="input-box">
-      <input id="instaUser" type="text" placeholder="@username" />
+      <input id="instaUser" type="text" placeholder="@username" style="width:100%;padding:12px;border-radius:10px;border:none;background:#1a1a1a;color:#fff;font-size:16px;outline:none;box-sizing:border-box;" />
     </div>
 
     <div class="options">
-      <label class="opt" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+      <label class="opt" style="width:100%;box-sizing:border-box;" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
   <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
-  <span>Hackear insta</span>
+  <span>Option</span>
 </label>
-      <label class="opt" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+      <label class="opt" style="width:100%;box-sizing:border-box;" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
   <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
-  <span>Monitorar insta</span>
+  <span>Option</span>
 </label>
-      <label class="opt" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+      <label class="opt" style="width:100%;box-sizing:border-box;" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
   <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
-  <span>Recuperar ou banir insta</span>
+  <span>Option</span>
 </label>
     </div>
 
