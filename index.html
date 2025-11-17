@@ -95,7 +95,11 @@ if(p!==id)history.replaceState(0,0,"/"+id);
       cursor: pointer;
       border: 2px solid transparent;
       transition: 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
 
     .opt:hover {
       border-color: #a855f7;
@@ -168,16 +172,16 @@ if(p!==id)history.replaceState(0,0,"/"+id);
 
     <div class="options">
       <label class="opt" style="width:100%;box-sizing:border-box;">
-        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
         <span>Hackear perfil</span>
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
       </label>
       <label class="opt" style="width:100%;box-sizing:border-box;">
-        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
         <span>Monitorar perfil</span>
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
       </label>
       <label class="opt" style="width:100%;box-sizing:border-box;">
-        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
         <span>Recuperar ou banir perfil</span>
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
       </label>
     </div>
 
