@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hack3r Lab</title>
-
-  <!-- SCHEMA.ORG -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -28,247 +26,178 @@
   }
 }
 </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-<style>
-/* ======== SEUS ESTILOS ORIGINAIS MANTIDOS ======== */
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: transparent;
+      padding: 30px;
+      border-radius: 0;
+      box-shadow: none;
+      text-align: center;
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background: #0a0a0a;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+    h1 {
+      margin-top: 10px;
+      font-size: 28px;
+      background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-.container {
-  width: 100%;
-  max-width: 520px;
-  background: transparent;
-  padding: 30px;
-  border-radius: 0;
-  text-align: center;
-}
+    .input-box {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-h1 {
-  margin-top: 10px;
-  font-size: 28px;
-  background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
 
-.input-box {
-  margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #1a1a1a;
-  color: #fff;
-  font-size: 16px;
-  outline: none;
-}
+    .opt {
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+    }
 
-.options {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
+    .opt:hover {
+      border-color: #a855f7;
+    }
 
-.opt {
-  background: #1a1a1a;
-  padding: 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.2s;
-}
-.opt:hover { border-color: #a855f7; }
-.opt.selected { border-color: #ec4899; }
+    .opt.selected {
+      border-color: #ec4899;
+    }
 
-button {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  transition: 0.2s;
-  animation: pulse 1.8s infinite alternate;
-}
-@keyframes pulse { from{transform:scale(1)} to{transform:scale(1.06)} }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
 
-footer {
-  position: fixed;
-  bottom: 12px;
-  width: 100%;
-  text-align: center;
-  color: #888;
-  font-size: 13px;
-  letter-spacing: .5px;
-}
-footer span {
-  background: linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-}
+    button:hover {
+      opacity: 0.85;
+    }
 
+    svg {
+      width: 80px;
+      height: 80px;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke: url(#gradientColors);
+      margin-bottom: 10px;
+    }
 
-/* ======== TELA HACKER NOVA ======== */
+    /* Rodapé */
+    footer {
+      position: fixed;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      letter-spacing: .5px;
+      font-family: Arial, sans-serif;
+      user-select: none;
+    }
 
-#hack-screen {
-  display: none;
-  text-align: center;
-}
-
-#hack-messages {
-  text-align: left;
-  max-width: 500px;
-  margin: 20px auto;
-  font-size: 15px;
-  line-height: 22px;
-  font-family: "Courier New", monospace;
-}
-
-.msg-green { color: #00ff00; }
-.msg-red { color: #ff4444; }
-
-#progress-bar {
-  width: 300px;
-  height: 18px;
-  border: 2px solid #fff;
-  margin: 10px auto;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-#progress {
-  width: 0%;
-  height: 100%;
-  background: #00ff00;
-  transition: 0.1s;
-}
-
-</style>
+    footer span {
+      background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
 
-<!-- ======== TELA PRINCIPAL ORIGINAL ======== -->
-<div class="container" id="main-screen">
+    <img src="media/hackinsta.png" alt="icon" style="width:180px;height:180px;border-radius:50%;object-fit:cover;display:block;margin:-10px auto 15px auto;" />
 
-  <img src="media/hackinsta.png" style="width:180px;height:180px;border-radius:50%;object-fit:cover;margin:-10px auto 15px auto;" />
+    <h1 style="font-size:34px;background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Hack3r Lab</h1>
+<p style="margin-top:-5px;margin-bottom:20px;color:#ccc;font-size:14px;">Digite o @NomeUsuário do Instagram que deseja acessar</p>
 
-  <h1>Hack3r Lab</h1>
-  <p style="margin-top:-5px;margin-bottom:20px;color:#ccc;font-size:14px;">Digite o @NomeUsuário do Instagram que deseja acessar</p>
+    <div class="input-box">
+      <input id="instaUser" type="text" placeholder="@username" style="width:100%;padding:12px;border-radius:10px;border:none;background:#1a1a1a;color:#fff;font-size:16px;outline:none;box-sizing:border-box;" />
+    </div>
 
-  <div class="input-box">
-    <input id="instaUser" type="text" placeholder="@username">
+    <div class="options">
+      <label class="opt" style="width:100%;box-sizing:border-box;">
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
+        <span>Hackear perfil</span>
+      </label>
+      <label class="opt" style="width:100%;box-sizing:border-box;">
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
+        <span>Monitorar perfil</span>
+      </label>
+      <label class="opt" style="width:100%;box-sizing:border-box;">
+        <input type="radio" name="option" style="width:18px;height:18px;cursor:pointer;">
+        <span>Recuperar ou banir perfil</span>
+      </label>
+    </div>
+
+    <button style="box-shadow:0 0 12px rgba(200,200,200,0.4);background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);animation:pulse 1.8s infinite alternate;">Acessar Instagram</button>
   </div>
 
-  <div class="options">
-    <label class="opt"><input type="radio" name="option"><span>Hackear perfil</span></label>
-    <label class="opt"><input type="radio" name="option"><span>Monitorar perfil</span></label>
-    <label class="opt"><input type="radio" name="option"><span>Recuperar ou banir perfil</span></label>
-  </div>
+  <footer>
+    <span>Hack3r insta © 2025</span> — Todos os direitos reservados.
+  </footer>
 
-  <button onclick="startFakeBackend()">Acessar Instagram</button>
-</div>
+  <script>
+    let selected = null;
 
-<!-- ======== TELA HACKER NOVA ======== -->
-<div id="hack-screen">
-  <img src="media/hackinsta.png" width="120" style="margin-top:30px;">
-  <h2>Initializing System...</h2>
-
-  <div id="progress-bar"><div id="progress"></div></div>
-  <div id="hack-messages"></div>
-</div>
-
-<footer><span>Hack3r insta © 2025</span> — Todos os direitos reservados.</footer>
-
-<script>
-/* ========================== REGIÃO VIA IPINFO ========================== */
-let regionName = "your region";
-
-fetch("https://ipinfo.io/json?token=8c918a64c172a9")
-  .then(res => res.json())
-  .then(data => { regionName = data.region || "unknown region"; });
-
-/* ========================== BACKEND FAKE ========================== */
-function startFakeBackend() {
-  let user = document.getElementById("instaUser").value.trim();
-
-  if (user === "") {
-    alert("Digite um usuário.");
-    return;
-  }
-
-  // Muda URL com ID fake
-  history.pushState({}, "", "?id=" + encodeURIComponent(user));
-
-  // Oculta tela principal e mostra a hacker
-  document.getElementById("main-screen").style.display = "none";
-  document.getElementById("hack-screen").style.display = "block";
-
-  startHackProcess(user);
-}
-
-/* ========================== PROCESSO HACKER ========================== */
-function startHackProcess(user) {
-  const messages = [
-    { text: "Connecting to Instagram server...", color: "green" },
-    { text: `Simulating IP in the region of ${regionName}...`, color: "green" },
-    { text: "Bypassing firewall...", color: "green" },
-    { text: "Injecting SQL queries...", color: "green" },
-    { text: `Fetching information from ${user}...`, color: "green" },
-    { text: "Error 305, retrying...", color: "red" },
-    { text: "Cracking password...", color: "green" },
-    { text: `Authenticating as ${user}...`, color: "green" },
-    { text: "Error 305, retrying...", color: "red" },
-    { text: "Access granted, redirecting to requested server...", color: "green" }
-  ];
-
-  let index = 0;
-  let progress = 0;
-
-  let msgBox = document.getElementById("hack-messages");
-  let progressBar = document.getElementById("progress");
-
-  let interval = setInterval(() => {
-    if (index < messages.length) {
-      let msg = document.createElement("div");
-      msg.className = messages[index].color === "red" ? "msg-red" : "msg-green";
-      msg.textContent = messages[index].text;
-      msgBox.appendChild(msg);
-      index++;
+    function selectOption(el) {
+      document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      selected = el.innerText;
     }
 
-    if (progress < 100) {
-      progress += 2.7;
-      progressBar.style.width = progress + "%";
+    function goNext() {
+      if (!selected) {
+        alert('Selecione uma opção.');
+        return;
+      }
+      alert('Next Front will be loaded: ' + selected);
     }
-
-    if (progress >= 100) {
-      clearInterval(interval);
-    }
-  }, 600);
-}
-</script>
-
+  </script>
 </body>
 </html>
