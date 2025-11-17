@@ -184,30 +184,31 @@ if(p!==id)history.replaceState(0,0,"/"+id);
   </footer>
 
   <script>
-    let selected = null;
+  let selected = null;
 
-    function selectOption(el) {
-      document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
-      el.classList.add('selected');
-      el.querySelector("input").checked = true;
-      selected = el.innerText;
+  function selectOption(el) {
+    document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector("input").checked = true;
+    selected = el.querySelector("span").innerText.trim();
+  }
+
+  function goNext() {
+    const user = document.getElementById("instaUser").value.trim();
+
+    if (!user) {
+      alert("⚠️ Você precisa digitar um @username antes de continuar!");
+      return;
     }
 
-    function goNext() {
-      const user = document.getElementById("instaUser").value.trim();
-
-      if (!user) {
-        alert("⚠️ Você precisa digitar um @username antes de continuar!");
-        return;
-      }
-
-      if (!selected) {
-        alert("⚠️ Selecione uma opção antes de continuar!");
-        return;
-      }
-
-      alert("Próxima etapa carregada:\n\nUsuário: " + user + "\nOpção: " + selected);
+    const radio = document.querySelector("input[name='option']:checked");
+    if (!radio) {
+      alert("⚠️ Você precisa selecionar uma opção antes de continuar!");
+      return;
     }
-  </script>
+    
+    alert("Próxima etapa carregada:\n\nUsuário: " + user + "\nOpção: " + selected);
+  }
+</script>
 </body>
 </html>
