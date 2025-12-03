@@ -21,10 +21,11 @@
 
         /* Notes */
         .notes { display: flex; justify-content: space-between; padding: 15px; }
-        .note-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .note-item { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
         .note-circle { width: 66px; height: 66px; border-radius: 50%; background: #363636; position: relative; overflow: hidden; }
-        .note-label { width: 50px; height: 10px; background: #363636; border-radius: 5px; }
-        .note-text { font-size: 12px; color: #ccc; }
+        .note-balloon { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 40px; z-index: 1; }
+        .note-label { width: 50px; height: 10px; background: #363636; border-radius: 5px; margin-top: 5px; }
+        .note-text { font-size: 12px; color: #ccc; margin-top: 5px; }
 
         /* Tabs */
         .tabs { display: flex; justify-content: space-around; padding: 0 15px; margin-bottom: 20px; }
@@ -38,7 +39,7 @@
         .message-details { flex-grow: 1; }
         .message-line { height: 12px; background: #363636; border-radius: 6px; margin-bottom: 8px; position: relative; overflow: hidden; }
         .message-line.short { width: 60%; }
-        .message-item i { font-size: 24px; color: #a8a8a8; }
+        .message-cam-icon { width: 28px; height: 28px; }
 
         /* Shimmer Animation */
         .loading-shimmer::after {
@@ -79,9 +80,9 @@
 
         <div class="notes">
             <div class="note-item"><div class="note-circle loading-shimmer"></div><span class="note-text">Sua nota</span></div>
-            <div class="note-item"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
-            <div class="note-item"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
-            <div class="note-item"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
         </div>
 
         <div class="tabs">
@@ -92,9 +93,9 @@
         </div>
 
         <div class="messages-list">
-            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><i class="far fa-camera"></i></div>
-            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><i class="far fa-camera"></i></div>
-            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><i class="far fa-camera"></i></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><img src="../media/cam_icon.png" class="message-cam-icon"></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><img src="../media/cam_icon.png" class="message-cam-icon"></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><img src="../media/cam_icon.png" class="message-cam-icon"></div>
         </div>
 
         <div class="loading-more"><div class="spinner"></div><span>Acessando mais mensagens...</span></div>
