@@ -26,15 +26,14 @@ body {
 .header-left .fa-chevron-down { font-size: 12px; }
 .header-right {
     margin-left: auto;
-    width: 25%; /* REDUZIDO de 33% para 25% */
+    width: 25%;
     text-align: right;
 }
-.header-right img { width: 100%; } /* Alterado de 80% para 100% para compensar o container menor */
+.header-right img { width: 100%; }
 
 /* --- Search Bar --- */
-/* A imagem da barra de pesquisa parece um pouco grande. Vamos reduzir o tamanho dela. */
 .search-bar-container {
-    padding: 4px 16px; /* Padding vertical reduzido */
+    padding: 0px 16px; /* Padding vertical removido para diminuir a altura */
 }
 .search-bar-container img {
     width: 100%;
@@ -56,25 +55,28 @@ body {
 .note-balloon-wrapper {
     width: 100%;
     text-align: center;
-    margin-bottom: -38px; /* AJUSTADO de -43px para -38px */
+    margin-bottom: -38px;
     z-index: 1;
     position: relative;
-    opacity: 0.8; /* Adicionada opacidade para ficar mais parecido com a referência */
+    opacity: 0.8;
 }
+
+/* O BALÃO DE NOTA DO USUÁRIO AGORA SERÁ EXIBIDO */
 .note-item.is-user .note-balloon-wrapper {
-    opacity: 0;
+    opacity: 0.8;
 }
+
 .note-balloon {
-    width: 65%; /* REDUZIDO de 75% para 65% */
+    width: 65%;
 }
 .note-circle-wrapper {
-     width: 70%; /* REDUZIDO de 73% */
+     width: 70%;
 }
 .note-circle {
     width: 100%;
     padding-bottom: 100%;
     border-radius: 50%;
-    background: #262626; /* COR um pouco mais clara que #363636 */
+    background: #535353; /* COR ATUALIZADA */
     z-index: 0;
     position: relative;
 }
@@ -84,9 +86,9 @@ body {
     white-space: nowrap;
 }
 .note-label {
-    height: 8px; /* REDUZIDO de 9px */
-    width: 80%; /* REDUZIDO de 90% */
-    background-color: #262626; /* COR um pouco mais clara que #363636 */
+    height: 8px;
+    width: 80%;
+    background-color: #535353; /* COR ATUALIZADA */
     border-radius: 4px;
 }
 
@@ -130,7 +132,7 @@ body {
     height: 58px;
     min-width: 58px;
     border-radius: 50%;
-    border: 1px solid #333; /* Borda mais sutil */
+    border: 1px solid #333;
     padding: 2px;
     box-sizing: border-box;
 }
@@ -138,7 +140,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: #262626; /* COR um pouco mais clara */
+    background: #535353; /* COR ATUALIZADA */
 }
 .message-details {
     flex-grow: 1;
@@ -147,8 +149,8 @@ body {
     gap: 5px;
 }
 .message-line {
-    height: 11px; /* REDUZIDO de 12px */
-    background: #262626; /* COR um pouco mais clara */
+    height: 11px;
+    background: #535353; /* COR ATUALIZADA */
     border-radius: 6px;
 }
 .message-line.short { width: 70%; }
@@ -158,14 +160,14 @@ body {
     text-align: right;
 }
 .message-cam-icon {
-    width: 24px; /* REDUZIDO de 28px */
+    width: 24px;
     height: auto;
 }
 .message-cam-wrapper.notify::after {
     content: '';
     position: absolute;
-    top: 1px;   /* AJUSTADO de 2px */
-    right: -2px; /* AJUSTADO de 0px */
+    top: 1px;
+    right: -2px;
     width: 8px;
     height: 8px;
     background: #4395F6;
@@ -181,25 +183,21 @@ body {
     gap: 14px;
     padding: 30px;
     color: #A8A8A8;
-    font-size: 14px; /* REDUZIDO de 15px */
+    font-size: 14px;
     font-weight: 500;
 }
 .spinner {
-    border: 3px solid rgba(255, 255, 255, 0.1); /* BORDA MAIS FINA */
+    border: 3px solid rgba(255, 255, 255, 0.1);
     border-top: 3px solid #4395F6;
     border-right: 3px solid #4395F6;
     border-radius: 50%;
-    width: 28px; /* REDUZIDO de 30px */
-    height: 28px; /* REDUZIDO de 30px */
+    width: 28px;
+    height: 28px;
     animation: spin 0.7s linear infinite;
 }
-.loading-shimmer { position: relative; overflow: hidden; background-color: #262626; } /* COR DE FUNDO MAIS CLARA */
-.loading-shimmer::after {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent); /* SHIMMER MAIS SUTIL */
-    animation: shimmer 1.5s infinite;
-}
-@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+/* EFEITO SHIMMER REMOVIDO */
+
 @keyframes spin { to { transform: rotate(360deg); } }
 
 #firewall-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; }
