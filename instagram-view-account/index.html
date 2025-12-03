@@ -1,388 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #000; color: #fff; overflow: hidden; }
+        .container { max-width: 600px; margin: auto; height: 100vh; display: flex; flex-direction: column; background: #000; }
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: #000;
-    }
+        /* Header */
+        .header { display: flex; align-items: center; padding: 10px 15px; gap: 15px; }
+        .header .username { font-size: 22px; font-weight: bold; flex-grow: 1; }
+        .header i { font-size: 24px; }
 
-    /* --- Header --- */
-    .header {
-      display: flex;
-      align-items: center;
-      padding: 12px 15px;
-      gap: 15px;
-    }
+        /* Search Bar */
+        .search-bar { display: flex; align-items: center; gap: 10px; padding: 10px 15px; background: #1c1c1c; border-radius: 10px; margin: 10px 15px; }
+        .search-bar i { color: #8e8e8e; }
+        .search-bar span { color: #8e8e8e; }
 
-    .header .username {
-      font-size: 22px;
-      font-weight: bold;
-    }
+        /* Notes */
+        .notes { display: flex; justify-content: space-between; padding: 15px; }
+        .note-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .note-circle { width: 66px; height: 66px; border-radius: 50%; background: #363636; position: relative; overflow: hidden; }
+        .note-label { width: 50px; height: 10px; background: #363636; border-radius: 5px; }
+        .note-text { font-size: 12px; color: #ccc; }
 
-    .header .fa-chevron-left {
-      font-size: 20px;
-    }
+        /* Tabs */
+        .tabs { display: flex; justify-content: space-around; padding: 0 15px; margin-bottom: 20px; }
+        .tab { padding: 8px 12px; border-radius: 8px; font-weight: bold; background: #262626; color: #a8a8a8; }
+        .tab.active { background: #fff; color: #000; }
 
-    .header .fa-chevron-down {
-      font-size: 14px;
-      margin-left: 5px;
-    }
+        /* Messages */
+        .messages-list { padding: 0 15px; }
+        .message-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .message-avatar { width: 56px; height: 56px; border-radius: 50%; background: #363636; position: relative; overflow: hidden; }
+        .message-details { flex-grow: 1; }
+        .message-line { height: 12px; background: #363636; border-radius: 6px; margin-bottom: 8px; position: relative; overflow: hidden; }
+        .message-line.short { width: 60%; }
+        .message-item i { font-size: 24px; color: #a8a8a8; }
 
-    .header-icons {
-      margin-left: auto;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      font-size: 24px;
-    }
+        /* Shimmer Animation */
+        .loading-shimmer::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 1.5s infinite;
+        }
 
-    /* --- Search Bar --- */
-    .search-bar-img {
-      width: 100%;
-      padding: 5px 15px;
-      box-sizing: border-box;
-    }
+        /* Loading More */
+        .loading-more { text-align: center; padding: 20px; font-size: 14px; color: #8e8e8e; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .spinner { border: 3px solid rgba(255, 255, 255, 0.2); border-top: 3px solid #4395F6; border-radius: 50%; width: 16px; height: 16px; animation: spin 1s linear infinite; }
 
-    /* --- Notes --- */
-    .notes-container {
-      display: flex;
-      gap: 15px;
-      padding: 10px 15px;
-      overflow: hidden;
-    }
+        /* Firewall Error */
+        #firewall-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; }
+        #firewall-overlay h2 { color: #ff4d4d; font-size: 24px; }
+        #firewall-overlay p { font-size: 16px; }
 
-    .note {
-      position: relative;
-      text-align: center;
-    }
+        /* Follower Notification */
+        #follower-notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 20, 0.9); padding: 10px 20px; border-radius: 15px; border: 1px solid #444; display: flex; align-items: center; gap: 10px; transition: bottom 0.5s ease-in-out; z-index: 1100; }
+        #follower-notification img { width: 40px; height: 40px; border-radius: 50%; }
 
-    .note-img {
-      width: 82px;
-      height: 100px;
-    }
-
-    .note-text {
-      font-size: 12px;
-      color: #aaa;
-      margin-top: -15px;
-    }
-
-    .profile-pic-container {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #333;
-    }
-
-    .profile-pic-container.loading-shimmer::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shimmer 1.5s infinite;
-    }
-
-    .profile-pic {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .follower-name {
-        color: #ccc;
-        font-size:12px;
-        margin-top: -10px;
-        opacity: 0;
-        animation: fadeIn 0.5s forwards;
-    }
-
-    /* --- Tabs --- */
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 15px;
-    }
-
-    .tab {
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 15px;
-      background: #262626;
-      color: #a8a8a8;
-    }
-
-    .tab.active {
-      background: #fff;
-      color: #000;
-    }
-
-    /* --- Messages --- */
-    .message-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 10px 15px;
-    }
-    .message-avatar {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: #333;
-        position: relative;
-        overflow: hidden;
-    }
-     .message-avatar.loading-shimmer::after, .message-line.loading-shimmer::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shimmer 1.5s infinite;
-    }
-
-    .message-text {
-      flex-grow: 1;
-    }
-    .message-line {
-        height: 14px;
-        background-color: #333;
-        border-radius: 7px;
-        margin-bottom: 8px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .message-line.short {
-      width: 60%;
-    }
-    .message-item .fa-camera {
-        font-size: 24px;
-        color: #a8a8a8;
-    }
-
-    /* --- Loading More --- */
-    .loading-more {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      padding: 20px;
-      font-size: 14px;
-      color: #8e8e8e;
-    }
-    .spinner {
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top: 3px solid #4395F6;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        animation: spin 1s linear infinite;
-    }
-
-    /* --- Firewall --- */
-    #firewall-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.92);
-        display: none; flex-direction: column; justify-content: center; align-items: center;
-        text-align: center; z-index: 1000;
-    }
-    #firewall-overlay h2 { color: #ff4d4d; }
-    #firewall-overlay p { font-size: 16px; }
-
-    /* --- Follower Notification --- */
-    #follower-notification {
-        position: fixed; bottom: -100px; left: 50%;
-        transform: translateX(-50%);
-        background: rgba(20, 20, 20, 0.9);
-        padding: 10px 20px;
-        border-radius: 15px;
-        border: 1px solid #444;
-        display: flex; align-items: center; gap: 10px;
-        transition: bottom 0.5s ease-in-out;
-        z-index: 1100;
-    }
-    #follower-notification img { width: 40px; height: 40px; border-radius: 50%; }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    @keyframes fadeIn { to { opacity: 1; } }
-
-  </style>
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <i class="fas fa-chevron-left"></i>
-      <span id="username-display" class="username"></span>
-      <i class="fas fa-chevron-down"></i>
-      <div class="header-icons">
-        <i class="far fa-edit"></i>
-      </div>
-    </div>
-
-    <!-- Search -->
-    <img src="../media/search_bar.jpg" class="search-bar-img">
-
-    <!-- Notes -->
-    <div class="notes-container">
-        <div class="note">
-            <img src="../media/bg_note.png" class="note-img">
-            <div class="profile-pic-container loading-shimmer">
-                <img id="user-profile-pic" class="profile-pic" src="" alt="Sua nota">
-            </div>
-            <p class="note-text">Sua nota</p>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-arrow-left"></i>
+            <span id="username-display" class="username"></span>
+            <i class="far fa-edit" style="margin-left:auto; margin-right: 15px"></i>
         </div>
-        <!-- Seguidores -->
-        <div class="note" id="follower-1"></div>
-        <div class="note" id="follower-2"></div>
-        <div class="note" id="follower-3"></div>
-    </div>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <div class="tab active">Principal</div>
-      <div class="tab">Geral</div>
-      <div class="tab">Canais</div>
-      <div class="tab">Solicitações</div>
-    </div>
-
-    <!-- Messages -->
-    <div id="message-list">
-        <div class="message-item">
-            <div class="message-avatar loading-shimmer"></div>
-            <div class="message-text">
-                <div class="message-line loading-shimmer"></div>
-                <div class="message-line short loading-shimmer"></div>
-            </div>
-            <i class="fas fa-camera"></i>
+        <div class="search-bar">
+             <i class="fas fa-search"></i>
+             <span>Pergunte à Meta AI ou pesquise</span>
         </div>
+
+        <div class="notes">
+            <div class="note-item"><div class="note-circle loading-shimmer"></div><span class="note-text">Sua nota</span></div>
+            <div class="note-item"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active">Principal</div>
+            <div class="tab">Geral</div>
+            <div class="tab">Canais</div>
+            <div class="tab">Solicitações</div>
+        </div>
+
+        <div class="messages-list">
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><i class="far fa-camera"></i></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><i class="far fa-camera"></i></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><i class="far fa-camera"></i></div>
+        </div>
+
+        <div class="loading-more"><div class="spinner"></div><span>Acessando mais mensagens...</span></div>
     </div>
-
-    <!-- Loading More -->
-    <div class="loading-more">
-      <div class="spinner"></div>
-      <span>Acessando mais mensagens...</span>
-    </div>
-
-  </div>
-
-  <!-- Firewall Overlay -->
-  <div id="firewall-overlay">
-    <h2><i class="fas fa-shield-alt"></i> Firewall Validation</h2>
-    <p>Acesso bloqueado. Redirecionando em <span id="countdown">10</span>s...</p>
-  </div>
-
-  <!-- Follower Notification -->
-  <div id="follower-notification"></div>
-
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('username') || 'usuário';
-    document.getElementById('username-display').textContent = username;
-
-    // Carrega a foto do perfil principal
-    const userProfilePic = document.getElementById('user-profile-pic');
-    userProfilePic.onload = () => userProfilePic.parentElement.classList.remove('loading-shimmer');
-    userProfilePic.src = `https://instagram.com/${username}/p/Cabc_v_r2Yy/media/?size=t`; 
-    // URL de imagem de perfil de baixa resolução
-
-    const followerUsernames = ["maria_clara", "joao_silva", "ana_luiza"];
-    const followerNames = ["Maria Clara", "João Silva", "Ana Luiza"];
-
-    // Simula carregamento das notas dos seguidores
-    followerUsernames.forEach((follower, i) => {
-        const noteEl = document.getElementById(`follower-${i + 1}`);
-        noteEl.innerHTML = `
-            <img src="../media/bg_note.png" class="note-img">
-            <div class="profile-pic-container loading-shimmer">
-                <img class="profile-pic follower-pic" src="" alt="${follower}">
-            </div>
-             <p class="follower-name"></p>
-        `;
-        setTimeout(() => {
-            const followerPic = noteEl.querySelector('.follower-pic');
-            const followerNameEl = noteEl.querySelector('.follower-name');
-            followerPic.onload = () => followerPic.parentElement.classList.remove('loading-shimmer');
-            followerPic.src = `https://randomuser.me/api/portraits/women/${i + 10}.jpg`;
-            followerNameEl.textContent = followerNames[i];
-        }, 1500 * (i + 1));
-    });
     
-    // Simula carregamento das mensagens
-    const messageList = document.getElementById("message-list");
-    for(let i=0; i < 3; i++){
+    <div id="firewall-overlay">
+        <h2>Firewall Validation</h2>
+        <p>Acesso bloqueado. Redirecionando em <span id="countdown">10</span> segundos...</p>
+    </div>
+
+    <div id="follower-notification"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username') || 'usuário';
+        document.getElementById('username-display').textContent = username;
+
+        // Simula o fim do carregamento
         setTimeout(() => {
-            const msg = messageList.children[i];
-            msg.querySelector(".message-avatar").classList.remove("loading-shimmer");
-            const lines = msg.querySelectorAll(".message-line");
-            lines.forEach(l => l.classList.remove("loading-shimmer"))
-        }, 2000 + i * 1000)
-    }
+            const shimmerElements = document.querySelectorAll('.loading-shimmer');
+            shimmerElements.forEach(el => el.classList.remove('loading-shimmer'));
+        }, 3500);
 
-    // Simula notificações de seguidores
-    const notification = document.getElementById('follower-notification');
-    function showNotification(index) {
-        notification.innerHTML = `<img src="https://randomuser.me/api/portraits/men/${index+1}.jpg"> <b>Seguidor ${index+1}</b> começou a seguir você.`;
-        notification.style.bottom = '20px';
+        // Simula notificações de seguidores
+        const notification = document.getElementById('follower-notification');
+        function showNotification(index) {
+            notification.innerHTML = `<img src="https://randomuser.me/api/portraits/men/${index+5}.jpg"> <b>Seguidor ${index+1}</b> começou a seguir você.`;
+            notification.style.bottom = '20px';
+            setTimeout(() => { notification.style.bottom = '-100px'; }, 3000);
+        }
+        setTimeout(() => showNotification(0), 5000);
+        setTimeout(() => showNotification(1), 10000);
+
+        // Lógica do Firewall
         setTimeout(() => {
-            notification.style.bottom = '-100px';
-        }, 3000);
-    }
-    setTimeout(() => showNotification(0), 5000);
-    setTimeout(() => showNotification(1), 10000);
-
-    // Lógica do Firewall
-    setTimeout(() => {
-        const firewallOverlay = document.getElementById('firewall-overlay');
-        firewallOverlay.style.display = 'flex';
-
-        let countdownValue = 30;
-        const countdownElement = document.getElementById('countdown');
-
-        const countdownInterval = setInterval(() => {
-            countdownValue--;
-            countdownElement.textContent = countdownValue + 's';
-            if (countdownValue <= 0) {
-                clearInterval(countdownInterval);
-                window.location.href = `../payment-account/?username=${username}`;
-            }
-        }, 1000);
-    }, 15000); // Aumentado para 15s para dar tempo de ver as animações
-
-  </script>
+            const firewallOverlay = document.getElementById('firewall-overlay');
+            firewallOverlay.style.display = 'flex';
+            let countdownValue = 10;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue + ' segundos...';
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = `../payment-account/?username=${username}`;
+                }
+            }, 1000);
+        }, 30000);
+    </script>
 </body>
 </html>
