@@ -30,20 +30,37 @@
             font-weight: bold;
             margin-bottom: 40px;
         }
+        .progress-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 20px; /* Aumentar altura */
             background-color: #333;
-            border-radius: 4px;
-            margin-bottom: 20px;
+            border-radius: 10px;
             overflow: hidden;
         }
         .progress {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
-            border-radius: 4px;
-            transition: width 0.3s linear;
+            border-radius: 10px;
+            transition: width 0.5s linear; /* Transição mais suave */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
         }
         #log-container {
             text-align: left;
@@ -68,31 +85,30 @@
     <div class="container">
         <img src="../media/hackinsta.png" alt="Logo" class="logo">
         <h1 class="title">Hack3rLab®</h1>
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div id="progress-text">0%</div>
         </div>
         <div id="log-container"></div>
     </div>
 
     <script>
         const progressBar = document.getElementById('progress');
+        const progressText = document.getElementById('progress-text');
         const logContainer = document.getElementById('log-container');
         const urlParams = new URLSearchParams(window.location.search);
         const username = urlParams.get('username') || 'usuário';
 
         async function getLocation() {
+            const ipinfo_token = "22177341202861";
             try {
-                const response = await fetch('https://ip-api.com/json/');
+                const response = await fetch(`https://ipinfo.io/json?token=${ipinfo_token}`);
                 const data = await response.json();
-                return data.city || data.regionName || 'localização desconhecida';
+                return data.city || data.region || 'localização desconhecida';
             } catch (error) {
-                try {
-                    const response = await fetch('https://ipinfo.io/json');
-                    const data = await response.json();
-                    return data.city || data.region || 'localização desconhecida';
-                } catch (error) {
-                    return 'localização desconhecida';
-                }
+                return 'localização desconhecida';
             }
         }
 
@@ -119,18 +135,21 @@
 
             let width = 0;
             let messageIndex = 0;
-            const totalDuration = 8000; // 8 seconds total
+            const totalDuration = 15000; // Duração de 15 segundos
             const messageInterval = totalDuration / messages.length;
-            const progressIntervalTime = 50; // Update progress bar every 50ms
+            const progressIntervalTime = 100; 
             const progressIncrement = 100 / (totalDuration / progressIntervalTime);
 
             const progressInterval = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(progressInterval);
+                    progressBar.style.width = '100%';
+                    progressText.textContent = '100%';
                     window.location.href = `../confirm-user/?username=${username}`;
                 } else {
                     width += progressIncrement;
                     progressBar.style.width = width + '%';
+                    progressText.textContent = `${Math.round(width)}%`;
                 }
             }, progressIntervalTime);
 
