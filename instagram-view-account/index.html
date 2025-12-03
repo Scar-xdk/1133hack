@@ -5,212 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Instagram</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #000;
-            color: #fff;
-            max-width: 480px;
-            margin: 0 auto;
-            overflow-x: hidden;
-        }
-
-        .e-flex { display: flex; }
-        .e-con-inner { width: 100%; }
-
-        /* --- Header --- */
-        .header {
-            padding: 20px 16px 0;
-            align-items: center;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .header-left .fa-arrow-left { font-size: 20px; margin-right: 4px; }
-        .header-left .username { font-size: 22px; font-weight: 600; }
-        .header-left .fa-chevron-down { font-size: 12px; }
-        .header-right {
-            margin-left: auto;
-            width: 35%;
-            text-align: right;
-        }
-        .header-right img { width: 80%; }
-
-        /* --- Search Bar --- */
-        .search-bar-container {
-            padding: 8px 16px;
-        }
-        .search-bar-container img { width: 100%; }
-
-        /* --- Notes --- */
-        .notes-container {
-            padding: 10px 10px 14px;
-            justify-content: center;
-            align-items: flex-start; /* Alinha ao topo para o balão funcionar */
-            flex-wrap: nowrap;
-            gap: 12px;
-        }
-        .note-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 22%; /* Leve ajuste de largura */
-            gap: 8px;
-        }
-        .note-balloon-wrapper {
-            width: 100%;
-            text-align: center;
-            margin-bottom: -48px; /* <<< A CORREÇÃO MÁGICA */
-            z-index: 1;
-            position: relative;
-        }
-        .note-balloon {
-            width: 80%;
-        }
-        .note-circle-wrapper {
-             width: 80%;
-        }
-        .note-circle {
-            width: 100%;
-            padding-bottom: 100%;
-            border-radius: 50%;
-            background: #363636;
-            z-index: 0;
-            position: relative;
-        }
-        .note-text {
-            font-size: 13px;
-            color: #A8A8A8;
-            white-space: nowrap;
-        }
-        .note-label {
-            height: 10px;
-            width: 100%;
-            background-color: #4E4E4E;
-            border-radius: 4px;
-        }
-
-        /* --- Tabs --- */
-        .tabs-container {
-            padding: 20px 16px 0;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: nowrap;
-        }
-        .tab {
-            padding: 8px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            background: #262626;
-            color: #A8A8A8;
-            flex-grow: 1;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .tab.active {
-            background: #fff;
-            color: #000;
-        }
-        .tab.active .fa-circle { font-size: 6px; vertical-align: middle; margin-right: 6px; color: #4395F6; }
-
-        /* --- Messages --- */
-        .messages-list { padding: 16px 18px 0; }
-        .message-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-            padding: 4px 0;
-        }
-        .message-avatar-container {
-            width: 58px;
-            height: 58px;
-            min-width: 58px;
-            border-radius: 50%;
-            border: 2px solid #555;
-            padding: 2px;
-            box-sizing: border-box;
-        }
-        .message-avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #363636;
-        }
-        .message-details {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .message-line {
-            height: 13px;
-            background: #4E4E4E;
-            border-radius: 6px;
-        }
-        .message-line.short { width: 70%; }
-        .message-cam-wrapper {
-            position: relative;
-            width: 50%;
-            text-align: right;
-        }
-        .message-cam-icon {
-            width: 32px;
-            height: auto;
-        }
-        .message-cam-wrapper.notify::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            right: 0px;
-            width: 8px;
-            height: 8px;
-            background: #4395F6;
-            border-radius: 50%;
-            border: 2px solid #000;
-        }
-
-        /* --- Loading --- */
-        .loading-more {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            padding: 30px;
-            color: #575757;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #4395F6;
-            border-right: 4px solid #4395F6;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 0.7s linear infinite;
-        }
-
-        .loading-shimmer { position: relative; overflow: hidden; background-color: #363636; }
-        .loading-shimmer::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        #firewall-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; }
-        #firewall-overlay h2 { color: #ff4d4d; font-size: 24px; }
-        #firewall-overlay p { font-size: 16px; }
-        #follower-notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 20, 0.9); padding: 10px 20px; border-radius: 15px; border: 1px solid #444; display: flex; align-items: center; gap: 10px; transition: bottom 0.5s ease-in-out; z-index: 1100; }
-        #follower-notification img { width: 40px; height: 40px; border-radius: 50%; }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div class="e-con-inner">
@@ -230,12 +25,18 @@
         </div>
 
         <div class="notes-container e-flex">
-            <div class="note-item">
-                 <div class="note-circle-wrapper">
+            <!-- Item do Usuário com a classe de correção -->
+            <div class="note-item is-user">
+                <div class="note-balloon-wrapper">
+                    <img src="../media/bg_note.png" class="note-balloon" alt="note">
+                </div>
+                <div class="note-circle-wrapper">
                     <div class="note-circle loading-shimmer"></div>
-                 </div>
+                </div>
                 <span class="note-text">Sua nota</span>
             </div>
+
+            <!-- Outros Itens (estrutura idêntica) -->
             <div class="note-item">
                 <div class="note-balloon-wrapper">
                     <img src="../media/bg_note.png" class="note-balloon" alt="note">
