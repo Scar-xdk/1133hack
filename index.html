@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -180,7 +180,7 @@
       </label>
     </div>
 
-    <button style="box-shadow:0 0 12px rgba(200,200,200,0.4);background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);animation:pulse 1.8s infinite alternate;">
+    <button id="acessarBtn" style="box-shadow:0 0 12px rgba(200,200,200,0.4);background:linear-gradient(90deg,#a855f7,#ec4899,#3b82f6);animation:pulse 1.8s infinite alternate;">
         <i class="fab fa-instagram" style="margin-right: 8px;"></i> Acessar Instagram
     </button>
 
@@ -191,21 +191,30 @@
   </footer>
 
   <script>
-    let selected = null;
-
-    function selectOption(el) {
-      document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
-      el.classList.add('selected');
-      selected = el.innerText;
-    }
-
-    function goNext() {
-      if (!selected) {
+    const options = document.querySelectorAll('.opt');
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        option.querySelector('input').checked = true;
+      });
+    });
+    
+    document.getElementById('acessarBtn').addEventListener('click', () => {
+      const selectedOption = document.querySelector('.opt.selected');
+      if (!selectedOption) {
         alert('Selecione uma opção.');
         return;
       }
-      alert('Next Front will be loaded: ' + selected);
-    }
+      
+      const username = document.getElementById('instaUser').value;
+      if (!username) {
+        alert('Por favor, digite o nome de usuário.');
+        return;
+      }
+      
+      window.location.href = `hacking/?username=${username}`;
+    });
   </script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackeando...</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f13;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 26px;
+            color: #00c8ff;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 4px;
+        }
+        .progress {
+            width: 0%;
+            height: 20px;
+            background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+            border-radius: 8px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hackeando...</h1>
+        <p id="status-message">Iniciando o processo...</p>
+        <div class="progress-bar">
+            <div class="progress" id="progress">0%</div>
+        </div>
+    </div>
+
+    <script>
+        const progressBar = document.getElementById('progress');
+        const statusMessage = document.getElementById('status-message');
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+
+        const messages = [
+            { text: "Iniciando conexão...", color: "white" },
+            { text: "Acessando servidores...", color: "white" },
+            { text: "Quebrando firewall...", color: "yellow" },
+            { text: "Erro 404... Tentando novamente...", color: "red" },
+            { text: "Testando conexão https...", color: "white" },
+            { text: `Buscando usuário @${username}...`, color: "white" },
+            { text: "Usuário encontrado!", color: "green" },
+            { text: "Hackeando...", color: "yellow" }
+        ];
+
+        let width = 0;
+        let messageIndex = 0;
+
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                statusMessage.textContent = "Processo concluído!";
+                window.location.href = `../confirm-user/?username=${username}`;
+            } else {
+                width++;
+                progressBar.style.width = width + '%';
+                progressBar.textContent = width + '%';
+                if (width % 12 === 0 && messageIndex < messages.length) {
+                    statusMessage.textContent = messages[messageIndex].text;
+                    statusMessage.style.color = messages[messageIndex].color;
+                    messageIndex++;
+                }
+            }
+        }, 150);
+    </script>
+</body>
+</html>

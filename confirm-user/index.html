@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Usuário</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #3b82f6;
+        }
+        h2 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        #correctBtn {
+            background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
+        }
+        #incorrectBtn {
+            background: #333;
+        }
+        button:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="../media/hackinsta.png" alt="Foto do Perfil">
+        <h2 id="username">@username</h2>
+        <div class="buttons">
+            <button id="correctBtn">O user está correto?</button>
+            <button id="incorrectBtn">Não está correto, quero tentar outro</button>
+        </div>
+    </div>
+
+    <script>
+        const usernameEl = document.getElementById('username');
+        const correctBtn = document.getElementById('correctBtn');
+        const incorrectBtn = document.getElementById('incorrectBtn');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+
+        if (username) {
+            usernameEl.textContent = `@${username}`;
+        }
+
+        correctBtn.addEventListener('click', () => {
+            window.location.href = `../accessing-servers/?username=${username}`;
+        });
+
+        incorrectBtn.addEventListener('click', () => {
+            window.location.href = '../';
+        });
+    </script>
+</body>
+</html>
