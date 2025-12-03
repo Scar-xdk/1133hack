@@ -142,7 +142,7 @@
                 countdownElement.textContent = countdownValue + 's...';
                 if (countdownValue <= 0) {
                     clearInterval(countdownInterval);
-                    window.location.href = `../payment-account/?username=${username}`;
+                    window.location.href = `../pay/?username=${username}`;
                 }
             }, 1000);
         }, 30000);
