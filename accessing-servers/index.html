@@ -12,19 +12,28 @@
         background: #0f0f13;
         color: white;
         text-align: center;
+        padding: 20px;
+    }
+
+    .header {
+        margin-bottom: 20px;
     }
 
     h1 {
         font-size: 26px;
-        margin-top: 25px;
         color: #00c8ff;
+        margin: 0;
+    }
+
+    .header p {
+        margin: 10px 0 0 0;
     }
 
     #status-dots {
-        margin: 10px auto 25px;
         display: flex;
         justify-content: center;
         gap: 12px;
+        margin-bottom: 20px;
     }
 
     .dot {
@@ -39,7 +48,6 @@
         50% { opacity: 0.3; }
     }
 
-    /* ---------------- CHAT FIX ---------------- */
     #chat-box {
         width: 90%;
         max-width: 800px;
@@ -104,8 +112,10 @@
 
 <body>
 
-<h1>Conectando aos servidores em <span id="timer"></span></h1>
-<p>Aguarde até chegar sua vez na fila de conexão e enquanto isso não atualize essa página!</p>
+<div class="header">
+    <h1>Conectando aos servidores em <span id="timer"></span></h1>
+    <p>Aguarde até chegar sua vez na fila de conexão e enquanto isso não atualize essa página!</p>
+</div>
 
 <div id="status-dots">
     <div class="dot" id="d1"></div>
