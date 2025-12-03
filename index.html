@@ -3,12 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-function u(){return"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replace(/x/g,()=>((Math.random()*16)|0).toString(16))}
-let id=localStorage.id||(localStorage.id=u());
-let p=location.pathname.slice(1);
-if(p!==id)history.replaceState(0,0,"/"+id);
-  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <title>Hack3r Lab</title>
   <script type="application/ld+json">
