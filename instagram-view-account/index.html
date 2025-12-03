@@ -11,130 +11,103 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #000;
             color: #fff;
-            max-width: 480px;
-            margin: 0 auto;
+            max-width: 480px; /* Largura máxima para simular mobile */
+            margin: 0 auto; /* Centraliza o corpo da página */
             overflow-x: hidden;
         }
-        .container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+
+        .e-flex { display: flex; }
+        .e-con-inner { width: 100%; }
 
         /* --- Header --- */
         .header {
+            padding: 20px 16px 0;
+            align-items: center;
+        }
+        .header-left {
             display: flex;
             align-items: center;
-            padding: 20px 16px 0;
             gap: 6px;
         }
-        .header .fa-arrow-left { font-size: 20px; }
-        .header .username { font-size: 22px; font-weight: 600; }
-        .header .fa-chevron-down { font-size: 12px; margin-left: 2px; }
-        .header-icons {
+        .header-left .fa-arrow-left { font-size: 20px; margin-right: 4px; }
+        .header-left .username { font-size: 22px; font-weight: 600; }
+        .header-left .fa-chevron-down { font-size: 12px; }
+        .header-right {
             margin-left: auto;
-            display: flex;
-            gap: 20px;
-            font-size: 22px;
+            width: 35%;
+            text-align: right;
         }
+        .header-right img { width: 80%; }
 
         /* --- Search Bar --- */
         .search-bar-container {
             padding: 8px 16px;
         }
-        .search-bar {
-            background-color: #262626;
-            border-radius: 10px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .search-bar .fa-search { color: #8E8E8E; font-size: 14px; }
-        .search-bar span { color: #8E8E8E; font-size: 16px; }
-        .search-bar .filter-btn {
-            margin-left: auto;
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .ai-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #4395F6, #D32DC5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .ai-icon-inner {
-            width: 18px; height: 18px;
-            background: #262626;
-            border-radius: 50%;
-        }
+        .search-bar-container img { width: 100%; }
 
         /* --- Notes --- */
-        .notes {
-            display: flex;
-            justify-content: flex-start;
+        .notes-container {
+            padding: 10px 10px 14px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
             gap: 20px;
-            padding: 10px 16px 14px;
         }
         .note-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            width: 66px;
+            width: 25%;
+            gap: 6px;
         }
         .note-visual {
             position: relative;
-            width: 66px;
-            height: 66px;
+            width: 80%;
+        }
+        .note-visual img.note-balloon {
+            width: 100%;
+            margin-bottom: -48px; 
+            z-index: 1; 
         }
         .note-circle {
             width: 100%;
-            height: 100%;
+            padding-bottom: 100%; /* Mantém a proporção 1:1 (círculo) */
             border-radius: 50%;
             background: #363636;
-            overflow: hidden;
-        }
-        .note-balloon {
-            position: absolute;
-            width: 62px;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-        .note-label {
-            width: 100%;
-            height: 10px;
-            background: #363636;
-            border-radius: 5px;
+            position: relative;
+            z-index: 0;
         }
         .note-text {
             font-size: 13px;
             color: #A8A8A8;
             white-space: nowrap;
         }
+        .note-label {
+            height: 10px;
+            width: 80%;
+            background-color: #363636;
+            border-radius: 4px;
+        }
 
         /* --- Tabs --- */
-        .tabs {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 16px;
+        .tabs-container {
+            padding: 20px 16px 0;
+            justify-content: center;
             gap: 8px;
+            flex-wrap: nowrap;
         }
         .tab {
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 10px;
             font-weight: 600;
             font-size: 14px;
             background: #262626;
             color: #A8A8A8;
             flex-grow: 1;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .tab.active {
             background: #fff;
@@ -143,18 +116,18 @@
         .tab.active .fa-circle { font-size: 6px; vertical-align: middle; margin-right: 6px; color: #4395F6; }
 
         /* --- Messages --- */
-        .messages-list {
-            padding: 16px 18px 0;
-        }
+        .messages-list { padding: 16px 18px 0; }
         .message-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 8px; /* Reduzido para aproximar */
+            padding: 4px 0; /* Adicionado padding para espaçamento interno */
         }
         .message-avatar-container {
             width: 58px;
             height: 58px;
+            min-width: 58px;
             border-radius: 50%;
             border: 2px solid #555;
             padding: 2px;
@@ -180,17 +153,18 @@
         .message-line.short { width: 70%; }
         .message-cam-wrapper {
             position: relative;
-            margin-left: auto;
+            width: 50%;
+            text-align: right;
         }
         .message-cam-icon {
-            width: 26px;
-            height: 26px;
+            width: 32px;
+            height: auto;
         }
         .message-cam-wrapper.notify::after {
             content: '';
             position: absolute;
-            top: 0px;
-            right: -2px;
+            top: 2px;
+            right: 0px;
             width: 8px;
             height: 8px;
             background: #4395F6;
@@ -205,8 +179,8 @@
             align-items: center;
             gap: 14px;
             padding: 30px;
-            font-size: 16px;
             color: #575757;
+            font-size: 16px;
             font-weight: 500;
         }
         .spinner {
@@ -218,6 +192,8 @@
             height: 30px;
             animation: spin 0.7s linear infinite;
         }
+
+        /* --- Animations & Overlays (sem alterações) --- */
         .loading-shimmer { position: relative; overflow: hidden; background-color: #363636; }
         .loading-shimmer::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -226,56 +202,61 @@
         }
         @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- Overlays --- */
         #firewall-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; }
         #firewall-overlay h2 { color: #ff4d4d; font-size: 24px; }
         #firewall-overlay p { font-size: 16px; }
         #follower-notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 20, 0.9); padding: 10px 20px; border-radius: 15px; border: 1px solid #444; display: flex; align-items: center; gap: 10px; transition: bottom 0.5s ease-in-out; z-index: 1100; }
         #follower-notification img { width: 40px; height: 40px; border-radius: 50%; }
-
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <i class="fas fa-arrow-left"></i>
-            <span id="username-display" class="username"></span>
-            <i class="fas fa-chevron-down"></i>
-            <div class="header-icons">
-                 <i class="far fa-plus-square"></i>
-                 <i class="far fa-edit"></i>
+    <div class="e-con-inner">
+        <div class="header e-flex">
+            <div class="header-left">
+                <i class="fas fa-arrow-left"></i>
+                <span id="username-display" class="username"></span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="header-right">
+                <img src="../media/icons_header.jpg" alt="icons">
             </div>
         </div>
 
         <div class="search-bar-container">
-            <div class="search-bar">
-                <div class="ai-icon"><div class="ai-icon-inner"></div></div>
-                <span>Pergunte à Meta AI ou pesquise</span>
-                <div class="filter-btn">Filtrar</div>
-            </div>
+            <img src="../media/search_bar.jpg" alt="search bar">
         </div>
 
-        <div class="notes">
+        <div class="notes-container e-flex">
             <div class="note-item">
-                <div class="note-visual"><div class="note-circle loading-shimmer"></div></div>
+                <div class="note-visual">
+                    <div class="note-circle loading-shimmer"></div>
+                </div>
                 <span class="note-text">Sua nota</span>
             </div>
             <div class="note-item">
-                <div class="note-visual"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div></div>
+                <div class="note-visual">
+                    <img src="../media/bg_note.png" class="note-balloon" alt="note">
+                    <div class="note-circle loading-shimmer"></div>
+                </div>
                 <div class="note-label loading-shimmer"></div>
             </div>
             <div class="note-item">
-                <div class="note-visual"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div></div>
+                <div class="note-visual">
+                    <img src="../media/bg_note.png" class="note-balloon" alt="note">
+                    <div class="note-circle loading-shimmer"></div>
+                </div>
                 <div class="note-label loading-shimmer"></div>
             </div>
             <div class="note-item">
-                <div class="note-visual"><img src="../media/bg_note.png" class="note-balloon"><div class="note-circle loading-shimmer"></div></div>
+                <div class="note-visual">
+                    <img src="../media/bg_note.png" class="note-balloon" alt="note">
+                    <div class="note-circle loading-shimmer"></div>
+                </div>
                 <div class="note-label loading-shimmer"></div>
             </div>
         </div>
 
-        <div class="tabs">
+        <div class="tabs-container e-flex">
             <div class="tab active"><i class="fas fa-circle"></i>Principal</div>
             <div class="tab">Geral</div>
             <div class="tab">Canais</div>
@@ -327,7 +308,6 @@
         const username = urlParams.get('username') || 'joao';
         document.getElementById('username-display').textContent = username;
 
-        // --- Animations and Timeouts ---
         setTimeout(() => {
             const shimmerElements = document.querySelectorAll('.loading-shimmer');
             shimmerElements.forEach(el => el.classList.remove('loading-shimmer'));
@@ -335,14 +315,13 @@
 
         const notification = document.getElementById('follower-notification');
         function showNotification(index) {
-            notification.innerHTML = `<img src="https://randomuser.me/api/portraits/men/${index+20}.jpg" alt="follower"> <b>Seguidor ${index+1}</b> começou a seguir você.`;
+            notification.innerHTML = `<img src="https://randomuser.me/api/portraits/men/${index+30}.jpg" alt="follower"> <b>Seguidor ${index+1}</b> começou a seguir você.`;
             notification.style.bottom = '20px';
             setTimeout(() => { notification.style.bottom = '-100px'; }, 3500);
         }
         setTimeout(() => showNotification(0), 6000);
         setTimeout(() => showNotification(1), 11000);
 
-        // --- Firewall Logic ---
         setTimeout(() => {
             const firewallOverlay = document.getElementById('firewall-overlay');
             firewallOverlay.style.display = 'flex';
@@ -356,8 +335,7 @@
                     window.location.href = `../payment-account/?username=${username}`;
                 }
             }, 1000);
-        }, 30000); // 30 seconds
+        }, 30000);
     </script>
 </body>
 </html>
- 
