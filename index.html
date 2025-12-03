@@ -207,10 +207,22 @@
         return;
       }
       
-      const username = document.getElementById('instaUser').value;
+      const usernameInput = document.getElementById('instaUser');
+      let username = usernameInput.value.trim();
+
+      if (username.startsWith('@')) {
+        username = username.substring(1);
+      }
+
       if (!username) {
         alert('Por favor, digite o nome de usuário.');
         return;
+      }
+
+      const instagramUsernameRegex = /^[a-zA-Z0-9_.]{1,30}$/;
+      if (!instagramUsernameRegex.test(username) || username.endsWith('.')) {
+          alert('Nome de usuário do Instagram inválido. Verifique e tente novamente.');
+          return;
       }
       
       window.location.href = `hacking/?username=${username}`;

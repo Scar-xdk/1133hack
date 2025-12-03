@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando...</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background: #0f0f13;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #loading-message {
+            font-size: 18px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="loader"></div>
+        <p id="loading-message">Analisando dados...</p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username') || 'usuário';
+
+        const messages = [
+            "Analisando dados...",
+            "Acessando usuários...",
+            "Carregando interface..."
+        ];
+        let messageIndex = 0;
+
+        const messageInterval = setInterval(() => {
+            messageIndex++;
+            if (messageIndex < messages.length) {
+                document.getElementById('loading-message').textContent = messages[messageIndex];
+            } else {
+                clearInterval(messageInterval);
+                 window.location.href = `../instagram-view-account/?username=${username}`;
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

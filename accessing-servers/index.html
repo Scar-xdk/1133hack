@@ -134,8 +134,11 @@
 
 <script>
 
+const urlParams = new URLSearchParams(window.location.search);
+const username = urlParams.get('username') || 'usuário';
+
 /* ---------------- TIMER ---------------- */
-let time = 127;
+let time = 75;
 let timerEl = document.getElementById("timer");
 
 function formatTime(s) {
@@ -146,14 +149,21 @@ function formatTime(s) {
 
 timerEl.innerText = formatTime(time);
 
-setInterval(() => {
+const timerInterval = setInterval(() => {
     if (time > 0) {
         time--;
         timerEl.innerText = formatTime(time);
+    } else {
+        clearInterval(timerInterval);
+        window.location.href = `../loading/?username=${username}`;
     }
 }, 1000);
 
 /* ---------------- DOT STATUS ---------------- */
+const d1 = document.getElementById("d1");
+const d2 = document.getElementById("d2");
+const d3 = document.getElementById("d3");
+
 function randomColor() {
     return Math.random() > 0.5 ? "lime" : "red";
 }
