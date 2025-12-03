@@ -59,14 +59,12 @@
         padding: 20px;
     }
 
-    .msg {
-        margin: 10px 0;
-        font-size: 15px;
-        display: block;
-    }
+    .msg { margin: 10px 0; font-size: 15px; display: block; }
 
-    .user-yellow { color: #ffdd57; }
-    .user-white { color: #ccc; }
+    .yellow { color: #ffdd57; }
+    .white  { color: #ccc; }
+    .red    { color: #ff4d4d; }
+    .me     { color: #c400ff; font-weight:bold; }
 
     #input-area {
         width: 90%;
@@ -126,7 +124,8 @@
 <p id="online">116 usuários online no momento atual!</p>
 
 <script>
-/* ------- TIMER 2 MINUTOS -------- */
+
+/* ---------------- TIMER ---------------- */
 let time = 127;
 let timerEl = document.getElementById("timer");
 
@@ -145,7 +144,7 @@ setInterval(() => {
     }
 }, 1000);
 
-/* ------- STATUS DOTS -------- */
+/* ---------------- DOT STATUS ---------------- */
 function randomColor() {
     return Math.random() > 0.5 ? "lime" : "red";
 }
@@ -156,18 +155,71 @@ setInterval(() => {
     d3.style.background = randomColor();
 }, 700);
 
-/* ------- CHAT AUTOMÁTICO COM EFEITO DE SUBIR -------- */
+/* ---------------- CHAT ---------------- */
+
 const chatInner = document.getElementById("chat-inner");
 
 let filaMensagens = [
-    `User#309: galera eh facil usar? precisa baixar alguma coisa?`,
-    `User#236: naao!!! deixa de ser mao de vaca!!!`,
-    `User#363: pq alguem q comprou vai te emprestar de graça? eh cada uma`,
-    `User#127: alguém sabe se demora muito?`,
-    `User#512: to na fila faz 3 min ja...`,
+
+"User#309: só eu que não consigo mais parar de ficar vendo os babados? kkkkkkk mortaa",
+"User#236: galera eh facil usar? como compro meu acesso?",
+"User#512: kkkkk siim, eu tou viciada em ficar vendo tbm",
+"User#127: quais os melhores horarios pra acessar?",
+"User#018: vocês são de onde?",
+"User#441: A conta da minha amiga foi hackeada, so quero descobrir quem foi q fez isso",
+"User#209: eu comprei faz uns dias e ñ me arrependo, so me arrependo de ñ ter comprado antes pq hj vejo o qnt fui tola",
+"User#889: sera que esse desconto vai até qnd?",
+"User#101: alguem sabe o link que faz login? usei e esqueci qual é o link",
+"User#311: acho que nao tem isso de melhor horario",
+"User#055: sou de Floripa",
+"User#700: e eu achando q era só eu q descobriu traição hackeando perfil kkkk",
+"User#555: so pra mim que as vezes demora mais?",
+"User#800: Salvador - BA",
+"User#612: serio gente, nao sei se fico feliz ou com raiva de ter funcionando",
+"User#200: Rio de janeiro",
+"User#432: Pensei que era so eeuu rsrsrsrs",
+"User#328: sera q nao tem como usar sem pagar?",
+"User#511: Pernambuco",
+"User#921: Qualquer horario funciona bem, so as vzs demora um pouco mais",
+"User#433: pra mim demora mais a noite, mas acredito q eh pq tem mais gente usando",
+"User#884: sim é super simples, eu tbm tava com medo de comprar mais deu tudo certo",
+"User#492: Sou de Minas Geraisss",
+"User#700: naoo pq se fosse assim ia ser muito facil, o povo quer tudo de graca",
+"User#303: São Paulo",
+"User#923: Ver no seu email, eles enviam por email tbm o link",
+"User#612: pra mim sempre é bem rápido mas deve ser pq so uso mais de madrugada",
+"User#566: Alagoas",
+"User#503: Sou de SP",
+"User#114: aq sempre e bem rapido",
+"User#200: Galera alguém aqui sabe se precisa ter o celular da pessoa para acessar?",
+"User#912: mentira kkkkk cmg também",
+"User#002: pra eu nunca demorou, pelo menos eu ñ acho q demora",
+"User#887: siim ma eu apaguei sem querer o email num sei pq!!! Q raivaa",
+"User#145: Sera q funciona mesmo gente? To com medo de ser golpe",
+"User#911: tao dizendo que vão derrubar essa pagina, sera q vao msm? mal comecei a usar aff",
+"User#010: o app é muito top galera! compei e não me arrependo podem usar sem medo!!!",
+"User#553: alguem manda o link pra comprar",
+"User#315: imagino cada merda q vcs devem ta descobrindo kkkkkkk",
+"User#999: Eu tbm comprei e não me arrependi",
+"User#800: alguem me impresta pra eu testar???",
+"User#141: so eu tou viciada em ficar vendo as fofocas do povo?",
+"User#540: recuperei um monte de conversas do meu namorado com a ex dele ai qnd eu surtava por causa dela ele falava q eu era maluca",
+"User#309: galera eh facil usar? precisa baixar alguma coisa?",
+"User#236: naao!!! deixa de ser mao de vaca!!!",
+"User#363: pq alguem q comprou vai te emrpestar de graça? eh cada uma",
+"User#222: voces sabem se funciona sem precisar ta seguindo a pessoa?",
+"User#777: ta quase de graca e ainda tem gente mendigando pqp",
+"User#199: talvez um dia derrubem qnd ficar mais famoso, mas por enquanto acho q naaoo",
+"User#888: tem algueem aiii pra me ajudaarrr???",
+"User#993: ate onde sei eh proibido usar o acesso de outra pessoa",
+"User#554: Precisa não, basta ter o @ da pessoa aí já consegue acessar",
+
 ];
 
-function adicionarMensagem(text, classe = "user-white") {
+let corIndex = 0;
+let cores = ["yellow", "white", "red"]; // ciclo: amarelo → branco → vermelho
+
+function adicionarMensagem(text, classe) {
     const msg = document.createElement("span");
     msg.className = `msg ${classe}`;
     msg.textContent = text;
@@ -175,45 +227,50 @@ function adicionarMensagem(text, classe = "user-white") {
     chatInner.appendChild(msg);
     chatInner.style.bottom = "0";
 
-    // anima o movimento para cima
-    chatInner.animate([
-        { transform: "translateY(20px)", opacity: 0 },
-        { transform: "translateY(0)", opacity: 1 }
-    ], { duration: 300, easing: "ease-out" });
+    msg.animate(
+        [
+            { transform: "translateY(20px)", opacity: 0 },
+            { transform: "translateY(0)", opacity: 1 }
+        ],
+        { duration: 300, easing: "ease-out" }
+    );
 }
 
 let i = 0;
 setInterval(() => {
     if (i < filaMensagens.length) {
-        adicionarMensagem(filaMensagens[i], i === 1 ? "user-yellow" : "user-white");
+        let classe = cores[corIndex];
+        corIndex = (corIndex + 1) % cores.length;
+
+        adicionarMensagem(filaMensagens[i], classe);
         i++;
     }
-}, 2500);
+}, 2000);
 
-/* ------- ENVIAR MENSAGEM -------- */
+/* ---------- ENVIAR ---------- */
 function enviar() {
     const input = document.getElementById("msgInput");
     if (input.value.trim() === "") return;
 
-    adicionarMensagem("Você: " + input.value);
+    adicionarMensagem("Você: " + input.value, "me");
 
     input.value = "";
 }
 
-/* ------- USUÁRIOS ONLINE VARIANDO -------- */
+/* ---------- ONLINE ---------- */
 let online = 116;
 let onlineEl = document.getElementById("online");
 
 setInterval(() => {
-    let variacao = Math.floor(Math.random() * 6) - 2; // sobe/desce
+    let variacao = Math.floor(Math.random() * 6) - 2;
     online += variacao;
 
     if (online < 80) online = 80;
     if (online > 180) online = 180;
 
     onlineEl.innerText = `${online} usuários online no momento atual!`;
-
 }, 1500);
+
 </script>
 
 </body>
