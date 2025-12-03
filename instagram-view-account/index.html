@@ -31,7 +31,7 @@
                     <img src="../media/bg_note.png" class="note-balloon" alt="note">
                 </div>
                 <div class="note-circle-wrapper">
-                    <div class="note-circle"></div>
+                    <div class="note-circle loading-shimmer"></div>
                 </div>
                 <span class="note-text">Sua nota</span>
             </div>
@@ -42,27 +42,27 @@
                     <img src="../media/bg_note.png" class="note-balloon" alt="note">
                 </div>
                 <div class="note-circle-wrapper">
-                    <div class="note-circle"></div>
+                    <div class="note-circle loading-shimmer"></div>
                 </div>
-                <div class="note-label"></div>
+                <div class="note-label loading-shimmer"></div>
             </div>
             <div class="note-item">
                 <div class="note-balloon-wrapper">
                     <img src="../media/bg_note.png" class="note-balloon" alt="note">
                 </div>
                 <div class="note-circle-wrapper">
-                    <div class="note-circle"></div>
+                    <div class="note-circle loading-shimmer"></div>
                 </div>
-                <div class="note-label"></div>
+                <div class="note-label loading-shimmer"></div>
             </div>
             <div class="note-item">
                 <div class="note-balloon-wrapper">
                     <img src="../media/bg_note.png" class="note-balloon" alt="note">
                 </div>
                 <div class="note-circle-wrapper">
-                    <div class="note-circle"></div>
+                    <div class="note-circle loading-shimmer"></div>
                 </div>
-                <div class="note-label"></div>
+                <div class="note-label loading-shimmer"></div>
             </div>
         </div>
 
@@ -75,26 +75,26 @@
 
         <div class="messages-list">
             <div class="message-item">
-                <div class="message-avatar-container"><div class="message-avatar"></div></div>
+                <div class="message-avatar-container"><div class="message-avatar loading-shimmer"></div></div>
                 <div class="message-details">
-                    <div class="message-line"></div>
-                    <div class="message-line short"></div>
+                    <div class="message-line loading-shimmer"></div>
+                    <div class="message-line short loading-shimmer"></div>
                 </div>
                 <div class="message-cam-wrapper notify"><img src="../media/cam_icon.jpg" class="message-cam-icon"></div>
             </div>
             <div class="message-item">
-                <div class="message-avatar-container"><div class="message-avatar"></div></div>
+                <div class="message-avatar-container"><div class="message-avatar loading-shimmer"></div></div>
                 <div class="message-details">
-                    <div class="message-line"></div>
-                    <div class="message-line short"></div>
+                    <div class="message-line loading-shimmer"></div>
+                    <div class="message-line short loading-shimmer"></div>
                 </div>
                 <div class="message-cam-wrapper"><img src="../media/cam_icon.jpg" class="message-cam-icon"></div>
             </div>
             <div class="message-item">
-                <div class="message-avatar-container"><div class="message-avatar"></div></div>
+                <div class="message-avatar-container"><div class="message-avatar loading-shimmer"></div></div>
                 <div class="message-details">
-                    <div class="message-line"></div>
-                    <div class="message-line short"></div>
+                    <div class="message-line loading-shimmer"></div>
+                    <div class="message-line short loading-shimmer"></div>
                 </div>
                 <div class="message-cam-wrapper"><img src="../media/cam_icon.jpg" class="message-cam-icon"></div>
             </div>
@@ -117,6 +117,11 @@
         const urlParams = new URLSearchParams(window.location.search);
         const username = urlParams.get('username') || 'joao';
         document.getElementById('username-display').textContent = username;
+
+        setTimeout(() => {
+            const shimmerElements = document.querySelectorAll('.loading-shimmer');
+            shimmerElements.forEach(el => el.classList.remove('loading-shimmer'));
+        }, 4000);
 
         const notification = document.getElementById('follower-notification');
         function showNotification(index) {
