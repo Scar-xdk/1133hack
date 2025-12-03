@@ -29,7 +29,7 @@ body {
     width: 35%;
     text-align: right;
 }
-.header-right img { width: 80%; }
+.header-right img { width: 77%; } /* Ajuste de 4px */
 
 /* --- Search Bar --- */
 .search-bar-container {
@@ -43,7 +43,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     flex-wrap: nowrap;
-    gap: 16px; /* Ajuste fino do espaçamento */
+    gap: 16px;
 }
 .note-item {
     display: flex;
@@ -55,11 +55,10 @@ body {
 .note-balloon-wrapper {
     width: 100%;
     text-align: center;
-    margin-bottom: -48px;
+    margin-bottom: -45px; /* Ajuste de sobreposição */
     z-index: 1;
     position: relative;
 }
-/* Correção final: opacity mantém o item no fluxo do layout */
 .note-item.is-user .note-balloon-wrapper {
     opacity: 0;
 }
@@ -67,7 +66,7 @@ body {
     width: 80%;
 }
 .note-circle-wrapper {
-     width: 80%;
+     width: 75%; /* Ajuste de 3px */
 }
 .note-circle {
     width: 100%;
@@ -85,7 +84,7 @@ body {
 .note-label {
     height: 10px;
     width: 100%;
-    background-color: #363636; /* Cor corrigida */
+    background-color: #363636;
     border-radius: 4px;
 }
 
@@ -125,11 +124,11 @@ body {
     padding: 4px 0;
 }
 .message-avatar-container {
-    width: 58px;
-    height: 58px;
-    min-width: 58px;
+    width: 61px; /* Ajuste de +3px */
+    height: 61px; /* Ajuste de +3px */
+    min-width: 61px; /* Ajuste de +3px */
     border-radius: 50%;
-    border: 2px solid #444; /* Borda corrigida */
+    border: 2px solid #444;
     padding: 2px;
     box-sizing: border-box;
 }
@@ -147,7 +146,7 @@ body {
 }
 .message-line {
     height: 13px;
-    background: #363636; /* Cor corrigida */
+    background: #363636;
     border-radius: 6px;
 }
 .message-line.short { width: 70%; }
