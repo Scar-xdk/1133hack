@@ -13,23 +13,23 @@ body {
 
 /* --- Header --- */
 .header {
-    padding: 20px 16px 0;
+    padding: 20px 16px 8px; /* Ajuste padding */
     align-items: center;
 }
 .header-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px; /* Ajuste gap */
 }
 .header-left .fa-arrow-left { font-size: 20px; margin-right: 4px; }
-.header-left .username { font-size: 22px; font-weight: 600; }
+.header-left .username { font-size: 21px; font-weight: 600; } /* Ajuste font-size */
 .header-left .fa-chevron-down { font-size: 12px; }
 .header-right {
     margin-left: auto;
-    width: 35%;
+    width: 33%; /* Ajuste width */
     text-align: right;
 }
-.header-right img { width: 77%; } /* Ajuste de 4px */
+.header-right img { width: 80%; }
 
 /* --- Search Bar --- */
 .search-bar-container {
@@ -39,23 +39,21 @@ body {
 
 /* --- Notes --- */
 .notes-container {
-    padding: 10px 10px 14px;
-    justify-content: center;
-    align-items: flex-start;
+    padding: 12px 16px 14px; /* Ajuste padding */
+    justify-content: space-between; /* Ajuste de distribuição */
     flex-wrap: nowrap;
-    gap: 16px;
 }
 .note-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 22%;
-    gap: 8px;
+    width: 23%; /* Ajuste width */
+    gap: 9px; /* Ajuste gap */
 }
 .note-balloon-wrapper {
     width: 100%;
     text-align: center;
-    margin-bottom: -45px; /* Ajuste de sobreposição */
+    margin-bottom: -43px; /* Ajuste de sobreposição */
     z-index: 1;
     position: relative;
 }
@@ -63,10 +61,10 @@ body {
     opacity: 0;
 }
 .note-balloon {
-    width: 80%;
+    width: 75%; /* Ajuste width */
 }
 .note-circle-wrapper {
-     width: 75%; /* Ajuste de 3px */
+     width: 73%; /* Ajuste de 3px */
 }
 .note-circle {
     width: 100%;
@@ -77,29 +75,29 @@ body {
     position: relative;
 }
 .note-text {
-    font-size: 13px;
+    font-size: 12px; /* Ajuste font-size */
     color: #A8A8A8;
     white-space: nowrap;
 }
 .note-label {
-    height: 10px;
-    width: 100%;
+    height: 9px; /* Ajuste height */
+    width: 90%; /* Ajuste width */
     background-color: #363636;
     border-radius: 4px;
 }
 
 /* --- Tabs --- */
 .tabs-container {
-    padding: 20px 16px 0;
+    padding: 20px 16px 8px; /* Ajuste padding */
     justify-content: center;
-    gap: 8px;
+    gap: 9px; /* Ajuste gap */
     flex-wrap: nowrap;
 }
 .tab {
-    padding: 8px;
+    padding: 10px 8px; /* Ajuste padding */
     border-radius: 10px;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 14px; /* Manter 14px */
     background: #262626;
     color: #A8A8A8;
     flex-grow: 1;
@@ -115,20 +113,20 @@ body {
 .tab.active .fa-circle { font-size: 6px; vertical-align: middle; margin-right: 6px; color: #4395F6; }
 
 /* --- Messages --- */
-.messages-list { padding: 16px 18px 0; }
+.messages-list { padding: 16px 18px 0; } /* Padding OK */
 .message-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
+    gap: 12px; /* Ajuste gap */
+    margin-bottom: 12px; /* Ajuste margin */
     padding: 4px 0;
 }
 .message-avatar-container {
-    width: 61px; /* Ajuste de +3px */
-    height: 61px; /* Ajuste de +3px */
-    min-width: 61px; /* Ajuste de +3px */
+    width: 58px; /* Revertido para 58px */
+    height: 58px; /* Revertido para 58px */
+    min-width: 58px; /* Revertido para 58px */
     border-radius: 50%;
-    border: 2px solid #444;
+    border: 1px solid #444; /* Borda mais sutil */
     padding: 2px;
     box-sizing: border-box;
 }
@@ -142,10 +140,10 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px; /* Ajuste gap */
 }
 .message-line {
-    height: 13px;
+    height: 12px; /* Ajuste height */
     background: #363636;
     border-radius: 6px;
 }
@@ -156,7 +154,7 @@ body {
     text-align: right;
 }
 .message-cam-icon {
-    width: 32px;
+    width: 28px; /* Ajuste width */
     height: auto;
 }
 .message-cam-wrapper.notify::after {
@@ -178,8 +176,8 @@ body {
     align-items: center;
     gap: 14px;
     padding: 30px;
-    color: #575757;
-    font-size: 16px;
+    color: #A8A8A8; /* Cor ajustada */
+    font-size: 15px; /* Ajuste font-size */
     font-weight: 500;
 }
 .spinner {
