@@ -7,10 +7,9 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             background: #0f0f13;
             color: white;
-            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,74 +18,127 @@
         .container {
             width: 90%;
             max-width: 600px;
+            text-align: center;
         }
-        h1 {
-            font-size: 26px;
-            color: #00c8ff;
+        img.logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 10px;
+        }
+        h1.title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 40px;
         }
         .progress-bar {
             width: 100%;
+            height: 8px;
             background-color: #333;
-            border-radius: 10px;
-            padding: 4px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
         .progress {
             width: 0%;
-            height: 20px;
+            height: 100%;
             background: linear-gradient(90deg, #a855f7, #ec4899, #3b82f6);
-            border-radius: 8px;
-            text-align: center;
-            line-height: 20px;
-            color: white;
-            transition: width 0.1s linear;
+            border-radius: 4px;
+            transition: width 0.3s linear;
+        }
+        #log-container {
+            text-align: left;
+            background: #000;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 5px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        #log-container p {
+            margin: 0 0 8px 0;
+            color: #00ff00; /* Green text */
+        }
+        #log-container p::before {
+            content: '• ';
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Hackeando...</h1>
-        <p id="status-message">Iniciando o processo...</p>
+        <img src="../media/hackinsta.png" alt="Logo" class="logo">
+        <h1 class="title">Hack3rLab®</h1>
         <div class="progress-bar">
-            <div class="progress" id="progress">0%</div>
+            <div class="progress" id="progress"></div>
         </div>
+        <div id="log-container"></div>
     </div>
 
     <script>
         const progressBar = document.getElementById('progress');
-        const statusMessage = document.getElementById('status-message');
+        const logContainer = document.getElementById('log-container');
         const urlParams = new URLSearchParams(window.location.search);
-        const username = urlParams.get('username');
+        const username = urlParams.get('username') || 'usuário';
 
-        const messages = [
-            { text: "Iniciando conexão...", color: "white" },
-            { text: "Acessando servidores...", color: "white" },
-            { text: "Quebrando firewall...", color: "yellow" },
-            { text: "Erro 404... Tentando novamente...", color: "red" },
-            { text: "Testando conexão https...", color: "white" },
-            { text: `Buscando usuário @${username}...`, color: "white" },
-            { text: "Usuário encontrado!", color: "green" },
-            { text: "Hackeando...", color: "yellow" }
-        ];
-
-        let width = 0;
-        let messageIndex = 0;
-
-        const interval = setInterval(() => {
-            if (width >= 100) {
-                clearInterval(interval);
-                statusMessage.textContent = "Processo concluído!";
-                window.location.href = `../confirm-user/?username=${username}`;
-            } else {
-                width++;
-                progressBar.style.width = width + '%';
-                progressBar.textContent = width + '%';
-                if (width % 12 === 0 && messageIndex < messages.length) {
-                    statusMessage.textContent = messages[messageIndex].text;
-                    statusMessage.style.color = messages[messageIndex].color;
-                    messageIndex++;
-                }
+        async function getLocation() {
+            try {
+                const response = await fetch('https://ip-api.com/json/');
+                const data = await response.json();
+                return data.city || 'localização desconhecida';
+            } catch (error) {
+                return 'localização desconhecida';
             }
-        }, 150);
+        }
+
+        function addLog(message) {
+            const p = document.createElement('p');
+            p.textContent = message;
+            logContainer.appendChild(p);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        async function startHacking() {
+            const location = await getLocation();
+
+            const messages = [
+                "Conectando ao servidor do Instagram...",
+                `Simulando IP na região de ${location}...`,
+                "Burlando o firewall...",
+                "Injetando queries SQL...",
+                `Coletando informações de @${username}...`,
+                "Quebrando a senha...",
+                `Autenticando como @${username}...`,
+                "Acesso concedido, redirecionando para o servidor solicitado..."
+            ];
+
+            let width = 0;
+            let messageIndex = 0;
+            const totalDuration = 8000; // 8 seconds total
+            const messageInterval = totalDuration / messages.length;
+            const progressIntervalTime = 50; // Update progress bar every 50ms
+            const progressIncrement = 100 / (totalDuration / progressIntervalTime);
+
+            const progressInterval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(progressInterval);
+                    window.location.href = `../confirm-user/?username=${username}`;
+                } else {
+                    width += progressIncrement;
+                    progressBar.style.width = width + '%';
+                }
+            }, progressIntervalTime);
+
+            const messageTimer = setInterval(() => {
+                if (messageIndex < messages.length) {
+                    addLog(messages[messageIndex]);
+                    messageIndex++;
+                } else {
+                    clearInterval(messageTimer);
+                }
+            }, messageInterval);
+        }
+
+        startHacking();
     </script>
 </body>
 </html>

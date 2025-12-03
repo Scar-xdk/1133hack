@@ -16,7 +16,7 @@
             height: 100vh;
             text-align: center;
         }
-        .container {
+        .container, #analyzing-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -59,10 +59,33 @@
         button:hover {
             opacity: 0.85;
         }
+
+        /* Loader Animation */
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3b82f6;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #confirmation-section {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div id="analyzing-container">
+        <div class="loader"></div>
+        <p>Aguarde, estamos analisando se as informações estão corretas...</p>
+    </div>
+
+    <div id="confirmation-section" class="container">
         <img src="../media/hackinsta.png" alt="Foto do Perfil">
         <h2 id="username">@username</h2>
         <div class="buttons">
@@ -72,6 +95,8 @@
     </div>
 
     <script>
+        const analyzingContainer = document.getElementById('analyzing-container');
+        const confirmationSection = document.getElementById('confirmation-section');
         const usernameEl = document.getElementById('username');
         const correctBtn = document.getElementById('correctBtn');
         const incorrectBtn = document.getElementById('incorrectBtn');
@@ -82,6 +107,12 @@
         if (username) {
             usernameEl.textContent = `@${username}`;
         }
+
+        // Simulate analysis delay
+        setTimeout(() => {
+            analyzingContainer.style.display = 'none';
+            confirmationSection.style.display = 'flex';
+        }, 3000); // 3-second delay
 
         correctBtn.addEventListener('click', () => {
             window.location.href = `../accessing-servers/?username=${username}`;
