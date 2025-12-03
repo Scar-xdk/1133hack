@@ -39,6 +39,7 @@
         50% { opacity: 0.3; }
     }
 
+    /* ---------------- CHAT FIX ---------------- */
     #chat-box {
         width: 90%;
         max-width: 800px;
@@ -47,19 +48,19 @@
         background: #111;
         border-radius: 10px;
         border: 1px solid #444;
-        overflow: hidden;
-        position: relative;
-        padding: 0;
-    }
-
-    #chat-inner {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
+        overflow-y: auto;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
     }
 
-    .msg { margin: 10px 0; font-size: 15px; display: block; }
+    .msg { 
+        margin: 10px 0; 
+        font-size: 15px; 
+        display: block; 
+        text-align: left;
+    }
 
     .yellow { color: #ffdd57; }
     .white  { color: #ccc; }
@@ -112,9 +113,7 @@
     <div class="dot" id="d3"></div>
 </div>
 
-<div id="chat-box">
-    <div id="chat-inner"></div>
-</div>
+<div id="chat-box" id="chatBox"></div>
 
 <div id="input-area">
     <input type="text" id="msgInput" placeholder="Digite uma mensagem...">
@@ -157,10 +156,9 @@ setInterval(() => {
 
 /* ---------------- CHAT ---------------- */
 
-const chatInner = document.getElementById("chat-inner");
+const chat = document.getElementById("chat-box");
 
 let filaMensagens = [
-
 "User#309: só eu que não consigo mais parar de ficar vendo os babados? kkkkkkk mortaa",
 "User#236: galera eh facil usar? como compro meu acesso?",
 "User#512: kkkkk siim, eu tou viciada em ficar vendo tbm",
@@ -180,7 +178,7 @@ let filaMensagens = [
 "User#432: Pensei que era so eeuu rsrsrsrs",
 "User#328: sera q nao tem como usar sem pagar?",
 "User#511: Pernambuco",
-"User#921: Qualquer horario funciona bem, so as vzs demora um pouco mais",
+"User#921: qualquer horario funciona bem, só as vzs demora um pouco mais",
 "User#433: pra mim demora mais a noite, mas acredito q eh pq tem mais gente usando",
 "User#884: sim é super simples, eu tbm tava com medo de comprar mais deu tudo certo",
 "User#492: Sou de Minas Geraisss",
@@ -191,58 +189,32 @@ let filaMensagens = [
 "User#566: Alagoas",
 "User#503: Sou de SP",
 "User#114: aq sempre e bem rapido",
-"User#200: Galera alguém aqui sabe se precisa ter o celular da pessoa para acessar?",
-"User#912: mentira kkkkk cmg também",
-"User#002: pra eu nunca demorou, pelo menos eu ñ acho q demora",
-"User#887: siim ma eu apaguei sem querer o email num sei pq!!! Q raivaa",
-"User#145: Sera q funciona mesmo gente? To com medo de ser golpe",
-"User#911: tao dizendo que vão derrubar essa pagina, sera q vao msm? mal comecei a usar aff",
-"User#010: o app é muito top galera! compei e não me arrependo podem usar sem medo!!!",
-"User#553: alguem manda o link pra comprar",
-"User#315: imagino cada merda q vcs devem ta descobrindo kkkkkkk",
-"User#999: Eu tbm comprei e não me arrependi",
-"User#800: alguem me impresta pra eu testar???",
-"User#141: so eu tou viciada em ficar vendo as fofocas do povo?",
-"User#540: recuperei um monte de conversas do meu namorado com a ex dele ai qnd eu surtava por causa dela ele falava q eu era maluca",
-"User#309: galera eh facil usar? precisa baixar alguma coisa?",
-"User#236: naao!!! deixa de ser mao de vaca!!!",
-"User#363: pq alguem q comprou vai te emrpestar de graça? eh cada uma",
-"User#222: voces sabem se funciona sem precisar ta seguindo a pessoa?",
-"User#777: ta quase de graca e ainda tem gente mendigando pqp",
-"User#199: talvez um dia derrubem qnd ficar mais famoso, mas por enquanto acho q naaoo",
-"User#888: tem algueem aiii pra me ajudaarrr???",
-"User#993: ate onde sei eh proibido usar o acesso de outra pessoa",
-"User#554: Precisa não, basta ter o @ da pessoa aí já consegue acessar",
-
+"User#200: precisa ter o celular da pessoa para acessar?",
+"User#887: siim mas eu apaguei sem querer o email num sei pq!!! Q raivaa",
+"User#363: pq alguem q comprou vai te emprestar de graça? é cada uma",
+"User#554: Precisa não, basta ter o @ da pessoa aí já consegue acessar"
 ];
 
 let corIndex = 0;
-let cores = ["yellow", "white", "red"]; // ciclo: amarelo → branco → vermelho
+let cores = ["yellow", "white", "red"];
 
+/* Adiciona msg ao chat */
 function adicionarMensagem(text, classe) {
-    const msg = document.createElement("span");
+    const msg = document.createElement("div");
     msg.className = `msg ${classe}`;
     msg.textContent = text;
 
-    chatInner.appendChild(msg);
-    chatInner.style.bottom = "0";
+    chat.appendChild(msg);
 
-    msg.animate(
-        [
-            { transform: "translateY(20px)", opacity: 0 },
-            { transform: "translateY(0)", opacity: 1 }
-        ],
-        { duration: 300, easing: "ease-out" }
-    );
+    chat.scrollTop = chat.scrollHeight;
 }
 
+/* Envia mensagens automáticas */
 let i = 0;
 setInterval(() => {
     if (i < filaMensagens.length) {
-        let classe = cores[corIndex];
+        adicionarMensagem(filaMensagens[i], cores[corIndex]);
         corIndex = (corIndex + 1) % cores.length;
-
-        adicionarMensagem(filaMensagens[i], classe);
         i++;
     }
 }, 2000);
