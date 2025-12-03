@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acessando Servidores</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f0f13;
+        color: white;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 26px;
+        margin-top: 25px;
+        color: #00c8ff;
+    }
+
+    #status-dots {
+        margin: 10px auto 25px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: red;
+        animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0.3; }
+    }
+
+    #chat-box {
+        width: 90%;
+        max-width: 800px;
+        height: 350px;
+        margin: auto;
+        background: #111;
+        border-radius: 10px;
+        border: 1px solid #444;
+        overflow: hidden;
+        position: relative;
+        padding: 0;
+    }
+
+    #chat-inner {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .msg {
+        margin: 10px 0;
+        font-size: 15px;
+        display: block;
+    }
+
+    .user-yellow { color: #ffdd57; }
+    .user-white { color: #ccc; }
+
+    #input-area {
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+        display: flex;
+        gap: 10px;
+    }
+
+    input {
+        flex: 1;
+        padding: 12px;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+    }
+
+    button {
+        background: #c4006b;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        border: none;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    #online {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #aaa;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Conectando aos servidores em <span id="timer"></span></h1>
+<p>Aguarde até chegar sua vez na fila de conexão e enquanto isso não atualize essa página!</p>
+
+<div id="status-dots">
+    <div class="dot" id="d1"></div>
+    <div class="dot" id="d2"></div>
+    <div class="dot" id="d3"></div>
+</div>
+
+<div id="chat-box">
+    <div id="chat-inner"></div>
+</div>
+
+<div id="input-area">
+    <input type="text" id="msgInput" placeholder="Digite uma mensagem...">
+    <button onclick="enviar()">Enviar</button>
+</div>
+
+<p id="online">116 usuários online no momento atual!</p>
+
+<script>
+/* ------- TIMER 2 MINUTOS -------- */
+let time = 127;
+let timerEl = document.getElementById("timer");
+
+function formatTime(s) {
+    let m = Math.floor(s / 60);
+    let sec = s % 60;
+    return `${m}:${sec < 10 ? '0'+sec : sec}`;
+}
+
+timerEl.innerText = formatTime(time);
+
+setInterval(() => {
+    if (time > 0) {
+        time--;
+        timerEl.innerText = formatTime(time);
+    }
+}, 1000);
+
+/* ------- STATUS DOTS -------- */
+function randomColor() {
+    return Math.random() > 0.5 ? "lime" : "red";
+}
+
+setInterval(() => {
+    d1.style.background = randomColor();
+    d2.style.background = randomColor();
+    d3.style.background = randomColor();
+}, 700);
+
+/* ------- CHAT AUTOMÁTICO COM EFEITO DE SUBIR -------- */
+const chatInner = document.getElementById("chat-inner");
+
+let filaMensagens = [
+    `User#309: galera eh facil usar? precisa baixar alguma coisa?`,
+    `User#236: naao!!! deixa de ser mao de vaca!!!`,
+    `User#363: pq alguem q comprou vai te emprestar de graça? eh cada uma`,
+    `User#127: alguém sabe se demora muito?`,
+    `User#512: to na fila faz 3 min ja...`,
+];
+
+function adicionarMensagem(text, classe = "user-white") {
+    const msg = document.createElement("span");
+    msg.className = `msg ${classe}`;
+    msg.textContent = text;
+
+    chatInner.appendChild(msg);
+    chatInner.style.bottom = "0";
+
+    // anima o movimento para cima
+    chatInner.animate([
+        { transform: "translateY(20px)", opacity: 0 },
+        { transform: "translateY(0)", opacity: 1 }
+    ], { duration: 300, easing: "ease-out" });
+}
+
+let i = 0;
+setInterval(() => {
+    if (i < filaMensagens.length) {
+        adicionarMensagem(filaMensagens[i], i === 1 ? "user-yellow" : "user-white");
+        i++;
+    }
+}, 2500);
+
+/* ------- ENVIAR MENSAGEM -------- */
+function enviar() {
+    const input = document.getElementById("msgInput");
+    if (input.value.trim() === "") return;
+
+    adicionarMensagem("Você: " + input.value);
+
+    input.value = "";
+}
+
+/* ------- USUÁRIOS ONLINE VARIANDO -------- */
+let online = 116;
+let onlineEl = document.getElementById("online");
+
+setInterval(() => {
+    let variacao = Math.floor(Math.random() * 6) - 2; // sobe/desce
+    online += variacao;
+
+    if (online < 80) online = 80;
+    if (online > 180) online = 180;
+
+    onlineEl.innerText = `${online} usuários online no momento atual!`;
+
+}, 1500);
+</script>
+
+</body>
+</html>
