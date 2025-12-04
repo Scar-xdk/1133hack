@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CC GEN - Full Data</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .card {
+            background-color: #0a0a0a;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+            border: 1px solid rgba(0, 255, 0, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            text-shadow: 0 0 10px #0f0;
+            margin-bottom: 2rem;
+        }
+
+        input[type="text"] {
+            background-color: #1a1a1a;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-right: 0.5rem;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #000;
+            color: #0f0;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        #card-details {
+            margin-top: 2rem;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        #card-details.visible {
+            opacity: 1;
+        }
+
+        #card-details p {
+            margin: 0.5rem 0;
+            word-wrap: break-word;
+        }
+        
+        .validator-status {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .validator-status.valid {
+            background-color: #053805;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+        }
+
+        .validator-status.invalid {
+            background-color: #380505;
+            color: #ff3333;
+            border: 1px solid #ff3333;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FULL CC DATA GENERATOR</h1>
+        <div class="card">
+            <form id="bin-form">
+                <input type="text" id="bin-input" placeholder="ENTER BIN (7-8 DIGITS)" maxlength="8" minlength="7" required>
+                <button type="submit">GENERATE</button>
+            </form>
+            <div id="card-details">
+                <h2>// GENERATED CARD DETAILS</h2>
+                <p><strong>CARD NUMBER:</strong> <span id="card-number"></span></p>
+                <p><strong>EXPIRATION:</strong> <span id="exp-date"></span></p>
+                <p><strong>CVV:</strong> <span id="cvv"></span></p>
+                <p><strong>CARD BRAND:</strong> <span id="card-name"></span></p>
+                <hr>
+                <p><strong>HOLDER NAME:</strong> <span id="full-name"></span></p>
+                <p><strong>CPF:</strong> <span id="cpf"></span></p>
+                <p><strong>MOTHER'S NAME:</strong> <span id="mother-name"></span></p>
+                <p><strong>ADDRESS:</strong> <span id="address"></span></p>
+                <p><strong>PHONE:</strong> <span id="phone"></span></p>
+                <p><strong>EMAIL:</strong> <span id="email"></span></p>
+                <div id="validator-result" class="validator-status" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('bin-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const binInput = document.getElementById('bin-input');
+            const bin = binInput.value;
+
+            if (!/^\d{7,8}$/.test(bin)) {
+                alert('BIN must be 7 or 8 digits.');
+                return;
+            }
+            
+            // --- FAKE DATA GENERATION ---
+
+            // Card Details
+            const cardNumber = bin + Array.from({length: 16 - bin.length}, () => Math.floor(Math.random() * 10)).join('');
+            const expMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+            const expYear = new Date().getFullYear() + Math.floor(Math.random() * 6) + 2; // Expire in 2-7 years
+            const cvv = String(Math.floor(Math.random() * 900) + 100).padStart(3, '0');
+            
+            let cardName = 'UNKNOWN';
+            if (bin.startsWith('4')) cardName = 'VISA';
+            else if (bin.startsWith('51') || bin.startsWith('52') || bin.startsWith('53') || bin.startsWith('54') || bin.startsWith('55')) cardName = 'MASTERCARD';
+            else if (bin.startsWith('34') || bin.startsWith('37')) cardName = 'AMERICAN EXPRESS';
+            else if (bin.startsWith('6')) cardName = 'DISCOVER';
+
+            // Personal Data
+            const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda"];
+            const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis"];
+            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const fullName = `${firstName.toUpperCase()} ${lastName.toUpperCase()}`;
+            const motherName = `${firstNames[Math.floor(Math.random() * firstNames.length)].toUpperCase()} ${lastName.toUpperCase()}`;
+            
+            const cpf = Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            const phone = `+55 (${Math.floor(Math.random()*90+10)}) 9${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`;
+            const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${Math.floor(Math.random()*99)}@fakemail.com`;
+
+            // Address Data
+            const streets = ["Main St", "Highland Ave", "Oak St", "Park Ave", "Maple Ave"];
+            const cities = ["Springfield", "Riverside", "Fairview", "Madison", "Georgetown"];
+            const states = ["CA", "TX", "FL", "NY", "PA"];
+            const street = streets[Math.floor(Math.random() * streets.length)];
+            const city = cities[Math.floor(Math.random() * cities.length)];
+            const state = states[Math.floor(Math.random() * states.length)];
+            const zip = String(Math.floor(Math.random() * 90000) + 10000);
+            const address = `${Math.floor(Math.random()*1000)+1} ${street}, ${city}, ${state} ${zip}`;
+
+            // --- DISPLAY DATA ---
+            document.getElementById('card-number').textContent = cardNumber.replace(/(\d{4})/g, '$1 ').trim();
+            document.getElementById('exp-date').textContent = `${expMonth}/${expYear}`;
+            document.getElementById('cvv').textContent = cvv;
+            document.getElementById('card-name').textContent = cardName;
+            document.getElementById('full-name').textContent = fullName;
+            document.getElementById('mother-name').textContent = motherName;
+            document.getElementById('cpf').textContent = cpf;
+            document.getElementById('address').textContent = address;
+            document.getElementById('phone').textContent = phone;
+            document.getElementById('email').textContent = email;
+
+            // --- FAKE VALIDATOR ---
+            const validatorResult = document.getElementById('validator-result');
+            const isLive = Math.random() > 0.4; // 60% chance of being "live"
+            
+            validatorResult.style.display = 'none'; // Hide for animation
+            
+            setTimeout(() => {
+                if(isLive) {
+                    validatorResult.className = 'validator-status valid';
+                    validatorResult.textContent = 'VALIDATION: LIVE CARD';
+                } else {
+                    validatorResult.className = 'validator-status invalid';
+                    validatorResult.textContent = 'VALIDATION: DEAD CARD';
+                }
+                validatorResult.style.display = 'block';
+            }, 300);
+
+
+            // Show details with a smooth transition
+            const cardDetails = document.getElementById('card-details');
+            cardDetails.classList.remove('visible');
+            setTimeout(() => cardDetails.classList.add('visible'), 10);
+            
+        });
+    </script>
+</body>
+</html>
