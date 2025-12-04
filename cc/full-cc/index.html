@@ -4,159 +4,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CC GEN - Full Data</title>
+    <title>NEW HITECH STORE BOT</title>
     <style>
         body {
-            background-color: #000;
-            color: #0f0;
+            background-color: #1A1A1A;
+            color: #E0E0E0;
             font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
             padding: 20px;
-            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
         }
-
         .container {
             width: 100%;
-            max-width: 600px;
-            text-align: center;
+            max-width: 700px;
+            background-color: #2C2C2C;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-
-        .card {
-            background-color: #0a0a0a;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
-            border: 1px solid rgba(0, 255, 0, 0.7);
-            margin-bottom: 2rem;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
-
-        h1 {
-            text-shadow: 0 0 10px #0f0;
-            margin-bottom: 2rem;
+        .header h1 {
+            font-size: 1.2em;
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+            margin: 0;
         }
-
-        input[type="text"] {
-            background-color: #1a1a1a;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 0.8rem;
+        #ip-display {
+            font-size: 0.8em;
+            color: #888;
+        }
+        #card-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .card-option {
+            background-color: #1A1A1A;
+            border: 1px solid #444;
+            color: #E0E0E0;
+            padding: 15px;
             border-radius: 5px;
-            margin-right: 0.5rem;
             text-align: center;
-            font-family: inherit;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
         }
-
-        button {
-            background-color: #0f0;
-            color: #000;
+        .card-option:hover {
+            background-color: #333;
+            border-color: #888;
+        }
+        .price {
+            font-size: 0.9em;
+            color: #00ff00;
+        }
+        #search-view {
+            background-color: #1E1E1E;
+            border: 1px solid #444;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #search-view p {
+            margin: 10px 0;
+        }
+        .highlight {
+            color: #00ff00;
+        }
+        #confirm-button {
+            background-color: #00ff00;
+            color: #1A1A1A;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 10px 20px;
+            margin-top: 20px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            font-family: inherit;
-            transition: all 0.3s ease;
+            width: 100%;
         }
-        
-        button:hover {
-            background-color: #000;
-            color: #0f0;
-            box-shadow: 0 0 15px #0f0;
-        }
-
-        #card-details {
-            margin-top: 2rem;
+        #generated-data-view {
+            background-color: #1E1E1E;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
             text-align: left;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
         }
-        
-        #card-details.visible {
-            opacity: 1;
+        #generated-data-view h2 {
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        #card-details p {
-            margin: 0.5rem 0;
+        #generated-data-view p {
+            margin: 8px 0;
             word-wrap: break-word;
         }
-        
-        .validator-status {
+         .validator-status {
             margin-top: 1.5rem;
             padding: 1rem;
             border-radius: 5px;
             font-weight: bold;
             text-align: center;
         }
-        
         .validator-status.valid {
             background-color: #053805;
             color: #33ff33;
             border: 1px solid #33ff33;
         }
-
         .validator-status.invalid {
             background-color: #380505;
             color: #ff3333;
             border: 1px solid #ff3333;
         }
-
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>FULL CC DATA GENERATOR</h1>
-        <div class="card">
-            <form id="bin-form">
-                <input type="text" id="bin-input" placeholder="ENTER BIN (7-8 DIGITS)" maxlength="8" minlength="7" required>
-                <button type="submit">GENERATE</button>
-            </form>
-            <div id="card-details">
-                <h2>// GENERATED CARD DETAILS</h2>
-                <p><strong>CARD NUMBER:</strong> <span id="card-number"></span></p>
-                <p><strong>EXPIRATION:</strong> <span id="exp-date"></span></p>
-                <p><strong>CVV:</strong> <span id="cvv"></span></p>
-                <p><strong>CARD BRAND:</strong> <span id="card-name"></span></p>
-                <hr>
-                <p><strong>HOLDER NAME:</strong> <span id="full-name"></span></p>
-                <p><strong>CPF:</strong> <span id="cpf"></span></p>
-                <p><strong>MOTHER'S NAME:</strong> <span id="mother-name"></span></p>
-                <p><strong>ADDRESS:</strong> <span id="address"></span></p>
-                <p><strong>PHONE:</strong> <span id="phone"></span></p>
-                <p><strong>EMAIL:</strong> <span id="email"></span></p>
-                <div id="validator-result" class="validator-status" style="display: none;"></div>
+        <div class="header">
+            <h1>&#128226; NEW HITECH STORE BOT</h1>
+            <span id="ip-display">Fetching IP...</span>
+        </div>
+
+        <!-- Card Selection View -->
+        <div id="card-selection-view">
+            <div id="card-selection-grid">
+                <!-- Options will be dynamically inserted here -->
             </div>
         </div>
+
+        <!-- Search Confirmation View -->
+        <div id="search-view" class="hidden">
+            <p>&#9888; | Confirmando você vai ficar impossibilitado de Realizar outra compra de Cartão, até que essa compra esteja finalizada.</p>
+            <p>&#128270; | O Bot vai procurar um Cartão Live com os Dados selecionados.</p>
+            <hr>
+            <p><strong>Nível Escolhido:</strong> <span id="chosen-level" class="highlight">S/N</span></p>
+            <p><strong>Bandeira:</strong> <span id="chosen-brand" class="highlight">S/N</span></p>
+            <p><strong>Valor:</strong> <span class="highlight" id="chosen-price">R$ 0.00</span></p>
+            <p><strong>Cartões encontrados:</strong> <span id="found-cards" class="highlight">54</span></p>
+            <hr>
+            <button id="confirm-button">&#10004; | Confirmar</button>
+        </div>
+
+        <!-- Generated Data View -->
+        <div id="generated-data-view" class="hidden">
+             <h2>// GENERATED CARD DETAILS</h2>
+            <p><strong>CARD NUMBER:</strong> <span id="card-number"></span></p>
+            <p><strong>EXPIRATION:</strong> <span id="exp-date"></span></p>
+            <p><strong>CVV:</strong> <span id="cvv"></span></p>
+            <p><strong>CARD BRAND:</strong> <span id="card-name"></span></p>
+            <hr>
+            <p><strong>HOLDER NAME:</strong> <span id="full-name"></span></p>
+            <p><strong>CPF:</strong> <span id="cpf"></span></p>
+            <p><strong>MOTHER'S NAME:</strong> <span id="mother-name"></span></p>
+            <p><strong>ADDRESS:</strong> <span id="address"></span></p>
+            <p><strong>PHONE:</strong> <span id="phone"></span></p>
+            <div id="validator-result" class="validator-status" style="display: none;"></div>
+        </div>
+
     </div>
+
     <script>
-        document.getElementById('bin-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const binInput = document.getElementById('bin-input');
-            const bin = binInput.value;
+    document.addEventListener('DOMContentLoaded', () => {
 
-            if (!/^\d{7,8}$/.test(bin)) {
-                alert('BIN must be 7 or 8 digits.');
-                return;
+        const views = {
+            selection: document.getElementById('card-selection-view'),
+            search: document.getElementById('search-view'),
+            generated: document.getElementById('generated-data-view'),
+        };
+
+        const cardOptions = [
+            { name: 'AMEX', price: 25, brand: 'AMERICAN EXPRESS' }, { name: 'ATM', price: 15, brand: 'MASTERCARD' },
+            { name: 'BLACK', price: 40, brand: 'MASTERCARD' }, { name: 'BUSINESS', price: 25, brand: 'VISA' },
+            { name: 'CLASSIC', price: 20, brand: 'VISA' }, { name: 'CORPORATE', price: 25, brand: 'VISA' },
+            { name: 'CORPORATE FLEET GSA', price: 15, brand: 'MASTERCARD' }, { name: 'CORPORATE PURCHASING', price: 15, brand: 'VISA' },
+            { name: 'CORPORATE T&E', price: 25, brand: 'VISA' }, { name: 'DISCOVER', price: 25, brand: 'DISCOVER' },
+            { name: 'ELECTRON', price: 25, brand: 'VISA' }, { name: 'ELO', price: 30, brand: 'ELO' },
+            { name: 'EXECUTIVE', price: 25, brand: 'MASTERCARD' }, { name: 'GOLD', price: 20, brand: 'MASTERCARD' },
+            { name: 'HIPERCARD', price: 15, brand: 'HIPERCARD' }, { name: 'INFINITE', price: 40, brand: 'VISA' },
+            { name: 'MICRO BUSINESS', price: 15, brand: 'VISA' }, { name: 'N/D', price: 15, brand: 'MASTERCARD' },
+            { name: 'NUBANK BLACK', price: 40, brand: 'MASTERCARD' }, { name: 'NUBANK GOLD', price: 10, brand: 'MASTERCARD' },
+            { name: 'NUBANK PLATINUM', price: 20, brand: 'MASTERCARD' }, { name: 'PERSONAL', price: 15, brand: 'VISA' },
+            { name: 'PLATINUM', price: 25, brand: 'MASTERCARD' }, { name: 'PLATINUM/STANDARD', price: 25, brand: 'MASTERCARD' },
+            { name: 'PREPAID', price: 25, brand: 'VISA' }, { name: 'PURCHASING', price: 25, brand: 'VISA' },
+            { name: 'SIGNATURE', price: 25, brand: 'VISA' }, { name: 'STANDARD', price: 20, brand: 'VISA' },
+            { name: 'TITANIUM', price: 25, brand: 'MASTERCARD' }, { name: 'WORLD', price: 20, brand: 'MASTERCARD' },
+            { name: 'WORLD BLACK', price: 15, brand: 'MASTERCARD' }, { name: 'WORLD ELITE BUSINESS', price: 15, brand: 'MASTERCARD' },
+            { name: 'WORLD/WORLD ELITE/PLATINUM', price: 15, brand: 'MASTERCARD' }
+        ];
+
+        const grid = document.getElementById('card-selection-grid');
+        cardOptions.forEach(opt => {
+            const button = document.createElement('div');
+            button.className = 'card-option';
+            button.innerHTML = `${opt.name} <br> <span class="price">R$ ${opt.price.toFixed(2)}</span>`;
+            button.addEventListener('click', () => selectCardOption(opt));
+            grid.appendChild(button);
+        });
+
+        function switchView(viewName) {
+            Object.values(views).forEach(v => v.classList.add('hidden'));
+            if(views[viewName]) {
+                views[viewName].classList.remove('hidden');
             }
-            
-            // --- FAKE DATA GENERATION ---
+        }
 
-            // Card Details
+        function selectCardOption(option) {
+            document.getElementById('chosen-level').textContent = option.name;
+            document.getElementById('chosen-brand').textContent = option.brand;
+            document.getElementById('chosen-price').textContent = `R$ ${option.price.toFixed(2)}`;
+            document.getElementById('found-cards').textContent = Math.floor(Math.random() * 100) + 10;
+            
+            document.getElementById('confirm-button').onclick = () => {
+                generateCard(option.brand);
+            };
+
+            switchView('search');
+        }
+
+        function generateCard(brand) {
+            // --- FAKE DATA GENERATION ---
+            let bin;
+            switch(brand) {
+                case 'VISA': bin = '4' + Math.floor(Math.random()*999999); break;
+                case 'MASTERCARD': bin = '5' + (Math.floor(Math.random()*5)+1) + Math.floor(Math.random()*99999); break;
+                case 'AMERICAN EXPRESS': bin = '3' + (Math.random() > 0.5 ? '4' : '7') + Math.floor(Math.random()*99999); break;
+                default: bin = String(Math.floor(Math.random() * 9999999));
+            }
+            bin = bin.padEnd(7, '0');
+
             const cardNumber = bin + Array.from({length: 16 - bin.length}, () => Math.floor(Math.random() * 10)).join('');
             const expMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-            const expYear = new Date().getFullYear() + Math.floor(Math.random() * 6) + 2; // Expire in 2-7 years
+            const expYear = new Date().getFullYear() + Math.floor(Math.random() * 6) + 2;
             const cvv = String(Math.floor(Math.random() * 900) + 100).padStart(3, '0');
-            
-            let cardName = 'UNKNOWN';
-            if (bin.startsWith('4')) cardName = 'VISA';
-            else if (bin.startsWith('51') || bin.startsWith('52') || bin.startsWith('53') || bin.startsWith('54') || bin.startsWith('55')) cardName = 'MASTERCARD';
-            else if (bin.startsWith('34') || bin.startsWith('37')) cardName = 'AMERICAN EXPRESS';
-            else if (bin.startsWith('6')) cardName = 'DISCOVER';
 
-            // Personal Data
             const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda"];
             const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis"];
             const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
@@ -166,54 +256,84 @@
             
             const cpf = Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
             const phone = `+55 (${Math.floor(Math.random()*90+10)}) 9${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`;
-            const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${Math.floor(Math.random()*99)}@fakemail.com`;
 
-            // Address Data
             const streets = ["Main St", "Highland Ave", "Oak St", "Park Ave", "Maple Ave"];
             const cities = ["Springfield", "Riverside", "Fairview", "Madison", "Georgetown"];
             const states = ["CA", "TX", "FL", "NY", "PA"];
-            const street = streets[Math.floor(Math.random() * streets.length)];
-            const city = cities[Math.floor(Math.random() * cities.length)];
-            const state = states[Math.floor(Math.random() * states.length)];
-            const zip = String(Math.floor(Math.random() * 90000) + 10000);
-            const address = `${Math.floor(Math.random()*1000)+1} ${street}, ${city}, ${state} ${zip}`;
+            const address = `${Math.floor(Math.random()*1000)+1} ${streets[Math.floor(Math.random() * streets.length)]}, ${cities[Math.floor(Math.random() * cities.length)]}, ${states[Math.floor(Math.random() * states.length)]} ${String(Math.floor(Math.random() * 90000) + 10000)}`;
 
             // --- DISPLAY DATA ---
             document.getElementById('card-number').textContent = cardNumber.replace(/(\d{4})/g, '$1 ').trim();
             document.getElementById('exp-date').textContent = `${expMonth}/${expYear}`;
             document.getElementById('cvv').textContent = cvv;
-            document.getElementById('card-name').textContent = cardName;
+            document.getElementById('card-name').textContent = brand;
             document.getElementById('full-name').textContent = fullName;
             document.getElementById('mother-name').textContent = motherName;
             document.getElementById('cpf').textContent = cpf;
             document.getElementById('address').textContent = address;
             document.getElementById('phone').textContent = phone;
-            document.getElementById('email').textContent = email;
 
             // --- FAKE VALIDATOR ---
             const validatorResult = document.getElementById('validator-result');
-            const isLive = Math.random() > 0.4; // 60% chance of being "live"
-            
-            validatorResult.style.display = 'none'; // Hide for animation
-            
-            setTimeout(() => {
-                if(isLive) {
-                    validatorResult.className = 'validator-status valid';
-                    validatorResult.textContent = 'VALIDATION: LIVE CARD';
-                } else {
-                    validatorResult.className = 'validator-status invalid';
-                    validatorResult.textContent = 'VALIDATION: DEAD CARD';
-                }
+            validatorResult.style.display = 'none';
+             setTimeout(() => {
+                const isLive = Math.random() > 0.4;
+                validatorResult.className = isLive ? 'validator-status valid' : 'validator-status invalid';
+                validatorResult.textContent = `VALIDATION: ${isLive ? 'LIVE CARD' : 'DEAD CARD'}`;
                 validatorResult.style.display = 'block';
-            }, 300);
+            }, 500);
 
+            switchView('generated');
+        }
 
-            // Show details with a smooth transition
-            const cardDetails = document.getElementById('card-details');
-            cardDetails.classList.remove('visible');
-            setTimeout(() => cardDetails.classList.add('visible'), 10);
+        // --- IP INFO & DB LOGIC ---
+        function initDB() {
+            const request = indexedDB.open('userDB', 1);
+
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('users')) {
+                    db.createObjectStore('users', { keyPath: 'timestamp' });
+                }
+            };
+
+            request.onerror = (event) => {
+                console.error("IndexedDB error:", event.target.errorCode);
+            };
             
-        });
+            return request;
+        }
+
+        function saveUserData(data) {
+            const dbRequest = initDB();
+            dbRequest.onsuccess = (event) => {
+                const db = event.target.result;
+                const transaction = db.transaction(['users'], 'readwrite');
+                const objectStore = transaction.objectStore('users');
+                const userData = {
+                    timestamp: new Date().getTime(),
+                    ip: data.ip,
+                    city: data.city,
+                    country: data.country,
+                    org: data.org,
+                };
+                objectStore.add(userData);
+            }
+        }
+        
+        fetch('https://ipinfo.io/json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip-display').textContent = `Your IP: ${data.ip}`;
+                saveUserData(data);
+            })
+            .catch(error => {
+                document.getElementById('ip-display').textContent = 'IP not available';
+                console.error('Error fetching IP info:', error);
+            });
+            
+        initDB(); // Ensure DB is created on first visit
+    });
     </script>
 </body>
 </html>
