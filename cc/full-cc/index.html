@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS CC FULL</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --background: #1A1A1A;
@@ -19,7 +16,7 @@
         body {
             background-color: var(--background);
             color: var(--text);
-            font-family: 'Roboto Mono', monospace;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -47,7 +44,6 @@
         .header h1 {
             font-size: 1.5em;
             color: var(--text);
-            text-shadow: none;
             margin: 0;
         }
         #ip-display {
@@ -58,6 +54,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
+            margin-bottom: 10px;
         }
         .option-button {
             background-color: var(--background);
@@ -72,7 +69,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-family: 'Roboto Mono', monospace;
+            font-family: inherit;
             font-size: 1em;
         }
         .option-button:hover {
@@ -94,7 +91,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-family: 'Roboto Mono', monospace;
+            font-family: inherit;
             font-size: 1em;
         }
         .button:hover {
@@ -130,6 +127,7 @@
             white-space: pre-wrap;
             font-size: 0.9em;
             margin-bottom: 15px;
+            font-family: "Courier New", Courier, monospace; /* Monospaced for log feel */
         }
         #generated-data-view h2 {
             text-align: center;
@@ -140,7 +138,7 @@
             margin: 8px 0;
             word-wrap: break-word;
         }
-         .validator-status {
+        .validator-status {
             margin: 1rem 0;
             padding: 1rem;
             border-radius: 5px;
@@ -172,7 +170,7 @@
 
         <!-- Country Selection View -->
         <div id="country-selection-view">
-            <h2>Passo 1: Selecione o PaÃ­s de Origem</h2>
+            <h2>Passo 1: Selecione o País de Origem</h2>
             <div id="country-selection-grid" class="grid-selection">
                 <!-- JS will populate this -->
             </div>
@@ -180,11 +178,11 @@
 
         <!-- Card Selection View -->
         <div id="card-selection-view" class="hidden">
-            <h2>Passo 2: Selecione o NÃ­vel do CartÃ£o</h2>
+            <h2>Passo 2: Selecione o Nível do Cartão</h2>
             <div id="card-selection-grid" class="grid-selection">
                 <!-- JS will populate this -->
             </div>
-            <button id="back-to-country" class="button secondary">â† Voltar</button>
+            <button id="back-to-country" class="button secondary">← Voltar</button>
         </div>
 
         <!-- Search View -->
@@ -211,7 +209,7 @@
                     Copiar Dados
                 </button>
             </div>
-             <button id="generate-new-button" class="button secondary">Gerar Novo CartÃ£o</button>
+             <button id="generate-new-button" class="button secondary">Gerar Novo Cartão</button>
         </div>
     </div>
 
@@ -248,14 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    fetch('https://ipinfo.io/json?token=a1f5655c68b25c')
+    fetch('https://ipinfo.io/json')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('ip-display').textContent = `seu ip: ${data.ip}`;
+            document.getElementById('ip-display').textContent = `Seu IP: ${data.ip}`;
             saveUserData(data);
         })
         .catch(error => {
-            document.getElementById('ip-display').textContent = 'IP indisponÃ­vel';
+            document.getElementById('ip-display').textContent = 'IP indisponível';
             console.error('Erro ao buscar IP:', error);
         });
 
@@ -277,15 +275,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- DATA ---
     const countries = {
-        BR: { name: 'Brasil', emoji: 'ðŸ‡§ðŸ‡·', firstNames: ["Miguel", "Arthur", "Gael", "Heitor", "Theo", "Davi", "Gabriel", "Bernardo", "Samuel", "JoÃ£o"], lastNames: ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes"], cities: ["SÃ£o Paulo", "Rio de Janeiro", "BrasÃ­lia", "Salvador", "Fortaleza"] },
-        US: { name: 'EUA', emoji: 'ðŸ‡ºðŸ‡¸', firstNames: ["James", "Robert", "John", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"], lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"], cities: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"] },
-        PT: { name: 'Portugal', emoji: 'ðŸ‡µðŸ‡¹', firstNames: ["JoÃ£o", "Santiago", "Martim", "Rodrigo", "TomÃ¡s", "Francisco", "Afonso", "LourenÃ§o", "Tiago", "Duarte"], lastNames: ["Silva", "Santos", "Ferreira", "Pereira", "Oliveira", "Costa", "Rodrigues", "Martins", "Jesus", "Sousa"], cities: ["Lisboa", "Porto", "Vila Nova de Gaia", "Amadora", "Braga"] },
+        BR: { name: 'Brasil', emoji: '🇧🇷', male: ["Miguel", "Arthur", "Gael", "Heitor", "Theo"], female: ["Helena", "Alice", "Laura", "Maria Alice", "Sophia"], last: ["Silva", "Santos", "Oliveira", "Souza"], cities: ["São Paulo", "Rio de Janeiro", "Brasília"] },
+        US: { name: 'EUA', emoji: '🇺🇸', male: ["James", "Robert", "John", "Michael", "William"], female: ["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth"], last: ["Smith", "Johnson", "Williams", "Brown"], cities: ["New York", "Los Angeles", "Chicago"] },
+        PT: { name: 'Portugal', emoji: '🇵🇹', male: ["João", "Santiago", "Martim", "Rodrigo", "Tomás"], female: ["Maria", "Leonor", "Matilde", "Beatriz", "Ana"], last: ["Silva", "Santos", "Ferreira", "Pereira"], cities: ["Lisboa", "Porto", "Amadora"] },
+        DE: { name: 'Alemanha', emoji: '🇩🇪', male: ["Ben", "Paul", "Leon", "Finn", "Elias"], female: ["Mia", "Emma", "Sophia", "Hannah", "Emilia"], last: ["Müller", "Schmidt", "Schneider", "Fischer"], cities: ["Berlin", "Hamburg", "Munich"] },
+        ES: { name: 'Espanha', emoji: '🇪🇸', male: ["Hugo", "Martín", "Lucas", "Mateo", "Leo"], female: ["Lucía", "Sofía", "Martina", "María", "Paula"], last: ["García", "Rodríguez", "González", "Fernández"], cities: ["Madrid", "Barcelona", "Valencia"] },
+        AR: { name: 'Argentina', emoji: '🇦🇷', male: ["Mateo", "Bautista", "Juan", "Felipe", "Bruno"], female: ["Isabella", "Catalina", "Olivia", "Emma", "Martina"], last: ["Gonzalez", "Rodriguez", "Gomez", "Fernandez"], cities: ["Buenos Aires", "Cordoba", "Rosario"] },
+        MX: { name: 'México', emoji: '🇲🇽', male: ["Santiago", "Mateo", "Sebastián", "Leonardo", "Matías"], female: ["Sofía", "Valentina", "Regina", "María José", "Ximena"], last: ["Hernández", "García", "Martínez", "López"], cities: ["Mexico City", "Tijuana", "Guadalajara"] },
     };
     const cardOptions = [
-        { name: 'CLASSIC', brand: 'VISA', emoji: 'ðŸ’µ' }, { name: 'GOLD', brand: 'MASTERCARD', emoji: 'ðŸ¥‡' },
-        { name: 'PLATINUM', brand: 'MASTERCARD', emoji: 'ðŸ¥ˆ' }, { name: 'BLACK', brand: 'MASTERCARD', emoji: 'ðŸ–¤' },
-        { name: 'SIGNATURE', brand: 'VISA', emoji: 'âœ’ï¸Ž' }, { name: 'INFINITE', brand: 'VISA', emoji: 'âˆžï¸Ž' },
-        { name: 'AMEX', brand: 'AMERICAN EXPRESS', emoji: 'ðŸ’³' }, { name: 'ELO', brand: 'ELO', emoji: 'ðŸ’š' },
+        { name: 'CLASSIC', brand: 'VISA', emoji: '💳' }, { name: 'GOLD', brand: 'MASTERCARD', emoji: '🥇' },
+        { name: 'PLATINUM', brand: 'MASTERCARD', emoji: '🥈' }, { name: 'BLACK', brand: 'MASTERCARD', emoji: '🖤' },
+        { name: 'SIGNATURE', brand: 'VISA', emoji: '✍️' }, { name: 'INFINITE', brand: 'VISA', emoji: '♾️' },
+        { name: 'AMEX', brand: 'AMERICAN EXPRESS', emoji: '​​ अमीरिकन एक्सप्रेस' }, { name: 'ELO', brand: 'ELO', emoji: '💚' },
+        { name: 'DISCOVER', brand: 'DISCOVER', emoji: '🌐' }, { name: 'HIPERCARD', brand: 'HIPERCARD', emoji: '💙' },
     ];
     
     // --- UI POPULATION & EVENT LISTENERS ---
@@ -337,13 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmButton.textContent = 'Buscando...';
 
         const searchSteps = [
-            `[+] Iniciando conexÃ£o segura...`,
-            `[+] Verificando proxies anÃ´nimos... OK`,
-            `[+] Alvo: Banco de dados da regiÃ£o [${currentState.country.name}]`,
-            `[+] Bypassando firewall primÃ¡rio...`,
-            `[+] InjeÃ§Ã£o de pacote bem-sucedida.`,
-            `[+] Acessando tabela de usuÃ¡rios...`,
-            `[+] Procurando por cartÃµes nÃ­vel [${currentState.card.name}]...`,
+            `[+] Iniciando conexão segura...`,
+            `[+] Verificando proxies anônimos... OK`,
+            `[+] Alvo: Banco de dados da região [${currentState.country.name}]`,
+            `[+] Bypassando firewall primário...`,
+            `[+] Injeção de pacote bem-sucedida.`,
+            `[+] Acessando tabela de usuários...`,
+            `[+] Procurando por cartões nível [${currentState.card.name}]...`,
             `[+] Descriptografando resultados...`,
         ];
 
@@ -356,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 clearInterval(interval);
                 const foundCount = Math.floor(Math.random() * 150) + 20;
-                log.innerHTML += `\n[âœ”] Processo concluÃ­do! ${foundCount} cartÃµes encontrados.`;
+                log.innerHTML += `\n[✔] Processo concluído! ${foundCount} cartões encontrados.`;
                 log.scrollTop = log.scrollHeight;
                 confirmButton.disabled = false;
                 confirmButton.textContent = 'Gerar Dados';
@@ -369,13 +372,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateCard() {
         const { brand } = currentState.card;
-        const { firstNames, lastNames, cities } = currentState.country;
+        const { male, female, last, cities } = currentState.country;
         
         let bin;
         switch(brand) {
             case 'VISA': bin = '4' + Math.floor(10000 + Math.random() * 90000); break;
             case 'MASTERCARD': bin = '5' + (Math.floor(Math.random()*5)+1) + Math.floor(1000 + Math.random() * 9000); break;
             case 'AMERICAN EXPRESS': bin = '3' + (Math.random() > 0.5 ? '4' : '7') + Math.floor(1000 + Math.random() * 9000); break;
+            case 'DISCOVER': bin = '6011' + Math.floor(10 + Math.random() * 90); break;
             default: bin = String(Math.floor(100000 + Math.random() * 900000));
         }
         
@@ -384,22 +388,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const expYear = new Date().getFullYear() + Math.floor(Math.random() * 5) + 2;
         const cvv = String(Math.floor(Math.random() * 900) + 100);
 
-        const fullName = `${getRandomItem(firstNames)} ${getRandomItem(lastNames)}`;
-        const motherName = `${getRandomItem(firstNames)} ${getRandomItem(lastNames)}`;
+        const fullName = `${getRandomItem(male)} ${getRandomItem(last)}`;
+        const motherName = `${getRandomItem(female)} ${getRandomItem(last)}`;
         const cpf = Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
         const phone = `+${currentState.country === countries.BR ? '55' : '1'} (${Math.floor(Math.random()*90+10)}) 9${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`;
-        const address = `${Math.floor(Math.random()*2000)+1} ${getRandomItem(["Rua", "Avenida", "PraÃ§a"])} ${getRandomItem(lastNames)}, ${getRandomItem(cities)}`;
+        const address = `${Math.floor(Math.random()*2000)+1} ${getRandomItem(["Rua", "Avenida", "Praça"])} ${getRandomItem(last)}, ${getRandomItem(cities)}`;
 
         const content = `
-            <p><strong>&#128179; NÃšMERO:</strong> ${number.replace(/(\d{4})/g, '$1 ').trim()}</p>
+            <p><strong>&#128179; NÚMERO:</strong> ${number.replace(/(\d{4})/g, '$1 ').trim()}</p>
             <p><strong>&#128197; VALIDADE:</strong> ${expMonth}/${expYear}</p>
             <p><strong>&#128274; CVV:</strong> ${cvv}</p>
             <p><strong>&#127988; BANDEIRA:</strong> ${brand}</p>
             <hr>
             <p><strong>&#128100; NOME:</strong> ${fullName}</p>
-            <p><strong>&#128100; NOME DA MÃƒE:</strong> ${motherName}</p>
+            <p><strong>&#128100; NOME DA MÃE:</strong> ${motherName}</p>
             <p><strong>&#128206; CPF:</strong> ${cpf}</p>
-            <p><strong>&#128205; ENDEREÃ‡O:</strong> ${address}</p>
+            <p><strong>&#128205; ENDEREÇO:</strong> ${address}</p>
             <p><strong>&#128241; TELEFONE:</strong> ${phone}</p>
         `;
         document.getElementById('full-data-content').innerHTML = content;
@@ -416,14 +420,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             const isLive = Math.random() > 0.3;
             validatorResult.className = isLive ? 'validator-status valid' : 'validator-status invalid';
-            validatorResult.textContent = isLive ? 'âœ… CARTÃƒO APROVADO (LIVE)' : 'â❌ CARTÃƒO RECUSADO (DEAD)';
+            validatorResult.textContent = isLive ? '✅ CARTÃO APROVADO (LIVE)' : '❌ CARTÃO RECUSADO (DEAD)';
         }, 1500);
     }
 
     function copyGeneratedData() {
         const dataText = document.getElementById('full-data-content').innerText;
         navigator.clipboard.writeText(dataText)
-            .then(() => alert('Dados copiados para a Ã¡rea de transferÃªncia!'))
+            .then(() => alert('Dados copiados para a área de transferência!'))
             .catch(err => alert('Erro ao copiar. Tente manualmente.'));
     }
     
