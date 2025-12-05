@@ -4,12 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminConsole = document.getElementById('admin-console');
     const loginContainer = document.getElementById('login-container');
     const ipDisplay = document.getElementById('ip-display');
+    const logoutButton = document.getElementById('logout-button');
 
-    // Get admin's IP address
+    if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
+        showAdminConsole();
+    }
+
     fetch('https://ipinfo.io/json')
         .then(response => response.json())
         .then(data => {
-            ipDisplay.textContent = `Your IP: ${data.ip}`;
+            ipDisplay.textContent = `Seu IP: ${data.ip}`;
         });
 
     loginForm.addEventListener('submit', (e) => {
@@ -18,23 +22,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         if (username === 'kaka' && password === 'sessionauthsupabase168233administrador') {
-            loginContainer.style.display = 'none';
-            adminConsole.style.display = 'block';
-            loadUserData();
+            sessionStorage.setItem('isAdminLoggedIn', 'true');
+            showAdminConsole();
         } else {
-            alert('Invalid credentials');
+            alert('Credenciais invÃ¡lidas');
         }
     });
+
+    logoutButton.addEventListener('click', () => {
+        sessionStorage.removeItem('isAdminLoggedIn');
+        loginContainer.style.display = 'block';
+        adminConsole.style.display = 'none';
+    });
+
+    function showAdminConsole() {
+        loginContainer.style.display = 'none';
+        adminConsole.style.display = 'block';
+        loadUserData();
+    }
 
     function loadUserData() {
         const request = indexedDB.open('userDB', 1);
 
-        request.onsuccess = (event) => {
+        request.onupgradeneeded = event => {
             const db = event.target.result;
             if (!db.objectStoreNames.contains('users')) {
-                // Handle case where the object store doesn't exist yet
+                db.createObjectStore('users', { keyPath: 'timestamp' });
+            }
+        };
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+             if (!db.objectStoreNames.contains('users')) {
                 const tableBody = document.getElementById('user-data-body');
-                tableBody.innerHTML = '<tr><td colspan="5">No visitor data yet. Data will appear here as users visit the generator page.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5">Ainda nÃ£o hÃ¡ dados de visitantes.</td></tr>';
                 return;
             }
             const transaction = db.transaction(['users'], 'readonly');
@@ -42,16 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const getAllRequest = objectStore.getAll();
 
             getAllRequest.onsuccess = () => {
-                const userData = getAllRequest.result;
+                const userData = getAllRequest.result.reverse();
                 const tableBody = document.getElementById('user-data-body');
                 tableBody.innerHTML = '';
                 if (userData.length === 0) {
-                     tableBody.innerHTML = '<tr><td colspan="5">No visitor data yet. Data will appear here as users visit the generator page.</td></tr>';
+                     tableBody.innerHTML = '<tr><td colspan="5">Nenhum dado de visitante ainda. Os dados aparecerÃ£o aqui quando os usuÃ¡rios visitarem a pÃ¡gina do gerador.</td></tr>';
                 } else {
                     userData.forEach(user => {
                         const row = tableBody.insertRow();
                         row.innerHTML = `
-                            <td>${new Date(user.timestamp).toLocaleString()}</td>
+                            <td>${new Date(user.timestamp).toLocaleString('pt-BR')}</td>
                             <td>${user.ip}</td>
                             <td>${user.country}</td>
                             <td>${user.city}</td>
@@ -61,12 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
              getAllRequest.onerror = (event) => {
-                console.error("Error fetching data from IndexedDB:", event.target.errorCode);
+                console.error("Erro ao buscar dados do IndexedDB:", event.target.errorCode);
+                 const tableBody = document.getElementById('user-data-body');
+                 tableBody.innerHTML = `<tr><td colspan="5">Erro ao carregar dados: ${event.target.errorCode}</td></tr>`;
             };
         };
 
         request.onerror = (event) => {
-            console.error("IndexedDB error:", event.target.errorCode);
+            console.error("Erro no IndexedDB:", event.target.errorCode);
+             const tableBody = document.getElementById('user-data-body');
+             tableBody.innerHTML = `<tr><td colspan="5">NÃ£o foi possÃ­vel acessar o banco de dados local (IndexedDB).</td></tr>`;
         };
     }
 });

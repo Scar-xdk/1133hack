@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <style>
         body {
             background-color: #1A1A1A;
-            color: #E0E0E0;
+            color: #F8F8F7;
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 20px;
@@ -22,22 +22,22 @@
             max-width: 700px;
             background-color: #2C2C2C;
             border-radius: 10px;
-            border: 1px solid #0f0;
+            border: 1px solid #F8F8F7;
             padding: 20px;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 25px rgba(248, 248, 247, 0.1);
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #0f0;
+            border-bottom: 1px solid #F8F8F7;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .header h1 {
             font-size: 1.5em;
-            color: #0f0;
-            text-shadow: 0 0 10px #0f0;
+            color: #F8F8F7;
+            text-shadow: none;
             margin: 0;
         }
         #ip-display {
@@ -51,24 +51,33 @@
         }
         .card-option {
             background-color: #1A1A1A;
-            border: 1px solid #0f0;
-            color: #0f0;
+            border: 1px solid #F8F8F7;
+            color: #F8F8F7;
             padding: 15px;
             border-radius: 5px;
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         .card-option:hover {
             background-color: #333;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 10px rgba(248, 248, 247, 0.3);
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
         }
         .button-group button {
-            width: calc(50% - 5px);
+            width: 100%;
         }
         #search-view, #generated-data-view {
             background-color: #1E1E1E;
-            border: 1px solid #0f0;
+            border: 1px solid #F8F8F7;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
@@ -77,23 +86,34 @@
             margin: 10px 0;
         }
         .highlight {
-            color: #00ff00;
+            color: #F8F8F7;
+            font-weight: bold;
         }
         .button {
-            background-color: #0f0;
+            background-color: #F8F8F7;
             color: #1A1A1A;
-            border: none;
+            border: 1px solid #F8F8F7;
             padding: 10px 20px;
             margin-top: 10px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
             width: 100%;
-             transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .button:hover {
-            background-color: #000;
-            color: #0f0;
+            background-color: #2c2c2c;
+            color: #F8F8F7;
+        }
+        .button:disabled {
+            background-color: #555;
+            color: #888;
+            border-color: #888;
+            cursor: not-allowed;
         }
         #generated-data-view {
             text-align: left;
@@ -101,19 +121,19 @@
         #generated-data-view h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #0f0;
+            color: #F8F8F7;
         }
         #generated-data-view p {
             margin: 8px 0;
             word-wrap: break-word;
         }
          .validator-status {
-            margin-top: 1rem;
+            margin: 1rem 0;
             padding: 1rem;
             border-radius: 5px;
             font-weight: bold;
             text-align: center;
-            display: none; /* Initially hidden */
+            display: none;
         }
         .validator-status.valid {
             background-color: #053805;
@@ -128,6 +148,11 @@
         .hidden {
             display: none;
         }
+        .icon-svg {
+            width: 1.2em;
+            height: 1.2em;
+            fill: currentColor;
+        }
     </style>
 </head>
 <body>
@@ -141,46 +166,49 @@
         <!-- Card Selection View -->
         <div id="card-selection-view">
             <div id="card-selection-grid">
-                <!-- JS will populate this -->
+                <!-- JS vai popular isso -->
             </div>
         </div>
 
         <!-- Search View -->
         <div id="search-view" class="hidden">
-            <p>&#9888; Accessing secure database...</p>
-            <p id="search-status">Searching for live cards...</p>
+            <p>&#9888; Acessando banco de dados seguro...</p>
+            <p id="search-status">Buscando cartÃµes...</p>
             <hr>
-            <p><strong>&#127919; Level:</strong> <span id="chosen-level" class="highlight"></span></p>
-            <p><strong>&#127988; Brand:</strong> <span id="chosen-brand" class="highlight"></span></p>
-            <p><strong>&#128229; Found:</strong> <span id="found-cards" class="highlight"></span></p>
+            <p><strong>&#127919; NÃ­vel:</strong> <span id="chosen-level" class="highlight"></span></p>
+            <p><strong>&#127988; Bandeira:</strong> <span id="chosen-brand" class="highlight"></span></p>
+            <p><strong>&#128229; Encontrados:</strong> <span id="found-cards" class="highlight"></span></p>
             <hr>
             <div class="button-group">
-                 <button id="confirm-button" class="button" disabled>&#128270; Searching...</button>
-                 <button id="back-button" class="button">&#11013; Back</button>
+                 <button id="confirm-button" class="button" disabled>&#128270; Buscando...</button>
+                 <button id="back-button" class="button">&#11013; Voltar</button>
             </div>
         </div>
 
         <!-- Generated Data View -->
         <div id="generated-data-view" class="hidden">
-             <h2>// ANONYMOUS DATA //</h2>
+             <h2>// DADOS ANÃ”NIMOS //</h2>
              <div id="full-data-content">
-                <p><strong>&#128179; CARD NUMBER:</strong> <span id="card-number"></span></p>
-                <p><strong>&#128197; EXPIRATION:</strong> <span id="exp-date"></span></p>
+                <p><strong>&#128179; NÃšMERO DO CARTÃƒO:</strong> <span id="card-number"></span></p>
+                <p><strong>&#128197; VALIDADE:</strong> <span id="exp-date"></span></p>
                 <p><strong>&#128274; CVV:</strong> <span id="cvv"></span></p>
-                <p><strong>&#127988; CARD BRAND:</strong> <span id="card-name"></span></p>
+                <p><strong>&#127988; BANDEIRA:</strong> <span id="card-name"></span></p>
                 <hr>
-                <p><strong>&#128100; HOLDER NAME:</strong> <span id="full-name"></span></p>
-                <p><strong>&#128100; MOTHER'S NAME:</strong> <span id="mother-name"></span></p>
+                <p><strong>&#128100; NOME DO TITULAR:</strong> <span id="full-name"></span></p>
+                <p><strong>&#128100; NOME DA MÃƒE:</strong> <span id="mother-name"></span></p>
                 <p><strong>&#128206; CPF:</strong> <span id="cpf"></span></p>
-                <p><strong>&#128205; ADDRESS:</strong> <span id="address"></span></p>
-                <p><strong>&#128241; PHONE:</strong> <span id="phone"></span></p>
+                <p><strong>&#128205; ENDEREÃ‡O:</strong> <span id="address"></span></p>
+                <p><strong>&#128241; TELEFONE:</strong> <span id="phone"></span></p>
              </div>
             <div id="validator-result" class="validator-status"></div>
             <div class="button-group">
-                <button id="validate-button" class="button">&#10004; Validate</button>
-                <button id="copy-button" class="button">&#128203; Copy Data</button>
+                <button id="validate-button" class="button">&#10004; Validar</button>
+                <button id="copy-button" class="button">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    Copiar Dados
+                </button>
             </div>
-             <button id="generate-new-button" class="button">&#11013; Generate New</button>
+             <button id="generate-new-button" class="button">&#11013; Gerar Novo</button>
         </div>
 
     </div>
@@ -195,35 +223,33 @@
         };
 
         const cardOptions = [
-            { name: 'AMEX', brand: 'AMERICAN EXPRESS' }, { name: 'ATM', brand: 'MASTERCARD' },
-            { name: 'BLACK', brand: 'MASTERCARD' }, { name: 'BUSINESS', brand: 'VISA' },
-            { name: 'CLASSIC', brand: 'VISA' }, { name: 'CORPORATE', brand: 'VISA' },
-            { name: 'DISCOVER', brand: 'DISCOVER' }, { name: 'ELO', brand: 'ELO' },
-            { name: 'EXECUTIVE', brand: 'MASTERCARD' }, { name: 'GOLD', brand: 'MASTERCARD' },
-            { name: 'HIPERCARD', brand: 'HIPERCARD' }, { name: 'INFINITE', brand: 'VISA' },
-            { name: 'NUBANK BLACK', brand: 'MASTERCARD' }, { name: 'NUBANK GOLD', brand: 'MASTERCARD' },
-            { name: 'PLATINUM', brand: 'MASTERCARD' }, { name: 'PREPAID', brand: 'VISA' },
-            { name: 'SIGNATURE', brand: 'VISA' }, { name: 'STANDARD', brand: 'VISA' },
-            { name: 'TITANIUM', brand: 'MASTERCARD' }, { name: 'WORLD', brand: 'MASTERCARD' },
+            { name: 'AMEX', brand: 'AMERICAN EXPRESS', emoji: 'ðŸ’³' }, { name: 'ATM', brand: 'MASTERCARD', emoji: 'ðŸ’³' },
+            { name: 'BLACK', brand: 'MASTERCARD', emoji: 'ðŸ–¤' }, { name: 'BUSINESS', brand: 'VISA', emoji: 'ðŸ’¼' },
+            { name: 'CLASSIC', brand: 'VISA', emoji: 'ðŸ’µ' }, { name: 'CORPORATE', brand: 'VISA', emoji: 'ðŸ’¼' },
+            { name: 'DISCOVER', brand: 'DISCOVER', emoji: 'ðŸŒ' }, { name: 'ELO', brand: 'ELO', emoji: 'ðŸ’š' },
+            { name: 'EXECUTIVE', brand: 'MASTERCARD', emoji: 'ðŸ’¼' }, { name: 'GOLD', brand: 'MASTERCARD', emoji: 'ðŸ¥‡' },
+            { name: 'HIPERCARD', brand: 'HIPERCARD', emoji: 'ðŸ’™' }, { name: 'INFINITE', brand: 'VISA', emoji: 'âˆžï¸Ž' },
+            { name: 'NUBANK BLACK', brand: 'MASTERCARD', emoji: 'ðŸ–¤' }, { name: 'NUBANK GOLD', brand: 'MASTERCARD', emoji: 'ðŸ¥‡' },
+            { name: 'PLATINUM', brand: 'MASTERCARD', emoji: 'ðŸ¥ˆ' }, { name: 'PREPAID', brand: 'VISA', emoji: 'ðŸ’µ' },
+            { name: 'SIGNATURE', brand: 'VISA', emoji: 'âœ’ï¸Ž' }, { name: 'STANDARD', brand: 'VISA', emoji: 'ðŸ’³' },
+            { name: 'TITANIUM', brand: 'MASTERCARD', emoji: 'ðŸ›¡ï¸Ž' }, { name: 'WORLD', brand: 'MASTERCARD', emoji: 'ðŸŒ' },
         ];
 
-        // Expanded Data for better randomization
         const firstNames = ["Anderson", "Beatriz", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena", "Igor", "Juliana", "Kai", "Larissa", "Marcos", "Natalia", "Otavio", "Patricia", "Quintino", "Rafaela", "Sergio", "Tatiane", "Uriel", "Vanessa", "Wagner", "Ximena", "Yago", "Zelia"];
         const lastNames = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes", "Nunes", "Machado", "Mendes", "Barbosa"];
-        const streets = ["Rua das Flores", "Avenida Paulista", "Rua Augusta", "Avenida Ipiranga", "Rua Oscar Freire", "Avenida Brasil", "Rua da Consolação", "Avenida Faria Lima", "Rua Haddock Lobo", "Avenida Rebouças"];
-        const cities = ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador", "Fortaleza", "Curitiba", "Manaus", "Recife", "Porto Alegre", "Brasília"];
+        const streets = ["Rua das Flores", "Avenida Paulista", "Rua Augusta", "Avenida Ipiranga", "Rua Oscar Freire", "Avenida Brasil", "Rua da ConsolaÃ§Ã£o", "Avenida Faria Lima", "Rua Haddock Lobo", "Avenida RebouÃ§as"];
+        const cities = ["SÃ£o Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador", "Fortaleza", "Curitiba", "Manaus", "Recife", "Porto Alegre", "BrasÃ­lia"];
         const states = ["SP", "RJ", "MG", "BA", "CE", "PR", "AM", "PE", "RS", "DF"];
 
         const grid = document.getElementById('card-selection-grid');
         cardOptions.forEach(opt => {
             const button = document.createElement('div');
             button.className = 'card-option';
-            button.innerHTML = `&#127988; ${opt.name}`;
+            button.innerHTML = `<svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg> ${opt.name}`;
             button.addEventListener('click', () => selectCardOption(opt));
             grid.appendChild(button);
         });
 
-        // Button Event Listeners
         document.getElementById('back-button').addEventListener('click', () => switchView('selection'));
         document.getElementById('generate-new-button').addEventListener('click', () => switchView('selection'));
         document.getElementById('validate-button').addEventListener('click', validateCard);
@@ -239,30 +265,29 @@
         function selectCardOption(option) {
             document.getElementById('chosen-level').textContent = option.name;
             document.getElementById('chosen-brand').textContent = option.brand;
-            document.getElementById('found-cards').textContent = Math.floor(Math.random() * 150) + 20;
+            document.getElementById('found-cards').textContent = '--';
 
             const confirmButton = document.getElementById('confirm-button');
             confirmButton.disabled = true;
-            confirmButton.innerHTML = '&#128270; Searching...';
+            confirmButton.innerHTML = '&#128270; Buscando...';
 
             switchView('search');
 
-            // Simulate search delay
             setTimeout(() => {
-                document.getElementById('search-status').textContent = "Live cards found! Ready to generate.";
+                document.getElementById('search-status').textContent = "CartÃµes encontrados! Pronto para gerar.";
+                document.getElementById('found-cards').textContent = Math.floor(Math.random() * 150) + 20;
                 confirmButton.disabled = false;
-                confirmButton.innerHTML = '&#10004; | Generate CC';
+                confirmButton.innerHTML = '&#10004; Gerar CC';
                 confirmButton.onclick = () => {
                     generateCard(option.brand);
                 };
-            }, (Math.random() * 2000) + 1000); // 1-3 second delay
+            }, (Math.random() * 2000) + 1000);
 
         }
         
         function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
         function generateCard(brand) {
-            // --- FAKE DATA GENERATION ---
             let bin;
              switch(brand) {
                 case 'VISA': bin = '4' + Math.floor(100000 + Math.random() * 900000); break;
@@ -274,7 +299,7 @@
 
             const cardNumber = bin + Array.from({length: 16 - bin.length}, () => Math.floor(Math.random() * 10)).join('');
             const expMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-            const expYear = new Date().getFullYear() + Math.floor(Math.random() * 6) + 3; // Expire in 3-8 years
+            const expYear = new Date().getFullYear() + Math.floor(Math.random() * 6) + 3;
             const cvv = String(Math.floor(Math.random() * 900) + 100).padStart(3, '0');
 
             const firstName1 = getRandomItem(firstNames), lastName1 = getRandomItem(lastNames);
@@ -287,7 +312,6 @@
             const phone = `+55 (${Math.floor(Math.random()*90+10)}) 9${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`;
             const address = `${Math.floor(Math.random()*2000)+1} ${getRandomItem(streets)}, ${getRandomItem(cities)}, ${getRandomItem(states)} ${String(Math.floor(Math.random() * 90000) + 10000)}`;
 
-            // --- DISPLAY DATA ---
             document.getElementById('card-number').textContent = cardNumber.replace(/(\d{4})/g, '$1 ').trim();
             document.getElementById('exp-date').textContent = `${expMonth}/${expYear}`;
             document.getElementById('cvv').textContent = cvv;
@@ -298,37 +322,48 @@
             document.getElementById('address').textContent = address;
             document.getElementById('phone').textContent = phone;
 
-            document.getElementById('validator-result').style.display = 'none'; // Hide validator on new generation
+            document.getElementById('validator-result').style.display = 'none';
             switchView('generated');
         }
 
         function validateCard() {
             const validatorResult = document.getElementById('validator-result');
-            const isLive = Math.random() > 0.3; // 70% chance of being "live"
+            const isLive = Math.random() > 0.3;
             validatorResult.className = isLive ? 'validator-status valid' : 'validator-status invalid';
-            validatorResult.textContent = `VALIDATION: ${isLive ? '\u2705 LIVE CARD' : '\u274C DEAD CARD'}`;
+            validatorResult.textContent = isLive ? '\u2705 VALIDAÃ‡ÃƒO: CARTÃƒO APROVADO' : '\u274C VALIDAÃ‡ÃƒO: CARTÃƒO RECUSADO';
             validatorResult.style.display = 'block';
         }
 
         function copyGeneratedData() {
             const dataText = document.getElementById('full-data-content').innerText;
             navigator.clipboard.writeText(dataText).then(() => {
-                alert('Data copied to clipboard!');
+                alert('Dados copiados para a Ã¡rea de transferÃªncia!');
             }, (err) => {
-                console.error('Could not copy text: ', err);
+                console.error('NÃ£o foi possÃ­vel copiar os dados: ', err);
+                alert('Erro ao copiar. Tente manualmente.');
             });
         }
 
-        // --- IP INFO & DB LOGIC ---
         function initDB() {
             const request = indexedDB.open('userDB', 1);
+
             request.onupgradeneeded = (event) => {
+                console.log("Atualizando o IndexedDB...");
                 const db = event.target.result;
                 if (!db.objectStoreNames.contains('users')) {
                     db.createObjectStore('users', { keyPath: 'timestamp' });
+                    console.log("Object store 'users' criado.");
                 }
             };
-            request.onerror = (event) => console.error("IndexedDB error:", event.target.errorCode);
+
+            request.onerror = (event) => {
+                console.error("Erro no IndexedDB:", event.target.errorCode);
+            };
+
+            request.onsuccess = (event) => {
+                 console.log("Banco de dados IndexedDB aberto com sucesso.");
+            };
+            
             return request;
         }
 
@@ -336,22 +371,37 @@
             const dbRequest = initDB();
             dbRequest.onsuccess = (event) => {
                 const db = event.target.result;
-                const transaction = db.transaction(['users'], 'readwrite');
-                const objectStore = transaction.objectStore('users');
-                const userData = { timestamp: new Date().getTime(), ip: data.ip, city: data.city, country: data.country, org: data.org };
-                objectStore.add(userData);
+                try {
+                    const transaction = db.transaction(['users'], 'readwrite');
+                    const objectStore = transaction.objectStore('users');
+                    const userData = {
+                        timestamp: new Date().getTime(),
+                        ip: data.ip,
+                        city: data.city || 'N/A',
+                        country: data.country || 'N/A',
+                        org: data.org || 'N/A',
+                    };
+                    const addRequest = objectStore.add(userData);
+                    addRequest.onsuccess = () => console.log("Dados do visitante salvos no IndexedDB.");
+                    addRequest.onerror = (e) => console.error("Erro ao salvar dados do visitante:", e.target.error);
+                } catch (error) {
+                    console.error("NÃ£o foi possÃ­vel iniciar a transaÃ§Ã£o:", error);
+                }
             }
         }
         
         fetch('https://ipinfo.io/json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('A resposta da rede nÃ£o foi boa.');
+                return response.json();
+            })
             .then(data => {
-                document.getElementById('ip-display').textContent = `\ud83d\udd0c IP: ${data.ip}`;
+                document.getElementById('ip-display').textContent = `\ud83d\udd0c Seu IP: ${data.ip}`;
                 saveUserData(data);
             })
             .catch(error => {
-                document.getElementById('ip-display').textContent = 'IP not available';
-                console.error('Error fetching IP info:', error);
+                document.getElementById('ip-display').textContent = 'IP indisponÃ­vel';
+                console.error('Erro ao buscar informaÃ§Ãµes de IP:', error);
             });
             
         initDB();

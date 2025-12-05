@@ -1,42 +1,45 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Console</title>
+    <title>Painel Admin</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="login-container">
-        <h1>Admin Login</h1>
+        <h1>Login Admin</h1>
         <form id="login-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <input type="text" id="username" placeholder="UsuÃ¡rio" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
         </form>
     </div>
 
     <div id="admin-console" style="display: none;">
         <header>
-            <h1>Visitor Log</h1>
-            <div id="ip-display">Your IP: </div>
+            <h1>&#128065; Log de Visitantes</h1>
+             <div class="header-right">
+                <span id="ip-display">Seu IP: </span>
+                <button id="logout-button">Sair</button>
+            </div>
         </header>
         <main>
             <div id="user-data-container">
-                <h2>Visitor data is stored in your browser's IndexedDB.</h2>
+                <h2>Os dados dos visitantes sÃ£o salvos no IndexedDB do seu navegador. Atualize a pÃ¡gina para ver os novos acessos.</h2>
                 <table id="user-data-table">
                     <thead>
                         <tr>
-                            <th>Timestamp</th>
-                            <th>IP Address</th>
-                            <th>Country</th>
-                            <th>City</th>
-                            <th>ISP</th>
+                            <th>Data/Hora</th>
+                            <th>EndereÃ§o IP</th>
+                            <th>PaÃ­s</th>
+                            <th>Cidade</th>
+                            <th>Provedor</th>
                         </tr>
                     </thead>
                     <tbody id="user-data-body">
-                        <!-- User data will be inserted here -->
+                        <!-- Os dados dos usuÃ¡rios serÃ£o inseridos aqui -->
                     </tbody>
                 </table>
             </div>
