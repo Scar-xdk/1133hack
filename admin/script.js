@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         request.onsuccess = (event) => {
             const db = event.target.result;
+            if (!db.objectStoreNames.contains('users')) {
+                // Handle case where the object store doesn't exist yet
+                const tableBody = document.getElementById('user-data-body');
+                tableBody.innerHTML = '<tr><td colspan="5">No visitor data yet. Data will appear here as users visit the generator page.</td></tr>';
+                return;
+            }
             const transaction = db.transaction(['users'], 'readonly');
             const objectStore = transaction.objectStore('users');
             const getAllRequest = objectStore.getAll();
@@ -39,17 +45,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userData = getAllRequest.result;
                 const tableBody = document.getElementById('user-data-body');
                 tableBody.innerHTML = '';
-                userData.forEach(user => {
-                    const row = tableBody.insertRow();
-                    row.innerHTML = `
-                        <td>${new Date(user.timestamp).toLocaleString()}</td>
-                        <td>${user.ip}</td>
-                        <td>${user.country}</td>
-                        <td>${user.city}</td>
-                        <td>${user.org}</td>
-                    `;
-                });
+                if (userData.length === 0) {
+                     tableBody.innerHTML = '<tr><td colspan="5">No visitor data yet. Data will appear here as users visit the generator page.</td></tr>';
+                } else {
+                    userData.forEach(user => {
+                        const row = tableBody.insertRow();
+                        row.innerHTML = `
+                            <td>${new Date(user.timestamp).toLocaleString()}</td>
+                            <td>${user.ip}</td>
+                            <td>${user.country}</td>
+                            <td>${user.city}</td>
+                            <td>${user.org}</td>
+                        `;
+                    });
+                }
             };
+             getAllRequest.onerror = (event) => {
+                console.error("Error fetching data from IndexedDB:", event.target.errorCode);
+            };
+        };
+
+        request.onerror = (event) => {
+            console.error("IndexedDB error:", event.target.errorCode);
         };
     }
 });
