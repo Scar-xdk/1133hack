@@ -1,8 +1,14 @@
 
+:root {
+    --background: #1A1A1A;
+    --surface: #2C2C2C;
+    --text: #F8F8F7;
+}
+
 body {
-    background-color: #1A1A1A;
-    color: #F8F8F7;
-    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--background);
+    color: var(--text);
+    font-family: 'Roboto Mono', monospace;
     margin: 0;
     padding: 20px;
     display: flex;
@@ -14,8 +20,8 @@ body {
 #login-container, #admin-console {
     width: 100%;
     max-width: 900px;
-    background-color: #2C2C2C;
-    border: 1px solid #F8F8F7;
+    background-color: var(--surface);
+    border: 1px solid var(--text);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 0 15px rgba(248, 248, 247, 0.1);
@@ -23,39 +29,41 @@ body {
 
 h1 {
     text-align: center;
-    color: #F8F8F7;
-    border-bottom: 1px solid #F8F8F7;
+    color: var(--text);
+    border-bottom: 1px solid var(--text);
     padding-bottom: 10px;
     margin-bottom: 20px;
+    font-weight: 400;
 }
 
 input[type="text"], input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    background-color: #1A1A1A;
-    border: 1px solid #F8F8F7;
-    color: #F8F8F7;
+    background-color: var(--background);
+    border: 1px solid var(--text);
+    color: var(--text);
     border-radius: 4px;
     box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace;
 }
 
 button {
     width: 100%;
     padding: 10px;
-    background-color: #F8F8F7;
-    color: #1A1A1A;
-    border: none;
+    background-color: var(--text);
+    color: var(--background);
+    border: 1px solid var(--text);
     font-weight: bold;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    font-family: 'Roboto Mono', monospace;
 }
 
 button:hover {
-    background-color: #1A1A1A;
-    color: #F8F8F7;
-    border: 1px solid #F8F8F7;
+    background-color: var(--background);
+    color: var(--text);
 }
 
 header {
@@ -85,6 +93,7 @@ main h2 {
     font-size: 1em;
     color: #aaa;
     margin-bottom: 20px;
+    font-weight: 400;
 }
 
 table {
@@ -92,16 +101,21 @@ table {
     border-collapse: collapse;
 }
 
-tr, th, td {
-    border: 1px solid #F8F8F7;
-    padding: 10px;
+th, td {
+    border: 1px solid #777;
+    padding: 12px;
     text-align: left;
 }
 
 th {
-    background-color: #1A1A1A;
+    background-color: var(--background);
+    font-weight: 700;
 }
 
 #user-data-body tr:nth-child(even) {
     background-color: #333;
+}
+
+#user-data-body tr:hover {
+    background-color: #444;
 }

@@ -5,11 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS CC FULL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --background: #1A1A1A;
+            --surface: #2C2C2C;
+            --text: #F8F8F7;
+            --primary: #4CAF50;
+            --error: #f44336;
+        }
         body {
-            background-color: #1A1A1A;
-            color: #F8F8F7;
-            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--background);
+            color: var(--text);
+            font-family: 'Roboto Mono', monospace;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -20,9 +30,9 @@
         .container {
             width: 100%;
             max-width: 700px;
-            background-color: #2C2C2C;
+            background-color: var(--surface);
             border-radius: 10px;
-            border: 1px solid #F8F8F7;
+            border: 1px solid var(--text);
             padding: 20px;
             box-shadow: 0 0 25px rgba(248, 248, 247, 0.1);
         }
@@ -30,13 +40,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #F8F8F7;
+            border-bottom: 1px solid var(--text);
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .header h1 {
             font-size: 1.5em;
-            color: #F8F8F7;
+            color: var(--text);
             text-shadow: none;
             margin: 0;
         }
@@ -44,15 +54,15 @@
             font-size: 0.8em;
             color: #888;
         }
-        #card-selection-grid {
+        .grid-selection {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
         }
-        .card-option {
-            background-color: #1A1A1A;
-            border: 1px solid #F8F8F7;
-            color: #F8F8F7;
+        .option-button {
+            background-color: var(--background);
+            border: 1px solid var(--text);
+            color: var(--text);
             padding: 15px;
             border-radius: 5px;
             text-align: center;
@@ -62,37 +72,17 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
         }
-        .card-option:hover {
+        .option-button:hover {
             background-color: #333;
             box-shadow: 0 0 10px rgba(248, 248, 247, 0.3);
         }
-        .button-group {
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-        }
-        .button-group button {
-            width: 100%;
-        }
-        #search-view, #generated-data-view {
-            background-color: #1E1E1E;
-            border: 1px solid #F8F8F7;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        #search-view p {
-            margin: 10px 0;
-        }
-        .highlight {
-            color: #F8F8F7;
-            font-weight: bold;
-        }
         .button {
-            background-color: #F8F8F7;
-            color: #1A1A1A;
-            border: 1px solid #F8F8F7;
+            background-color: var(--text);
+            color: var(--background);
+            border: 1px solid var(--text);
             padding: 10px 20px;
             margin-top: 10px;
             border-radius: 5px;
@@ -104,24 +94,47 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
         }
         .button:hover {
-            background-color: #2c2c2c;
-            color: #F8F8F7;
+            background-color: var(--surface);
+            color: var(--text);
         }
-        .button:disabled {
-            background-color: #555;
-            color: #888;
-            border-color: #888;
-            cursor: not-allowed;
+        .button.secondary {
+             background-color: transparent;
+             color: var(--text);
         }
-        #generated-data-view {
-            text-align: left;
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .button-group .button {
+            width: 100%;
+        }
+        #search-view, #generated-data-view {
+            background-color: #1E1E1E;
+            border: 1px solid var(--text);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        #search-log {
+            background-color: #111;
+            color: #00FF41;
+            height: 200px;
+            overflow-y: scroll;
+            padding: 10px;
+            border: 1px solid var(--text);
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+            margin-bottom: 15px;
         }
         #generated-data-view h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #F8F8F7;
+            color: var(--text);
         }
         #generated-data-view p {
             margin: 8px 0;
@@ -145,14 +158,8 @@
             color: #ff3333;
             border: 1px solid #ff3333;
         }
-        .hidden {
-            display: none;
-        }
-        .icon-svg {
-            width: 1.2em;
-            height: 1.2em;
-            fill: currentColor;
-        }
+        .hidden { display: none; }
+        .icon-svg { width: 1.2em; height: 1.2em; fill: currentColor; }
     </style>
 </head>
 <body>
@@ -163,249 +170,267 @@
             <span id="ip-display"></span>
         </div>
 
-        <!-- Card Selection View -->
-        <div id="card-selection-view">
-            <div id="card-selection-grid">
-                <!-- JS vai popular isso -->
+        <!-- Country Selection View -->
+        <div id="country-selection-view">
+            <h2>Passo 1: Selecione o PaÃ­s de Origem</h2>
+            <div id="country-selection-grid" class="grid-selection">
+                <!-- JS will populate this -->
             </div>
+        </div>
+
+        <!-- Card Selection View -->
+        <div id="card-selection-view" class="hidden">
+            <h2>Passo 2: Selecione o NÃ­vel do CartÃ£o</h2>
+            <div id="card-selection-grid" class="grid-selection">
+                <!-- JS will populate this -->
+            </div>
+            <button id="back-to-country" class="button secondary">â† Voltar</button>
         </div>
 
         <!-- Search View -->
         <div id="search-view" class="hidden">
-            <p>&#9888; Acessando banco de dados seguro...</p>
-            <p id="search-status">Buscando cartÃµes...</p>
-            <hr>
-            <p><strong>&#127919; NÃ­vel:</strong> <span id="chosen-level" class="highlight"></span></p>
-            <p><strong>&#127988; Bandeira:</strong> <span id="chosen-brand" class="highlight"></span></p>
-            <p><strong>&#128229; Encontrados:</strong> <span id="found-cards" class="highlight"></span></p>
-            <hr>
+            <h2>Acessando Banco de Dados...</h2>
+            <div id="search-log"></div>
             <div class="button-group">
-                 <button id="confirm-button" class="button" disabled>&#128270; Buscando...</button>
-                 <button id="back-button" class="button">&#11013; Voltar</button>
+                 <button id="confirm-button" class="button" disabled>Buscando...</button>
+                 <button id="back-to-card" class="button secondary">Cancelar</button>
             </div>
         </div>
 
         <!-- Generated Data View -->
         <div id="generated-data-view" class="hidden">
-             <h2>// DADOS ANÃ”NIMOS //</h2>
+             <h2>// DADOS CONFIDENCIAIS GERADOS //</h2>
              <div id="full-data-content">
-                <p><strong>&#128179; NÃšMERO DO CARTÃƒO:</strong> <span id="card-number"></span></p>
-                <p><strong>&#128197; VALIDADE:</strong> <span id="exp-date"></span></p>
-                <p><strong>&#128274; CVV:</strong> <span id="cvv"></span></p>
-                <p><strong>&#127988; BANDEIRA:</strong> <span id="card-name"></span></p>
-                <hr>
-                <p><strong>&#128100; NOME DO TITULAR:</strong> <span id="full-name"></span></p>
-                <p><strong>&#128100; NOME DA MÃƒE:</strong> <span id="mother-name"></span></p>
-                <p><strong>&#128206; CPF:</strong> <span id="cpf"></span></p>
-                <p><strong>&#128205; ENDEREÃ‡O:</strong> <span id="address"></span></p>
-                <p><strong>&#128241; TELEFONE:</strong> <span id="phone"></span></p>
+                <!-- JS will populate this -->
              </div>
             <div id="validator-result" class="validator-status"></div>
             <div class="button-group">
-                <button id="validate-button" class="button">&#10004; Validar</button>
+                <button id="validate-button" class="button">Validar</button>
                 <button id="copy-button" class="button">
                     <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                     Copiar Dados
                 </button>
             </div>
-             <button id="generate-new-button" class="button">&#11013; Gerar Novo</button>
+             <button id="generate-new-button" class="button secondary">Gerar Novo CartÃ£o</button>
         </div>
-
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const views = {
-            selection: document.getElementById('card-selection-view'),
-            search: document.getElementById('search-view'),
-            generated: document.getElementById('generated-data-view'),
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATABASE & IP HANDLING (RUNS FIRST) ---
+    function initDB() {
+        const request = indexedDB.open('userDB', 1);
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('users')) {
+                db.createObjectStore('users', { keyPath: 'timestamp' });
+            }
         };
+        request.onerror = (event) => console.error("Erro no IndexedDB:", event.target.errorCode);
+        return request;
+    }
 
-        const cardOptions = [
-            { name: 'AMEX', brand: 'AMERICAN EXPRESS', emoji: 'ðŸ’³' }, { name: 'ATM', brand: 'MASTERCARD', emoji: 'ðŸ’³' },
-            { name: 'BLACK', brand: 'MASTERCARD', emoji: 'ðŸ–¤' }, { name: 'BUSINESS', brand: 'VISA', emoji: 'ðŸ’¼' },
-            { name: 'CLASSIC', brand: 'VISA', emoji: 'ðŸ’µ' }, { name: 'CORPORATE', brand: 'VISA', emoji: 'ðŸ’¼' },
-            { name: 'DISCOVER', brand: 'DISCOVER', emoji: 'ðŸŒ' }, { name: 'ELO', brand: 'ELO', emoji: 'ðŸ’š' },
-            { name: 'EXECUTIVE', brand: 'MASTERCARD', emoji: 'ðŸ’¼' }, { name: 'GOLD', brand: 'MASTERCARD', emoji: 'ðŸ¥‡' },
-            { name: 'HIPERCARD', brand: 'HIPERCARD', emoji: 'ðŸ’™' }, { name: 'INFINITE', brand: 'VISA', emoji: 'âˆžï¸Ž' },
-            { name: 'NUBANK BLACK', brand: 'MASTERCARD', emoji: 'ðŸ–¤' }, { name: 'NUBANK GOLD', brand: 'MASTERCARD', emoji: 'ðŸ¥‡' },
-            { name: 'PLATINUM', brand: 'MASTERCARD', emoji: 'ðŸ¥ˆ' }, { name: 'PREPAID', brand: 'VISA', emoji: 'ðŸ’µ' },
-            { name: 'SIGNATURE', brand: 'VISA', emoji: 'âœ’ï¸Ž' }, { name: 'STANDARD', brand: 'VISA', emoji: 'ðŸ’³' },
-            { name: 'TITANIUM', brand: 'MASTERCARD', emoji: 'ðŸ›¡ï¸Ž' }, { name: 'WORLD', brand: 'MASTERCARD', emoji: 'ðŸŒ' },
-        ];
+    function saveUserData(data) {
+        const dbRequest = initDB();
+        dbRequest.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction(['users'], 'readwrite');
+            const objectStore = transaction.objectStore('users');
+            const userData = {
+                timestamp: new Date().getTime(),
+                ip: data.ip || 'N/A',
+                city: data.city || 'N/A',
+                country: data.country || 'N/A',
+                org: data.org || 'N/A',
+            };
+            const addRequest = objectStore.add(userData);
+            addRequest.onerror = (e) => console.error("Erro ao salvar dados do visitante:", e.target.error);
+        }
+    }
 
-        const firstNames = ["Anderson", "Beatriz", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena", "Igor", "Juliana", "Kai", "Larissa", "Marcos", "Natalia", "Otavio", "Patricia", "Quintino", "Rafaela", "Sergio", "Tatiane", "Uriel", "Vanessa", "Wagner", "Ximena", "Yago", "Zelia"];
-        const lastNames = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes", "Nunes", "Machado", "Mendes", "Barbosa"];
-        const streets = ["Rua das Flores", "Avenida Paulista", "Rua Augusta", "Avenida Ipiranga", "Rua Oscar Freire", "Avenida Brasil", "Rua da ConsolaÃ§Ã£o", "Avenida Faria Lima", "Rua Haddock Lobo", "Avenida RebouÃ§as"];
-        const cities = ["SÃ£o Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador", "Fortaleza", "Curitiba", "Manaus", "Recife", "Porto Alegre", "BrasÃ­lia"];
-        const states = ["SP", "RJ", "MG", "BA", "CE", "PR", "AM", "PE", "RS", "DF"];
-
-        const grid = document.getElementById('card-selection-grid');
-        cardOptions.forEach(opt => {
-            const button = document.createElement('div');
-            button.className = 'card-option';
-            button.innerHTML = `<svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg> ${opt.name}`;
-            button.addEventListener('click', () => selectCardOption(opt));
-            grid.appendChild(button);
+    fetch('https://ipinfo.io/json?token=a1f5655c68b25c')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('ip-display').textContent = `seu ip: ${data.ip}`;
+            saveUserData(data);
+        })
+        .catch(error => {
+            document.getElementById('ip-display').textContent = 'IP indisponÃ­vel';
+            console.error('Erro ao buscar IP:', error);
         });
 
-        document.getElementById('back-button').addEventListener('click', () => switchView('selection'));
-        document.getElementById('generate-new-button').addEventListener('click', () => switchView('selection'));
-        document.getElementById('validate-button').addEventListener('click', validateCard);
-        document.getElementById('copy-button').addEventListener('click', copyGeneratedData);
+    // --- VIEW MANAGEMENT ---
+    const views = {
+        country: document.getElementById('country-selection-view'),
+        card: document.getElementById('card-selection-view'),
+        search: document.getElementById('search-view'),
+        generated: document.getElementById('generated-data-view'),
+    };
+    let currentState = {};
 
-        function switchView(viewName) {
-            Object.values(views).forEach(v => v.classList.add('hidden'));
-            if(views[viewName]) {
-                views[viewName].classList.remove('hidden');
-            }
+    function switchView(viewName) {
+        Object.values(views).forEach(v => v.classList.add('hidden'));
+        if (views[viewName]) {
+            views[viewName].classList.remove('hidden');
         }
+    }
 
-        function selectCardOption(option) {
-            document.getElementById('chosen-level').textContent = option.name;
-            document.getElementById('chosen-brand').textContent = option.brand;
-            document.getElementById('found-cards').textContent = '--';
+    // --- DATA ---
+    const countries = {
+        BR: { name: 'Brasil', emoji: 'ðŸ‡§ðŸ‡·', firstNames: ["Miguel", "Arthur", "Gael", "Heitor", "Theo", "Davi", "Gabriel", "Bernardo", "Samuel", "JoÃ£o"], lastNames: ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes"], cities: ["SÃ£o Paulo", "Rio de Janeiro", "BrasÃ­lia", "Salvador", "Fortaleza"] },
+        US: { name: 'EUA', emoji: 'ðŸ‡ºðŸ‡¸', firstNames: ["James", "Robert", "John", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"], lastNames: ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"], cities: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"] },
+        PT: { name: 'Portugal', emoji: 'ðŸ‡µðŸ‡¹', firstNames: ["JoÃ£o", "Santiago", "Martim", "Rodrigo", "TomÃ¡s", "Francisco", "Afonso", "LourenÃ§o", "Tiago", "Duarte"], lastNames: ["Silva", "Santos", "Ferreira", "Pereira", "Oliveira", "Costa", "Rodrigues", "Martins", "Jesus", "Sousa"], cities: ["Lisboa", "Porto", "Vila Nova de Gaia", "Amadora", "Braga"] },
+    };
+    const cardOptions = [
+        { name: 'CLASSIC', brand: 'VISA', emoji: 'ðŸ’µ' }, { name: 'GOLD', brand: 'MASTERCARD', emoji: 'ðŸ¥‡' },
+        { name: 'PLATINUM', brand: 'MASTERCARD', emoji: 'ðŸ¥ˆ' }, { name: 'BLACK', brand: 'MASTERCARD', emoji: 'ðŸ–¤' },
+        { name: 'SIGNATURE', brand: 'VISA', emoji: 'âœ’ï¸Ž' }, { name: 'INFINITE', brand: 'VISA', emoji: 'âˆžï¸Ž' },
+        { name: 'AMEX', brand: 'AMERICAN EXPRESS', emoji: 'ðŸ’³' }, { name: 'ELO', brand: 'ELO', emoji: 'ðŸ’š' },
+    ];
+    
+    // --- UI POPULATION & EVENT LISTENERS ---
+    const countryGrid = document.getElementById('country-selection-grid');
+    Object.keys(countries).forEach(code => {
+        const country = countries[code];
+        const button = document.createElement('button');
+        button.className = 'option-button';
+        button.innerHTML = `${country.emoji} ${country.name}`;
+        button.onclick = () => selectCountry(code);
+        countryGrid.appendChild(button);
+    });
 
-            const confirmButton = document.getElementById('confirm-button');
-            confirmButton.disabled = true;
-            confirmButton.innerHTML = '&#128270; Buscando...';
+    const cardGrid = document.getElementById('card-selection-grid');
+    cardOptions.forEach(opt => {
+        const button = document.createElement('button');
+        button.className = 'option-button';
+        button.innerHTML = `${opt.emoji} ${opt.name}`;
+        button.onclick = () => selectCard(opt);
+        cardGrid.appendChild(button);
+    });
 
-            switchView('search');
+    document.getElementById('back-to-country').onclick = () => switchView('country');
+    document.getElementById('back-to-card').onclick = () => switchView('card');
+    document.getElementById('generate-new-button').onclick = () => {
+        document.getElementById('validator-result').style.display = 'none';
+        switchView('country');
+    };
+    document.getElementById('validate-button').onclick = validateCard;
+    document.getElementById('copy-button').onclick = copyGeneratedData;
 
-            setTimeout(() => {
-                document.getElementById('search-status').textContent = "CartÃµes encontrados! Pronto para gerar.";
-                document.getElementById('found-cards').textContent = Math.floor(Math.random() * 150) + 20;
+    // --- LOGIC FLOW ---
+    function selectCountry(countryCode) {
+        currentState.country = countries[countryCode];
+        switchView('card');
+    }
+
+    function selectCard(cardOption) {
+        currentState.card = cardOption;
+        switchView('search');
+        startSearchProcess();
+    }
+
+    function startSearchProcess() {
+        const log = document.getElementById('search-log');
+        const confirmButton = document.getElementById('confirm-button');
+        log.innerHTML = '';
+        confirmButton.disabled = true;
+        confirmButton.textContent = 'Buscando...';
+
+        const searchSteps = [
+            `[+] Iniciando conexÃ£o segura...`,
+            `[+] Verificando proxies anÃ´nimos... OK`,
+            `[+] Alvo: Banco de dados da regiÃ£o [${currentState.country.name}]`,
+            `[+] Bypassando firewall primÃ¡rio...`,
+            `[+] InjeÃ§Ã£o de pacote bem-sucedida.`,
+            `[+] Acessando tabela de usuÃ¡rios...`,
+            `[+] Procurando por cartÃµes nÃ­vel [${currentState.card.name}]...`,
+            `[+] Descriptografando resultados...`,
+        ];
+
+        let step = 0;
+        const interval = setInterval(() => {
+            if (step < searchSteps.length) {
+                log.innerHTML += `${searchSteps[step]}\n`;
+                log.scrollTop = log.scrollHeight;
+                step++;
+            } else {
+                clearInterval(interval);
+                const foundCount = Math.floor(Math.random() * 150) + 20;
+                log.innerHTML += `\n[âœ”] Processo concluÃ­do! ${foundCount} cartÃµes encontrados.`;
+                log.scrollTop = log.scrollHeight;
                 confirmButton.disabled = false;
-                confirmButton.innerHTML = '&#10004; Gerar CC';
-                confirmButton.onclick = () => {
-                    generateCard(option.brand);
-                };
-            }, (Math.random() * 2000) + 1000);
+                confirmButton.textContent = 'Gerar Dados';
+                confirmButton.onclick = () => generateCard();
+            }
+        }, 500);
+    }
+    
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+    function generateCard() {
+        const { brand } = currentState.card;
+        const { firstNames, lastNames, cities } = currentState.country;
+        
+        let bin;
+        switch(brand) {
+            case 'VISA': bin = '4' + Math.floor(10000 + Math.random() * 90000); break;
+            case 'MASTERCARD': bin = '5' + (Math.floor(Math.random()*5)+1) + Math.floor(1000 + Math.random() * 9000); break;
+            case 'AMERICAN EXPRESS': bin = '3' + (Math.random() > 0.5 ? '4' : '7') + Math.floor(1000 + Math.random() * 9000); break;
+            default: bin = String(Math.floor(100000 + Math.random() * 900000));
         }
         
-        function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        const number = bin + Array.from({length: 16 - bin.length}, () => Math.floor(Math.random() * 10)).join('');
+        const expMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+        const expYear = new Date().getFullYear() + Math.floor(Math.random() * 5) + 2;
+        const cvv = String(Math.floor(Math.random() * 900) + 100);
 
-        function generateCard(brand) {
-            let bin;
-             switch(brand) {
-                case 'VISA': bin = '4' + Math.floor(100000 + Math.random() * 900000); break;
-                case 'MASTERCARD': bin = '5' + (Math.floor(Math.random()*5)+1) + Math.floor(10000 + Math.random() * 90000); break;
-                case 'AMERICAN EXPRESS': bin = '3' + (Math.random() > 0.5 ? '4' : '7') + Math.floor(10000 + Math.random() * 90000); break;
-                default: bin = String(Math.floor(1000000 + Math.random() * 9000000));
-            }
-            bin = bin.padEnd(7, '0');
+        const fullName = `${getRandomItem(firstNames)} ${getRandomItem(lastNames)}`;
+        const motherName = `${getRandomItem(firstNames)} ${getRandomItem(lastNames)}`;
+        const cpf = Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        const phone = `+${currentState.country === countries.BR ? '55' : '1'} (${Math.floor(Math.random()*90+10)}) 9${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`;
+        const address = `${Math.floor(Math.random()*2000)+1} ${getRandomItem(["Rua", "Avenida", "PraÃ§a"])} ${getRandomItem(lastNames)}, ${getRandomItem(cities)}`;
 
-            const cardNumber = bin + Array.from({length: 16 - bin.length}, () => Math.floor(Math.random() * 10)).join('');
-            const expMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-            const expYear = new Date().getFullYear() + Math.floor(Math.random() * 6) + 3;
-            const cvv = String(Math.floor(Math.random() * 900) + 100).padStart(3, '0');
+        const content = `
+            <p><strong>&#128179; NÃšMERO:</strong> ${number.replace(/(\d{4})/g, '$1 ').trim()}</p>
+            <p><strong>&#128197; VALIDADE:</strong> ${expMonth}/${expYear}</p>
+            <p><strong>&#128274; CVV:</strong> ${cvv}</p>
+            <p><strong>&#127988; BANDEIRA:</strong> ${brand}</p>
+            <hr>
+            <p><strong>&#128100; NOME:</strong> ${fullName}</p>
+            <p><strong>&#128100; NOME DA MÃƒE:</strong> ${motherName}</p>
+            <p><strong>&#128206; CPF:</strong> ${cpf}</p>
+            <p><strong>&#128205; ENDEREÃ‡O:</strong> ${address}</p>
+            <p><strong>&#128241; TELEFONE:</strong> ${phone}</p>
+        `;
+        document.getElementById('full-data-content').innerHTML = content;
+        
+        document.getElementById('validator-result').style.display = 'none';
+        switchView('generated');
+    }
 
-            const firstName1 = getRandomItem(firstNames), lastName1 = getRandomItem(lastNames);
-            const firstName2 = getRandomItem(firstNames), lastName2 = getRandomItem(lastNames);
-            
-            const fullName = `${firstName1.toUpperCase()} ${lastName1.toUpperCase()}`;
-            const motherName = `${firstName2.toUpperCase()} ${lastName1.toUpperCase()}`;
-            
-            const cpf = Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-            const phone = `+55 (${Math.floor(Math.random()*90+10)}) 9${Math.floor(Math.random()*9000+1000)}-${Math.floor(Math.random()*9000+1000)}`;
-            const address = `${Math.floor(Math.random()*2000)+1} ${getRandomItem(streets)}, ${getRandomItem(cities)}, ${getRandomItem(states)} ${String(Math.floor(Math.random() * 90000) + 10000)}`;
-
-            document.getElementById('card-number').textContent = cardNumber.replace(/(\d{4})/g, '$1 ').trim();
-            document.getElementById('exp-date').textContent = `${expMonth}/${expYear}`;
-            document.getElementById('cvv').textContent = cvv;
-            document.getElementById('card-name').textContent = brand;
-            document.getElementById('full-name').textContent = fullName;
-            document.getElementById('mother-name').textContent = motherName;
-            document.getElementById('cpf').textContent = cpf;
-            document.getElementById('address').textContent = address;
-            document.getElementById('phone').textContent = phone;
-
-            document.getElementById('validator-result').style.display = 'none';
-            switchView('generated');
-        }
-
-        function validateCard() {
-            const validatorResult = document.getElementById('validator-result');
+    function validateCard() {
+        const validatorResult = document.getElementById('validator-result');
+        validatorResult.style.display = 'block';
+        validatorResult.textContent = 'Validando...';
+        
+        setTimeout(() => {
             const isLive = Math.random() > 0.3;
             validatorResult.className = isLive ? 'validator-status valid' : 'validator-status invalid';
-            validatorResult.textContent = isLive ? '\u2705 VALIDAÃ‡ÃƒO: CARTÃƒO APROVADO' : '\u274C VALIDAÃ‡ÃƒO: CARTÃƒO RECUSADO';
-            validatorResult.style.display = 'block';
-        }
+            validatorResult.textContent = isLive ? 'âœ… CARTÃƒO APROVADO (LIVE)' : 'â❌ CARTÃƒO RECUSADO (DEAD)';
+        }, 1500);
+    }
 
-        function copyGeneratedData() {
-            const dataText = document.getElementById('full-data-content').innerText;
-            navigator.clipboard.writeText(dataText).then(() => {
-                alert('Dados copiados para a Ã¡rea de transferÃªncia!');
-            }, (err) => {
-                console.error('NÃ£o foi possÃ­vel copiar os dados: ', err);
-                alert('Erro ao copiar. Tente manualmente.');
-            });
-        }
-
-        function initDB() {
-            const request = indexedDB.open('userDB', 1);
-
-            request.onupgradeneeded = (event) => {
-                console.log("Atualizando o IndexedDB...");
-                const db = event.target.result;
-                if (!db.objectStoreNames.contains('users')) {
-                    db.createObjectStore('users', { keyPath: 'timestamp' });
-                    console.log("Object store 'users' criado.");
-                }
-            };
-
-            request.onerror = (event) => {
-                console.error("Erro no IndexedDB:", event.target.errorCode);
-            };
-
-            request.onsuccess = (event) => {
-                 console.log("Banco de dados IndexedDB aberto com sucesso.");
-            };
-            
-            return request;
-        }
-
-        function saveUserData(data) {
-            const dbRequest = initDB();
-            dbRequest.onsuccess = (event) => {
-                const db = event.target.result;
-                try {
-                    const transaction = db.transaction(['users'], 'readwrite');
-                    const objectStore = transaction.objectStore('users');
-                    const userData = {
-                        timestamp: new Date().getTime(),
-                        ip: data.ip,
-                        city: data.city || 'N/A',
-                        country: data.country || 'N/A',
-                        org: data.org || 'N/A',
-                    };
-                    const addRequest = objectStore.add(userData);
-                    addRequest.onsuccess = () => console.log("Dados do visitante salvos no IndexedDB.");
-                    addRequest.onerror = (e) => console.error("Erro ao salvar dados do visitante:", e.target.error);
-                } catch (error) {
-                    console.error("NÃ£o foi possÃ­vel iniciar a transaÃ§Ã£o:", error);
-                }
-            }
-        }
-        
-        fetch('https://ipinfo.io/json')
-            .then(response => {
-                if (!response.ok) throw new Error('A resposta da rede nÃ£o foi boa.');
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('ip-display').textContent = `\ud83d\udd0c Seu IP: ${data.ip}`;
-                saveUserData(data);
-            })
-            .catch(error => {
-                document.getElementById('ip-display').textContent = 'IP indisponÃ­vel';
-                console.error('Erro ao buscar informaÃ§Ãµes de IP:', error);
-            });
-            
-        initDB();
-    });
-    </script>
+    function copyGeneratedData() {
+        const dataText = document.getElementById('full-data-content').innerText;
+        navigator.clipboard.writeText(dataText)
+            .then(() => alert('Dados copiados para a Ã¡rea de transferÃªncia!'))
+            .catch(err => alert('Erro ao copiar. Tente manualmente.'));
+    }
+    
+    // --- INITIALIZE ---
+    initDB(); // Ensure DB is ready
+    switchView('country');
+});
+</script>
 </body>
 </html>
